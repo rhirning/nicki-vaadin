@@ -31,7 +31,7 @@ import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.CustomComponent;
 
-public abstract class NavigationBase extends CustomComponent implements Navigation {
+public abstract class NavigationBase extends Navigation  {
 	private static final long serialVersionUID = -4231539383235849692L;
 	private MainView mainView;
 	private List<NavigationElement> list = new ArrayList<NavigationElement>();

@@ -36,7 +36,7 @@ import com.vaadin.ui.Table.CellStyleGenerator;
 import com.vaadin.ui.Table.ColumnHeaderMode;
 import com.vaadin.ui.VerticalLayout;
 
-public class TableNavigation extends NavigationBase implements Navigation {
+public class TableNavigation extends NavigationBase {
 	private static final long serialVersionUID = -4231539383235849692L;
 	private static final Object VISIBLE_COLUMNS[] = {"navigationCaption"};
 	private VerticalLayout layout;

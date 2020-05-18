@@ -3,5 +3,10 @@
 **/.settings/*
 **/target/
 **/bin/
+**/node_modules/
 **/.classpath
+**/package-lock.json
+**/package.json
+**/webpack.config.js
+**/webpack.generated.js
 /cmd-mvn.cmd

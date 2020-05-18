@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.helper.DataHelper;
 import org.mgnl.nicki.dynamic.objects.objects.Person;
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
+import org.mgnl.nicki.vaadin.base.dialog.NickiDialog;
 import org.mgnl.nicki.vaadin.base.menu.application.MainView;
 import org.mgnl.nicki.vaadin.base.menu.application.View;
 import org.mgnl.nicki.vaadin.base.menu.navigation.NavigationEntry;
@@ -14,7 +15,9 @@ import org.mgnl.nicki.vaadin.base.navigation.Command;
 import org.mgnl.nicki.vaadin.base.navigation.NavigationCommand;
 import org.mgnl.nicki.vaadin.base.navigation.NavigationDialog;
 import org.mgnl.nicki.vaadin.base.navigation.NavigationHelper;
-import com.vaadin.ui.Component;
+
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.page.Page;
 
 import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("serial")
@@ -33,7 +36,7 @@ public abstract class NickiMenuApplication extends NickiApplication implements S
 
 
 	@Override
-	public Component getEditor() {
+	public NickiDialog getEditor() {
 		
 		mainView = new MainView((Person) getNickiContext().getUser());
 		
@@ -48,7 +51,9 @@ public abstract class NickiMenuApplication extends NickiApplication implements S
 
 		mainView.initNavigation();
 		
-		String viewParameter = getPage().getUriFragment();
+		// TODO:
+		/*
+		String viewParameter = UI.getCurrent().getPage().getUriFragment();
 		
 		if (StringUtils.isNotBlank(viewParameter)) {
 			viewParameter = DataHelper.getPassword(viewParameter);
@@ -60,7 +65,7 @@ public abstract class NickiMenuApplication extends NickiApplication implements S
 				navigate(command);
 			}
 		}
-		
+		*/
 		return mainView;
 	}
 	

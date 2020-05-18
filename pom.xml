@@ -11,11 +11,15 @@
 		<name>Ralf Hirning</name>
 	</organization>
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
 		<idm.version>4.5</idm.version>
 		<activemq-version>5.14.5</activemq-version>
 		<nicki.version>8.0</nicki.version>
-		<vaadin.version>7.7.16</vaadin.version>
+		<vaadin.version>14.1.28</vaadin.version>
+		<vaadin7.version>7.7.17</vaadin7.version>
+        <jetty.version>9.4.28.v20200408</jetty.version>
 	</properties>
 	<inceptionYear>2020</inceptionYear>
 	<modules>
@@ -36,6 +40,13 @@
 	</modules>
 	<dependencyManagement>
 		<dependencies>
+	        <dependency>
+	            <groupId>com.vaadin</groupId>
+	            <artifactId>vaadin-bom</artifactId>
+	            <type>pom</type>
+	            <scope>import</scope>
+				<version>${vaadin.version}</version>
+	        </dependency>
 			<dependency>
 				<groupId>javax.json</groupId>
 				<artifactId>javax.json-api</artifactId>
@@ -86,8 +97,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.7.0</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -164,6 +175,18 @@
 					</execution>
 				</executions>
 			</plugin>
+	        <plugin>
+	            <groupId>com.vaadin</groupId>
+	            <artifactId>vaadin-maven-plugin</artifactId>
+	            <version>${vaadin.version}</version>
+	            <executions>
+	                <execution>
+	                    <goals>
+	                        <goal>prepare-frontend</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	        </plugin>
 		</plugins>
 		<resources>
 			<resource>

@@ -1,6 +1,8 @@
 
 package org.mgnl.nicki.vaadin.base.components;
 
+import org.apache.commons.lang.StringUtils;
+
 /*-
  * #%L
  * nicki-vaadin-base
@@ -24,11 +26,12 @@ package org.mgnl.nicki.vaadin.base.components;
 
 import org.mgnl.nicki.vaadin.base.command.Command;
 
-import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-public class DialogBase extends Window {
+public class DialogBase extends Dialog {
 	private static final long serialVersionUID = -3504431507552994635L;
 	
 	private VerticalLayout layout;
@@ -44,10 +47,19 @@ public class DialogBase extends Window {
         layout.setSpacing(false);
         // make it undefined for auto-sizing window
 //        layout.setSizeUndefined();
-        setContent(layout);
+        add(layout);
 		
 	}
 	
+
+
+	private void setCaption(String title) {
+		if (StringUtils.isNotBlank(title)) {
+			add(new Label(title));
+		}
+		
+	}
+
 
 
 	public DialogBase(String title) {
@@ -66,12 +78,12 @@ public class DialogBase extends Window {
         layout.setSpacing(false);
         // make it undefined for auto-sizing window
 //        layout.setSizeUndefined();
-        setContent(layout);
+        add(layout);
 		
 	}
 
 	public void setCompositionRoot(Component component) {
-		layout.addComponent(component);
+		layout.add(component);
 	}
 
 
