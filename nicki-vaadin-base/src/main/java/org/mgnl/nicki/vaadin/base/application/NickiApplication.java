@@ -87,7 +87,7 @@ public abstract class NickiApplication extends Div implements Serializable {
 		view.setHeight("100%");
 		view.setWidth("100%");
 		add(view);
-		UI.getCurrent().getPage().setTitle(I18n.getText(getI18nBase() + ".main.title"));
+		UI.getCurrent().getPage().setTitle(getApplicationTitle());
 
 		if (Config.getBoolean("nicki.application.auth.no")) {
 			try {
@@ -114,6 +114,10 @@ public abstract class NickiApplication extends Div implements Serializable {
 	
 			showLoginDialog();
 		}
+	}
+	
+	public String getApplicationTitle() {
+		return I18n.getText(getI18nBase() + ".main.title");
 	}
 
 
