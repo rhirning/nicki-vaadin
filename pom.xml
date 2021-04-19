@@ -17,7 +17,7 @@
 		<idm.version>4.5</idm.version>
 		<activemq-version>5.14.5</activemq-version>
 		<nicki.version>8.0</nicki.version>
-		<vaadin.version>14.1.28</vaadin.version>
+		<vaadin.version>19.0.5</vaadin.version>
 		<vaadin7.version>7.7.17</vaadin7.version>
         <jetty.version>9.4.28.v20200408</jetty.version>
 	</properties>
