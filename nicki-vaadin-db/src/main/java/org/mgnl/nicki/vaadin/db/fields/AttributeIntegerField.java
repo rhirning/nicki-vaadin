@@ -26,40 +26,36 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.db.helper.BeanHelper;
+import org.mgnl.nicki.vaadin.db.converter.StringToIntegerConverter;
 import org.mgnl.nicki.vaadin.db.data.AttributeDataContainer;
 import org.mgnl.nicki.vaadin.db.data.DataContainer;
 import org.mgnl.nicki.vaadin.db.editor.DbBeanValueChangeListener;
 import org.mgnl.nicki.vaadin.db.listener.AttributeInputListener;
 
-import com.vaadin.data.util.converter.StringToIntegerConverter;
-import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.component.textfield.TextField;
 
 @SuppressWarnings("serial")
 public class AttributeIntegerField  extends BaseDbBeanAttributeField implements DbBeanAttributeField, Serializable {
 
-	private AbstractField<String> field;
+	private TextField field;
 	private DataContainer<Integer> property;
 	public void init(String attributeName, Object bean, DbBeanValueChangeListener objectListener, String dbContextName) {
 
 		property = new AttributeDataContainer<Integer>(bean, attributeName);
 		field = new TextField(getName(bean, attributeName));
-		field.setHeight(2, Unit.EM);
-		field.setWidth("600px");
+//		field.setHeight("2em");
+//		field.setWidth("600px");
 		if (property != null && property.getValue() != null) {
 			field.setValue(Long.toString(property.getValue()));
 			if (BeanHelper.isForeignKey(bean, attributeName)) {
 				String foreignValue = StringUtils.stripToEmpty(BeanHelper.getForeignValue(bean, attributeName, dbContextName));
-				field.setCaption(getName(bean, attributeName) + ": " +foreignValue);
+				field.setLabel(getName(bean, attributeName) + ": " +foreignValue);
 			}
 		}
-		field.setImmediate(false);
-		field.addValueChangeListener(new AttributeInputListener<Integer>(property, objectListener, new StringToIntegerConverter(), 1));
+		field.addValueChangeListener(new AttributeInputListener<TextField, String, Integer>(property, objectListener, new StringToIntegerConverter()));
 	}
 
-	public Field<String> getComponent(boolean readOnly) {
+	public TextField getComponent(boolean readOnly) {
 		field.setReadOnly(readOnly);
 		return field;
 	}

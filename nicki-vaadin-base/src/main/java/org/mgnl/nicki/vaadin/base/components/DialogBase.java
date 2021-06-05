@@ -1,8 +1,6 @@
 
 package org.mgnl.nicki.vaadin.base.components;
 
-import org.apache.commons.lang.StringUtils;
-
 /*-
  * #%L
  * nicki-vaadin-base
@@ -28,62 +26,51 @@ import org.mgnl.nicki.vaadin.base.command.Command;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+
 
 public class DialogBase extends Dialog {
 	private static final long serialVersionUID = -3504431507552994635L;
 	
-	private VerticalLayout layout;
+	private Div div;
 
 	public DialogBase(Command command) {
-		setCaption(command.getTitle());
-		init();
-
-        layout = new VerticalLayout();
-        layout.setWidth("100%");
-        layout.setHeight("100%");
-        layout.setMargin(false);
-        layout.setSpacing(false);
-        // make it undefined for auto-sizing window
-//        layout.setSizeUndefined();
-        add(layout);
-		
+		this(command.getTitle());
 	}
 	
 
 
-	private void setCaption(String title) {
-		if (StringUtils.isNotBlank(title)) {
-			add(new Label(title));
-		}
-		
+	public DialogBase(String title) {
+		init();
+		setCaption(title);
+	}
+
+	public DialogBase(String title, Component components) {
+		this(title);
+		div.add(components);
 	}
 
 
 
-	public DialogBase(String title) {
-		setCaption(title);
-		init();
+	private void setCaption(String title) {
+		Span titleSpan = new Span(title);
+		div.addComponentAsFirst(titleSpan);
 	}
 
 
 
 	private void init() {
 
-        layout = new VerticalLayout();
-        layout.setWidth("100%");
-        layout.setHeight("100%");
-        layout.setMargin(false);
-        layout.setSpacing(false);
-        // make it undefined for auto-sizing window
-//        layout.setSizeUndefined();
-        add(layout);
+        div = new Div();
+        div.setSizeUndefined();
+        add(div);
 		
 	}
 
 	public void setCompositionRoot(Component component) {
-		layout.add(component);
+		div.add(component);
 	}
 
 

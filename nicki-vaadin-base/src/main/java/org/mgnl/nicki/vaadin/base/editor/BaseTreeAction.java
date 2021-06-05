@@ -23,21 +23,25 @@ package org.mgnl.nicki.vaadin.base.editor;
 
 
 import java.io.Serializable;
+import java.util.function.Consumer;
 
 import org.mgnl.nicki.core.data.TreeData;
 
-
-import com.vaadin.ui.CustomComponent;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 	@SuppressWarnings("serial")
-	public abstract class BaseTreeAction extends CustomComponent implements TreeAction, Serializable {
+	public class BaseTreeAction extends VerticalLayout implements TreeAction, Serializable {
 
 		private Class<? extends TreeData> targetClass;
 		private String name;
+		private Consumer<TreeData> command;
 		
-		public BaseTreeAction(Class<? extends TreeData> classDefinition, String name) {
+		public BaseTreeAction(Class<? extends TreeData> classDefinition, String name, Consumer<TreeData> command ) {
 			this.targetClass = classDefinition;
 			this.name = name;
+			this.command = command;
+			setSpacing(false);
+			setMargin(false);
 		}
 
 		public String getName() {
@@ -46,6 +50,23 @@ import com.vaadin.ui.CustomComponent;
 
 		public Class<? extends TreeData> getTargetClass() {
 			return targetClass;
+		}
+		
+		@Override
+		public void close() {
+		}
+		
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			sb.append(getName()).append(": ").append(getTargetClass().getSimpleName());
+			return sb.toString();
+		}
+
+		@Override
+		public void execute(TreeData dynamicObject) {
+			this.command.accept(dynamicObject);
+			
 		}
 
 	}

@@ -26,96 +26,92 @@ import java.util.Collection;
 
 import org.mgnl.nicki.core.data.TreeData;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.AbstractSelect;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Tree.ExpandListener;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
+import com.vaadin.flow.data.selection.SelectionListener;
+import com.vaadin.flow.function.ValueProvider;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("serial")
-public abstract class BasicNickiSelector implements NickiSelect {
-	private AbstractSelect component;
+public abstract class BasicNickiSelector<T> implements NickiSelect<T> {
+	private Grid<T> component;
 
+	@Override
 	public void setHeight(String height) {
 		component.setHeight(height);
 	}
 
+	@Override
 	public void setWidth(String width) {
 		component.setWidth(width);
 	}
 
-	public Component getComponent() {
+	@Override
+	public Grid<T> getComponent() {
 		return component;
 	}
 
-	public void setImmediate(boolean immediate) {
-		component.setImmediate(immediate);
-	}
-
-	public TreeData getValue() {
-		return (TreeData) component.getValue();
-	}
-
-	public void addListener(ValueChangeListener listener) {
-		component.addValueChangeListener(listener);
-	}
-
-	public void unselect(TreeData object) {
-		component.unselect(object);
-	}
-
-	public void setItemCaptionPropertyId(String propertyName) {
-		component.setItemCaptionPropertyId(propertyName);
-	}
-
-	public void setItemCaptionMode(ItemCaptionMode itemCaptionMode) {
-		component.setItemCaptionMode(itemCaptionMode);
-	}
-
-	public void setItemIconPropertyId(String propertyIcon) {
-		component.setItemIconPropertyId(propertyIcon);
-	}
-
-	public void removeItem(Object object) {
-		component.removeItem(object);
-	}
-
-	public void setContainerDataSource(Container dataSource) {
-		component.setContainerDataSource(dataSource);
-	}
-
-	protected void setComponent(AbstractSelect component) {
-		this.component = component;
-	}
-	
 	@Override
-	public void expandItem(TreeData object) {
-		log.debug("not implemented");
+	public T getValue() {
+		return component.asSingleSelect().getValue();
 	}
 
 	@Override
-	public void addListener(ExpandListener listener) {
-		log.debug("not implemented");
+	public void addSelectionListener(SelectionListener<Grid<T>, T> listener) {
+		component.addSelectionListener(listener);
 	}
 
 	@Override
-	public Collection<?> rootItemIds() {
+	public void unselect(T object) {
+		component.deselect(object);
+	}
+
+	@Override
+	public Collection<T> rootItemIds() {
 		log.debug("not implemented");
 		return null;
 	}
 
 	@Override
-	public void expandItemsRecursively(Object id) {
+	public void expandItemsRecursively(T id) {
 		log.debug("not implemented");
 	}
 
 	@Override
 	public void collapseItemsRecursively(TreeData startItemId) {
 		log.debug("not implemented");
+	}
+
+	@Override
+	public void setSelectable(boolean b) {
+		if (b) {
+			component.setSelectionMode(SelectionMode.SINGLE);
+		} else {
+			component.setSelectionMode(SelectionMode.NONE);
+		}
+	}
+
+	@Override
+	public void removeItem(T target) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setItems(Collection<T> items) {
+		component.setItems(items);
+	}
+
+	@Override
+	public void setCaption(ValueProvider<T, String> valueProvider) {
+		component.addColumn(valueProvider);
+	}
+
+	@Override
+	public void setComponent(Grid<T> component) {
+		this.component = component;
 	}
 
 

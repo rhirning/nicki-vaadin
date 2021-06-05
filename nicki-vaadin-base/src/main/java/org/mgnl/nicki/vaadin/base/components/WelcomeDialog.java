@@ -26,15 +26,16 @@ import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 @SuppressWarnings("serial")
-public class WelcomeDialog extends Div {
-
-	private HorizontalLayout mainLayout;
+public class WelcomeDialog extends HorizontalLayout {
+	
 	private Button logout;
+	
+	private Label space;
+	
 	private Label hello;
 	
 	private NickiApplication application;
@@ -48,36 +49,38 @@ public class WelcomeDialog extends Div {
 	public WelcomeDialog(NickiApplication app) {
 		this.application = app;
 		buildMainLayout();
-		add(mainLayout);
 		
 		hello.setText(I18n.getText("nicki.application.greeting", application.getNickiContext().getUser().getDisplayName()));
 		logout.setText(I18n.getText("nicki.application.logout"));
 		logout.addClickListener(event -> application.logout());
-
 	}
 
-	private HorizontalLayout buildMainLayout() {
+	
+	private void buildMainLayout() {
 		// common part: create layout
-		mainLayout = new HorizontalLayout();
 		//horizontalLayout_1.setWidth("1000px");
 		//horizontalLayout_1.setHeight("100px");
-		mainLayout.setMargin(false);
-		mainLayout.setSpacing(true);
+		setMargin(false);
 		
 		// hello
 		hello = new Label();
 		hello.setWidth("-1px");
 		hello.setHeight("-1px");
 		hello.setText("Hello");
-		mainLayout.add(hello);
+		add(hello);
+		setAlignItems(Alignment.BASELINE);
+		
+		// space
+		space = new Label();
+		space.setWidth("10px");
+		space.setHeight("-1px");
+		add(space);
 		
 		// logout
 		logout = new Button();
 		logout.setWidth("-1px");
 		logout.setHeight("-1px");
-		mainLayout.add(logout);
-		
-		return mainLayout;
+		add(logout);
 	}
 
 }

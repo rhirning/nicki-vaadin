@@ -1,6 +1,8 @@
 
 package org.mgnl.nicki.vaadin.base.data;
 
+import com.vaadin.flow.component.datepicker.DatePicker;
+
 /*-
  * #%L
  * nicki-vaadin-base
@@ -22,14 +24,20 @@ package org.mgnl.nicki.vaadin.base.data;
  */
 
 
-import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.ui.DateField;
-
 public class DateHelper {
 
-	public static void init(DateField field) {
-		field.setResolution(Resolution.DAY);
-		field.setDateFormat("dd.MM.yyyy");
+	public static void init(DatePicker field) {
+		// TODO Auto-generated method stub
+		
+	}
+	/*
+	public static LocalDateRenderer<SOURCE> getDisplayDateRenderer () {
+		return new DateRenderer(new SimpleDateFormat(DataHelper.FORMAT_DISPLAY_DAY));
 	}
 
+	public static void init(DatePicker field) {
+		//field.setResolution(DateResolution.DAY);
+		//field.setDateFormat("dd.MM.yyyy");
+	}
+*/
 }

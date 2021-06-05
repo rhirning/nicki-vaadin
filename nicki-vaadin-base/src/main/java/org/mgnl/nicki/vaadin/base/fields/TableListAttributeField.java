@@ -24,31 +24,33 @@ package org.mgnl.nicki.vaadin.base.fields;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.core.objects.DynamicObject;
 import org.mgnl.nicki.vaadin.base.components.EnterNameDialog;
 import org.mgnl.nicki.vaadin.base.components.EnterNameHandler;
+import org.mgnl.nicki.vaadin.base.components.VaadinHorizontalLayout;
 import org.mgnl.nicki.vaadin.base.editor.DynamicObjectValueChangeListener;
 
-import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class TableListAttributeField extends BaseDynamicAttributeField implements DynamicAttributeField<String>, Serializable {
 
 	private DynamicObject dynamicObject;
 	private String attributeName;
-	private HorizontalLayout mainLayout;
-	private Table entries;
+	private VaadinHorizontalLayout mainLayout;
+	private Grid<String> entries;
 	private Button newEntryButton;
 	private Button deleteEntryButton;
+	private Set<String> data = new TreeSet<String>();
 	
 	public void init(String attributeName, DynamicObject dynamicObject, DynamicObjectValueChangeListener<String> objectListener) {
 
@@ -57,8 +59,8 @@ public class TableListAttributeField extends BaseDynamicAttributeField implement
 		
 		buildMainLayout();
 		//entries.setCaption(getName(dynamicObject, attributeName));
-		entries.setSelectable(true);
-		entries.addContainerProperty(attributeName, String.class, null);
+		entries.setSelectionMode(SelectionMode.SINGLE);
+		entries.addColumn(String::toString);
 
 		
 		@SuppressWarnings("unchecked")
@@ -69,26 +71,20 @@ public class TableListAttributeField extends BaseDynamicAttributeField implement
 				addItem(value);
 			}
 		}
-		newEntryButton.addClickListener(new Button.ClickListener() {
-			public void buttonClick(ClickEvent event) {
-				addEntry(entries);
-			}
-		});
-		deleteEntryButton.addClickListener(new Button.ClickListener() {
-			public void buttonClick(ClickEvent event) {
-				deleteEntry(entries);
-			}
-		});
+		newEntryButton.addClickListener(event -> addEntry());
+		deleteEntryButton.addClickListener(event -> deleteEntry());
 	}
 	
 	private void addItem(String value) {
-		entries.addItem(new Object[] {value}, value);
+		data.add(value);
+		entries.setItems(data);
 	}
 
-	protected void deleteEntry(Table table) {
-		if (table.getValue() != null) {
-			String valueToDelete = (String) table.getValue();
-			table.removeItem(valueToDelete);
+	protected void deleteEntry() {
+		if (entries.asSingleSelect().getValue() != null) {
+			String valueToDelete = entries.asSingleSelect().getValue();
+			data.remove(valueToDelete);
+			entries.setItems(data);
 			@SuppressWarnings("unchecked")
 			List<String> values = (List<String>) dynamicObject.get(attributeName);
 			if (values.contains(valueToDelete)) {
@@ -97,14 +93,14 @@ public class TableListAttributeField extends BaseDynamicAttributeField implement
 			}
 		}
 	}
-	protected void addEntry(Table table) {
+	protected void addEntry() {
 		EnterNameDialog dialog = new EnterNameDialog("nicki.editor.catalogs.entry.new",
 				I18n.getText("nicki.editor.catalogs.entry.new.window.title"));
 		dialog.setHandler(new NameHandler(""));
-		dialog.setWidth(440, Unit.PIXELS);
-		dialog.setHeight(500, Unit.PIXELS);
+		dialog.setWidth("440px");
+		dialog.setHeight("500px");
 		dialog.setModal(true);
-		UI.getCurrent().addWindow(dialog);
+		dialog.open();
 	}
 
 	private class NameHandler extends EnterNameHandler {
@@ -126,14 +122,14 @@ public class TableListAttributeField extends BaseDynamicAttributeField implement
 	}
 
 	
-	public ComponentContainer getComponent(boolean readOnly) {
+	public Component getComponent(boolean readOnly) {
 		mainLayout.setReadOnly(readOnly);
 		return mainLayout;
 	}
 	
 	private HorizontalLayout buildMainLayout() {
 
-		mainLayout = new HorizontalLayout();
+		mainLayout = new VaadinHorizontalLayout();
 		mainLayout.setHeight("160px");
 		mainLayout.setSpacing(true);
 		
@@ -141,29 +137,26 @@ public class TableListAttributeField extends BaseDynamicAttributeField implement
 		mainLayout.setWidth("-1px");
 		
 		// entries
-		entries = new Table();
+		entries = new Grid<String>();
 		entries.setWidth("600px");
 		entries.setHeight("100%");
-		entries.setImmediate(true);
-		mainLayout.addComponent(entries);
+		mainLayout.add(entries);
 		
 		VerticalLayout verticalLayout = new VerticalLayout();
-		mainLayout.addComponent(verticalLayout);
+		mainLayout.add(verticalLayout);
 		// newEntryButton
 		newEntryButton = new Button();
 		newEntryButton.setWidth("-1px");
 		newEntryButton.setHeight("-1px");
-		newEntryButton.setCaption("Neu");
-		newEntryButton.setImmediate(false);
-		verticalLayout.addComponent(newEntryButton);
+		newEntryButton.setText("Neu");
+		verticalLayout.add(newEntryButton);
 		
 		// deleteEntryButton
 		deleteEntryButton = new Button();
 		deleteEntryButton.setWidth("-1px");
 		deleteEntryButton.setHeight("-1px");
-		deleteEntryButton.setCaption("Löschen");
-		deleteEntryButton.setImmediate(false);
-		verticalLayout.addComponent(deleteEntryButton);
+		deleteEntryButton.setText("Löschen");
+		verticalLayout.add(deleteEntryButton);
 		return mainLayout;
 	}
 }

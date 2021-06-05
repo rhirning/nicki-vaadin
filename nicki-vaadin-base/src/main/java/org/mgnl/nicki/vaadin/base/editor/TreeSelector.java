@@ -24,51 +24,49 @@ package org.mgnl.nicki.vaadin.base.editor;
 
 import java.util.Collection;
 
-import org.mgnl.nicki.core.data.TreeData;
-import com.vaadin.event.Action.Handler;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.Tree.ExpandListener;
+import org.mgnl.nicki.vaadin.base.components.NoHeaderTreeGrid;
+
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
+import com.vaadin.flow.component.treegrid.ExpandEvent;
+import com.vaadin.flow.component.treegrid.TreeGrid;
 
 @SuppressWarnings("serial")
-public class TreeSelector extends BasicNickiSelector implements NickiSelect {
-	private Tree component = new Tree();
+public class TreeSelector<T> extends BasicNickiSelector<T> implements NickiSelect<T> {
+	private TreeGrid<T> component = new NoHeaderTreeGrid<>();
 
 	public TreeSelector() {
 		super();
 		super.setComponent(component);
 	}
 	public void setSelectable(boolean selectable) {
-		component.setSelectable(selectable);
-	}
-
-	public void addActionHandler(Handler handler) {
-		component.addActionHandler(handler);
+		component.setSelectionMode(SelectionMode.SINGLE);
 	}
 
 
-	@Override
-	public void expandItem(TreeData object) {
-		component.expandItem(object);
+	public void expandItems(@SuppressWarnings("unchecked") T... object) {
+		component.expand(object);
 	}
 
 	@Override
-	public void addListener(ExpandListener listener) {
+	public void addExpandListener(ComponentEventListener<ExpandEvent<T, TreeGrid<T>>> listener) {
 		component.addExpandListener(listener);
 	}
 
 	@Override
-	public Collection<?> rootItemIds() {
-		return component.rootItemIds();
+	public Collection<T> rootItemIds() {
+		return component.getTreeData().getRootItems();
 	}
 
+//	@Override
+@SuppressWarnings("unchecked")
+	//	public void collapseItemsRecursively(TreeData startItemId) {
+//		component.collapse(startItemId);
+//	}
+//
 	@Override
-	public void collapseItemsRecursively(TreeData startItemId) {
-		component.collapseItemsRecursively(startItemId);
-	}
-
-	@Override
-	public void expandItemsRecursively(Object object) {
-		component.expandItem(object);
+	public void expandItemsRecursively(T object) {
+		component.expand(object);
 	}
 
 }

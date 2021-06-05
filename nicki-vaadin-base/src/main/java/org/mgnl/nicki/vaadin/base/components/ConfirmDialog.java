@@ -23,24 +23,30 @@ package org.mgnl.nicki.vaadin.base.components;
 
 
 import org.mgnl.nicki.vaadin.base.command.Command;
+import org.mgnl.nicki.vaadin.base.notification.Notification;
+import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 @SuppressWarnings("serial")
 public class ConfirmDialog extends DialogBase {
 
+	
 	private VerticalLayout mainLayout;
 
+	
 	private HorizontalLayout horizontalLayout_1;
 
+	
 	private Button confirmButton;
 
+	
 	private Button cancelButton;
 
+	
 	private Label headline;
 	
 	Command command;
@@ -64,11 +70,12 @@ public class ConfirmDialog extends DialogBase {
 				try {
 					command.execute();
 				} catch (Exception e) {
-					Notification.show(command.getErrorText() + "\n" +
-							e.getMessage());
+					Notification.show(command.getErrorText(),
+							e.getMessage(), Type.ERROR_MESSAGE);
 				}
 				close();
-		});
+			}
+		);
 		
 		cancelButton.addClickListener(event -> close());
 	}
@@ -78,18 +85,15 @@ public class ConfirmDialog extends DialogBase {
 		cancelButton.setText(command.getCancelCaption());
 		confirmButton.setText(command.getConfirmCaption());
 	}
-
+		
+	
 	private VerticalLayout buildMainLayout() {
 		// common part: create layout
 		mainLayout = new VerticalLayout();
 		
-		// top-level component properties
-		setWidth("320px");
-		setHeight("160px");
-		
 		// headline
 		headline = new Label();
-		headline.setWidth("400px");
+		headline.setWidth("-1px");
 		headline.setHeight("-1px");
 		headline.setText("Headline");
 		mainLayout.add(headline);
@@ -101,6 +105,7 @@ public class ConfirmDialog extends DialogBase {
 		return mainLayout;
 	}
 
+	
 	private HorizontalLayout buildHorizontalLayout_1() {
 		// common part: create layout
 		horizontalLayout_1 = new HorizontalLayout();

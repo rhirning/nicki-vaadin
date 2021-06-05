@@ -21,33 +21,21 @@ package org.mgnl.nicki.vaadin.base.components;
  * #L%
  */
 
+import org.mgnl.nicki.vaadin.base.data.DataContainer;
 
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.component.textfield.TextField;
 
 @SuppressWarnings("serial")
-public class SimplePropertyEditor extends CustomComponent {
+public class SimplePropertyEditor extends TextField {
 
-	private TextField editor;
-	private Property<String> data;
+	private DataContainer<String> data;
 
-	public SimplePropertyEditor(Property<String> dataContainer) {
+	public SimplePropertyEditor(DataContainer<String> dataContainer) {
 		this.data = dataContainer;
-		// editor
-		editor = new TextField();
-		editor.setWidth("100%");
 		setWidth("100%");
 		
-		setCompositionRoot(editor);
-		editor.setValue((String) data.getValue());
-		editor.addValueChangeListener(new Property.ValueChangeListener() {
-			
-			public void valueChange(ValueChangeEvent event) {
-				data.setValue((String) editor.getValue());
-			}
-		});
+		setValue(data.getValue()!= null ? data.getValue() : "");
+		addValueChangeListener(event -> data.setValue((String) getValue()));
 	}
 
 }

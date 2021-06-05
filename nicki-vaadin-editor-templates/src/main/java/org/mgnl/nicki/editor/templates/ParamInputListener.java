@@ -24,11 +24,16 @@ package org.mgnl.nicki.editor.templates;
 
 import java.util.Map;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
+import com.vaadin.flow.component.HasValue.ValueChangeEvent;
+import com.vaadin.flow.component.HasValue.ValueChangeListener;
+import com.vaadin.flow.data.selection.SelectionEvent;
+import com.vaadin.flow.data.selection.SelectionListener;
+
 
 @SuppressWarnings("serial")
-public class ParamInputListener implements ValueChangeListener {
+public class ParamInputListener<C extends Component, X, T> implements ValueChangeListener<ComponentValueChangeEvent<C, X>> {
 
 	private String name;
 	private Map<String, Object> map;
@@ -44,8 +49,17 @@ public class ParamInputListener implements ValueChangeListener {
 		this.templateConfig = templateConfig;
 	}
 
-	public void valueChange(ValueChangeEvent event) {
-		map.put(name, event.getProperty().getValue());
+	public void valueChanged(ComponentValueChangeEvent<C, X> event) {
+		map.put(name, event.getValue());
+		this.templateConfig.paramsChanged();
+	}
+
+	public void selectionChange(SelectionEvent<C, T> event) {
+		if (event.getFirstSelectedItem().isPresent()) {
+			map.put(name, event.getFirstSelectedItem().get());
+		} else {
+			map.put(name, null);
+		}
 		this.templateConfig.paramsChanged();
 	}
 

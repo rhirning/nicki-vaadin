@@ -29,30 +29,29 @@ import org.mgnl.nicki.vaadin.db.data.DataContainer;
 import org.mgnl.nicki.vaadin.db.editor.DbBeanValueChangeListener;
 import org.mgnl.nicki.vaadin.db.listener.AttributeInputListener;
 
-import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Field;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.checkbox.Checkbox;
 
 @SuppressWarnings("serial")
 public class AttributeBooleanField  extends BaseDbBeanAttributeField implements DbBeanAttributeField, Serializable {
 
-	private AbstractField<Boolean> field;
+	private Checkbox field;
 	private DataContainer<Boolean> property;
 	public void init(String attributeName, Object bean, DbBeanValueChangeListener objectListener, String dbContextName) {
 
 		property = new AttributeDataContainer<Boolean>(bean, attributeName);
-		field = new CheckBox(getName(bean, attributeName));
-		field.setHeight(2, Unit.EM);
+		field = new Checkbox(getName(bean, attributeName));
+/*
+		field.setHeight("2em");
 		field.setWidth("600px");
+*/
 		if (property != null && property.getValue() != null) {
 			field.setValue(property.getValue());
 		}
-		field.setImmediate(false);
-		field.addValueChangeListener(new AttributeInputListener<Boolean>(property, objectListener, null, null));
+		field.addValueChangeListener(new AttributeInputListener<Checkbox, Boolean, Boolean>(property, objectListener, null));
 	}
 
-	public Field<Boolean> getComponent(boolean readOnly) {
+	public Component getComponent(boolean readOnly) {
 		field.setReadOnly(readOnly);
 		return field;
 	}

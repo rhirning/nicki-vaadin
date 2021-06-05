@@ -24,14 +24,17 @@ import org.mgnl.nicki.vaadin.base.application.NickiApplication;
  */
 
 
-import com.vaadin.ui.Component;
 
-public interface View extends Component{
+public interface View {
 
 	void init();
 
 	boolean isModified();
 	
 	void setApplication(NickiApplication application);
+	
+	default boolean needsHeightFull() {
+		return true;
+	}
 
 }

@@ -31,7 +31,6 @@ import java.util.Set;
 import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.auth.AccessTargetContext;
@@ -55,39 +54,52 @@ import org.mgnl.nicki.core.objects.DynamicObjectException;
 import org.mgnl.nicki.core.util.Classes;
 import org.mgnl.nicki.dynamic.objects.objects.Person;
 import org.mgnl.nicki.vaadin.base.auth.ApplicationLoginDialog;
+import org.mgnl.nicki.vaadin.base.auth.LoginDialog;
 import org.mgnl.nicki.vaadin.base.command.Command;
 import org.mgnl.nicki.vaadin.base.components.ConfirmDialog;
 import org.mgnl.nicki.vaadin.base.components.WelcomeDialog;
-import org.mgnl.nicki.vaadin.base.dialog.NickiDialog;
+import org.mgnl.nicki.vaadin.base.notification.Notification;
+import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.router.HasDynamicTitle;
+import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.VaadinRequest;
-import com.vaadin.flow.server.WrappedHttpSession;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("serial")
-@Route("")
-public abstract class NickiApplication extends Div implements Serializable {
+public abstract class NickiApplication extends Div implements RouterLayout, Serializable, HasDynamicTitle {
 
 	private NickiContext nickiContext;
 	private DoubleContext doubleContext;
 	private boolean useSystemContext;
 	private boolean useWelcomeDialog;
-
-	VerticalLayout view;
-
+	
 	public NickiApplication() {
-		view = new VerticalLayout();
-		view.setHeight("100%");
-		view.setWidth("100%");
-		add(view);
-		UI.getCurrent().getPage().setTitle(getApplicationTitle());
+		init();
+	}
+	
+	public void init(VaadinRequest vaadinRequest) {
+		AppContext.setRequest(vaadinRequest);
+	}
+	
+	public void init() {
+		@SuppressWarnings("unchecked")
+		Map<String, String> map = (Map<String, String>) UI.getCurrent().getSession().getSession().getAttribute(NickiServlet.NICKI_PARAMETERS);
+		AppContext.setRequestParameters(map);
+		if (map != null) {
+			for (String paramName : map.keySet()) {
+				System.out.println(paramName + "=" + map.get(paramName));
+			}
+		}
+		setSizeFull();
+		add(new Label("Hallo"));
 
 		if (Config.getBoolean("nicki.application.auth.no")) {
 			try {
@@ -116,31 +128,18 @@ public abstract class NickiApplication extends Div implements Serializable {
 		}
 	}
 	
-	public String getApplicationTitle() {
+	@Override
+	public String getPageTitle() {
 		return I18n.getText(getI18nBase() + ".main.title");
 	}
 
-
-	public void init(VaadinRequest vaadinRequest) {
-		AppContext.setRequest(vaadinRequest);
-		WrappedHttpSession wrappedSession = (WrappedHttpSession) vaadinRequest.getWrappedSession();
-		HttpSession httpSession = wrappedSession.getHttpSession();
-		@SuppressWarnings("unchecked")
-		Map<String, String> map = (Map<String, String>) httpSession.getAttribute(NickiServlet.NICKI_PARAMETERS);
-		AppContext.setRequestParameters(map);
-
-		for (String paramName : map.keySet()) {
-			System.out.println(paramName + "=" + map.get(paramName));
-		}
-	}
-	
 	public void logout() {
 		setDoubleContext(null);
 		showLoginDialog();
 	}
 	
 	private void showLoginDialog() {
-		NickiDialog loginDialog = null;
+		Component loginDialog = null;
 		String loginClass = Config.getString("nicki.application.login.class");
 		if (StringUtils.isNotBlank(loginClass)) {
 		try {
@@ -152,9 +151,12 @@ public abstract class NickiApplication extends Div implements Serializable {
 		if (loginDialog == null) {
 			loginDialog = new ApplicationLoginDialog();
 		}
-		loginDialog.setApplication(this);
-		getView().removeAll();
-		getView().add(loginDialog);
+		if (loginDialog instanceof LoginDialog) {
+			LoginDialog dialog = (LoginDialog) loginDialog;
+			dialog.setApplication(this);
+		}
+		removeAll();
+		add(loginDialog);
 	}
 	
 	private void loginJAAS() {
@@ -311,7 +313,7 @@ public abstract class NickiApplication extends Div implements Serializable {
 	}
 
 	public void start() throws DynamicObjectException {
-		getView().removeAll();
+		removeAll();
 		if (isAllowed(this.doubleContext.getLoginContext().getUser())) {
 			showStart();
 		} else {
@@ -320,14 +322,15 @@ public abstract class NickiApplication extends Div implements Serializable {
 	}
 	
 	public void showStart() throws DynamicObjectException {
-		getView().removeAll();
+		removeAll();
 		if (isUseWelcomeDialog()) {
-			getView().add(new WelcomeDialog(this));
+			add(new WelcomeDialog(this));
 		}
-		Div editor = getEditor();
-		getView().add(editor);
-		editor.setSizeFull();
-		getView().setFlexGrow(1, editor);
+		Component editor = getEditor();
+		add(editor);
+		if (editor instanceof HasSize) {
+			((HasSize) editor).setSizeFull();;
+		}
 	}
 	
 	public boolean isAllowed(DynamicObject user) {
@@ -379,7 +382,8 @@ public abstract class NickiApplication extends Div implements Serializable {
 				}
 			}
 			log.error(errorMsg.toString());
-			Notification.show(I18n.getText("nicki.editor.access.denied", getClass().getName()));
+			Notification.show(I18n.getText("nicki.editor.access.denied", getClass().getName()),
+					Type.ERROR_MESSAGE);
 		}
 		return allowed;
 	}
@@ -414,7 +418,7 @@ public abstract class NickiApplication extends Div implements Serializable {
 	
 
 
-	public abstract NickiDialog getEditor() throws DynamicObjectException;
+	public abstract Component getEditor() throws DynamicObjectException;
 
 	public void setNickiContext(NickiContext context) {
 		this.nickiContext = context;
@@ -500,17 +504,19 @@ public abstract class NickiApplication extends Div implements Serializable {
 	}
 
 	public void confirm(Command command) {
-		add(new ConfirmDialog(command));
+		new ConfirmDialog(command).open();;
 	}
 
-	public VerticalLayout getView() {
-		return view;
+	public Div getView() {
+		return this;
 	}
 
-	// TODO: @Override
+	/* TODO: Theme
+	@Override
 	public String getTheme() {
 		return Config.getString("nicki.application.theme", "reindeer");
 	}
+	*/
 
 	public void setDoubleContext(DoubleContext doubleContext) {
 		this.doubleContext = doubleContext;

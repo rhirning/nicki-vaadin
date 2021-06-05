@@ -24,55 +24,51 @@ package org.mgnl.nicki.vaadin.base.editor;
 
 import java.io.Serializable;
 import java.util.Collection;
-
 import org.mgnl.nicki.core.data.TreeData;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.event.Action.Handler;
-import com.vaadin.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Tree.ExpandListener;
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.treegrid.ExpandEvent;
+import com.vaadin.flow.component.treegrid.TreeGrid;
+import com.vaadin.flow.data.selection.SelectionListener;
+import com.vaadin.flow.function.ValueProvider;
 
-public interface NickiSelect extends Serializable {
+public interface NickiSelect<T> extends Serializable {
 
 	void setHeight(String height);
 
 	void setWidth(String width);
 
-	Component getComponent();
-
-	void setImmediate(boolean b);
+	Grid<T> getComponent();
 
 	void setSelectable(boolean b);
 
-	TreeData getValue();
+	T getValue();
 
-	void addListener(ValueChangeListener listener);
+	void addSelectionListener(SelectionListener<Grid<T>, T> listener);
 
-	void addActionHandler(Handler handler);
+	void removeItem(T target);
 
-	void removeItem(Object target);
+	void unselect(T object);
 
-	void unselect(TreeData objectbject);
+	void setItems(Collection<T>items);
 
-	void expandItem(TreeData object);
+	void setCaption(ValueProvider<T, String> valueProvider);
 
-	void addListener(ExpandListener listener);
+	// TODO: setIcon
+//	void setIcon(ValueProvider<T, ThemeResource> valueProvider);
 
-	void setContainerDataSource(Container dataSource);
+	Collection<T> rootItemIds();
 
-	void setItemCaptionPropertyId(String propertyName);
-
-	void setItemCaptionMode(ItemCaptionMode property);
-
-	void setItemIconPropertyId(String propertyIcon);
-
-	Collection<?> rootItemIds();
-
-	void expandItemsRecursively(Object id);
+	void expandItemsRecursively(T id);
 
 	void collapseItemsRecursively(TreeData startItemId);
+
+	void setComponent(Grid<T> component);
+
+	void addExpandListener(ComponentEventListener<ExpandEvent<T, TreeGrid<T>>> listener);
+
+	void expandItems(@SuppressWarnings("unchecked") T... object);
 
 
 }

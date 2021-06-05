@@ -23,7 +23,6 @@ package org.mgnl.nicki.vaadin.db.editor;
 
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 
 import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.helper.DataHelper;
@@ -40,8 +39,9 @@ import org.mgnl.nicki.vaadin.db.fields.AttributeLongField;
 import org.mgnl.nicki.vaadin.db.fields.AttributeTextField;
 import org.mgnl.nicki.vaadin.db.fields.DbBeanAttributeField;
 
-import com.vaadin.ui.AbstractOrderedLayout;
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasComponents;
+import com.vaadin.flow.component.HasSize;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,7 +57,7 @@ public class DbBeanFieldFactory implements Serializable {
 	}
 	
 	public Component createField(Object bean, String attributeName, boolean create) {
-		Field field;
+		java.lang.reflect.Field field;
 		try {
 			field = bean.getClass().getDeclaredField(attributeName);
 		} catch (NoSuchFieldException | SecurityException e) {
@@ -110,8 +110,8 @@ public class DbBeanFieldFactory implements Serializable {
 	}
 	
 	
-	public void addFields(AbstractOrderedLayout layout, Object bean, boolean create, String[] hiddenAttributes, boolean readonly) {
-		for (Field field : BeanHelper.getFields(bean.getClass())) {
+	public void addFields(HasComponents layout, Object bean, boolean create, String[] hiddenAttributes, boolean readonly) {
+		for (java.lang.reflect.Field field : BeanHelper.getFields(bean.getClass())) {
 			if (hiddenAttributes == null || !DataHelper.contains(hiddenAttributes, field.getName())) {
 				Attribute attribute = field.getAnnotation(Attribute.class);
 				boolean all = true;
@@ -119,11 +119,11 @@ public class DbBeanFieldFactory implements Serializable {
 						&& (objectListener == null || objectListener.acceptAttribute(field.getName()))) {
 					Component component = createField(bean, field.getName(), create);
 					if (component != null) {
-						component.setWidth("100%");
+						((HasSize) component).setWidth("100%");
 						if (attribute.primaryKey() || readonly) {
-							component.setReadOnly(true);
+							component.getElement().setProperty("readonly", readonly);
 						}
-						layout.addComponent(component);
+						layout.add(component);
 					} else {
 						log.debug("no field for " + field.getName());
 					}

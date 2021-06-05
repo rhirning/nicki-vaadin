@@ -1,6 +1,14 @@
 
 package org.mgnl.nicki.vaadin.base.editor;
 
+import org.mgnl.nicki.vaadin.base.components.NoHeaderGrid;
+
+import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
+import com.vaadin.flow.component.treegrid.ExpandEvent;
+import com.vaadin.flow.component.treegrid.TreeGrid;
+
 /*-
  * #%L
  * nicki-vaadin-base
@@ -22,12 +30,9 @@ package org.mgnl.nicki.vaadin.base.editor;
  */
 
 
-import com.vaadin.event.Action.Handler;
-import com.vaadin.ui.Table;
-
 @SuppressWarnings("serial")
-public class TableSelector extends BasicNickiSelector {
-	private Table component = new Table();
+public class TableSelector<T> extends BasicNickiSelector<T> {
+	private Grid<T> component = new NoHeaderGrid<>();
 
 	public TableSelector() {
 		super();
@@ -35,11 +40,17 @@ public class TableSelector extends BasicNickiSelector {
 	}
 
 	public void setSelectable(boolean selectable) {
-		component.setSelectable(selectable);
+		component.setSelectionMode(SelectionMode.SINGLE);
 	}
 
-	public void addActionHandler(Handler handler) {
-		component.addActionHandler(handler);
+	@Override
+	public void addExpandListener(ComponentEventListener<ExpandEvent<T, TreeGrid<T>>> listener) {
+		// not implemented		
+	}
+
+	@Override
+	public void expandItems(@SuppressWarnings("unchecked") T... object) {
+		// not implemented		
 	}
 
 }

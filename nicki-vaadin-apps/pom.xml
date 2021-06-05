@@ -3,7 +3,7 @@
 	<artifactId>nicki-vaadin-apps</artifactId>
 	<parent>
 		<artifactId>nicki-vaadin</artifactId>
-		<version>8.0-SNAPSHOT</version>
+		<version>14.05-SNAPSHOT</version>
 		<groupId>org.mgnl.nicki.vaadin</groupId>
 		<relativePath>..</relativePath>
 	</parent>
@@ -17,11 +17,6 @@
 			<groupId>org.mgnl.nicki</groupId>
 			<artifactId>nicki-dynamic-objects-ad</artifactId>
 			<version>${nicki.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mgnl.nicki.vaadin</groupId>
-			<artifactId>nicki-vaadin-editor-catalogs</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mgnl.nicki.vaadin</groupId>
@@ -69,13 +64,16 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<scope>provided</scope>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
 		</dependency>
 		<!-- dependency>
 			<artifactId>CONFIG_RHI</artifactId>

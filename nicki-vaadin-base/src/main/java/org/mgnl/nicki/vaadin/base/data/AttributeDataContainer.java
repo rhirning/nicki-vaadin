@@ -24,13 +24,12 @@ package org.mgnl.nicki.vaadin.base.data;
 
 import org.mgnl.nicki.core.objects.DynamicObject;
 
-import com.vaadin.data.Property;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("serial")
-public class AttributeDataContainer<T> implements DataContainer<T>, Property<T> {
+public class AttributeDataContainer<T> implements DataContainer<T> {
 
 	public DynamicObject getDynamicObject() {
 		return dynamicObject;
@@ -79,6 +78,11 @@ public class AttributeDataContainer<T> implements DataContainer<T>, Property<T> 
 
 	public void setReadOnly(boolean newStatus) {
 		this.readOnly = newStatus;
+	}
+
+	@Override
+	public String getDisplay() {
+		return (String) getValue();
 	}
 
 }

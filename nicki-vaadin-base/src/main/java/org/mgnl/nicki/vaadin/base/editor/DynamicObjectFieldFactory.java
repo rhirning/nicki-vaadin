@@ -24,71 +24,47 @@ package org.mgnl.nicki.vaadin.base.editor;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.objects.DataModel;
 import org.mgnl.nicki.core.objects.DynamicAttribute;
 import org.mgnl.nicki.core.objects.DynamicObject;
-import org.mgnl.nicki.core.util.Classes;
 import org.mgnl.nicki.dynamic.objects.types.TextArea;
-import org.mgnl.nicki.vaadin.base.fields.AttributeSelectObjectField;
-import org.mgnl.nicki.vaadin.base.fields.AttributeTextAreaField;
+import org.mgnl.nicki.vaadin.base.fields.AttributeTextAreaReadonlyField;
 import org.mgnl.nicki.vaadin.base.fields.AttributeTextField;
 import org.mgnl.nicki.vaadin.base.fields.DynamicAttributeField;
-import org.mgnl.nicki.vaadin.base.fields.TableListAttributeField;
+import org.mgnl.nicki.vaadin.base.fields.TableListReadonlyAttributeField;
 
-import com.vaadin.ui.AbstractOrderedLayout;
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasComponents;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @SuppressWarnings("serial")
 public class DynamicObjectFieldFactory implements Serializable {
-	private DynamicObjectValueChangeListener<String> objectListener;
 	
-	public DynamicObjectFieldFactory(DynamicObjectValueChangeListener<String> objectListener) {
-		this.objectListener = objectListener;
-	}
 
-	@SuppressWarnings("unchecked")
-	public Component createField(Component parent, DynamicObject dynamicObject, String attributeName, boolean create) {
+	public Component createField(HasComponents parent, DynamicObject dynamicObject, String attributeName) {
 		DynamicAttribute dynAttribute = dynamicObject.getDynamicAttribute(attributeName);
 		DynamicAttributeField<String> field = null;
-		if (StringUtils.isNotEmpty(dynAttribute.getEditorClass())) {
-			try {
-				field = (DynamicAttributeField<String>) Classes.newInstance(dynAttribute.getEditorClass());
-				field.init(attributeName, dynamicObject, objectListener);
-			} catch (Exception e) {
-				field = null;
-				log.error("Error", e);
-			}
-		}
+
 		if (field == null) {
 			if (dynAttribute.isMultiple()) {
-				field = new TableListAttributeField();
+				field = new TableListReadonlyAttributeField();
 			} else if (dynAttribute.isForeignKey()) {
-				field = new AttributeSelectObjectField();
+				field = new AttributeTextAreaReadonlyField();
 			} else if (dynAttribute.getAttributeClass() == TextArea.class) {
-				field = new AttributeTextAreaField();
+				field = new AttributeTextAreaReadonlyField();
 			} else {
 				field = new AttributeTextField();
 			}
-			field.init(attributeName, dynamicObject, objectListener);
+			field.init(attributeName, dynamicObject, null);
 		}
-		boolean readOnly = dynAttribute.isReadonly();
-		if (!create && dynAttribute.isNaming()) {
-			readOnly = true;
-		}
-		return field.getComponent(readOnly);
+		return field.getComponent(true);
 	}
 	
 	
-	public void addFields(AbstractOrderedLayout layout, DynamicObject dynamicObject, boolean create) {
+	public void addFields(HasComponents layout, DynamicObject dynamicObject) {
 		DataModel model = dynamicObject.getModel();
 		for (DynamicAttribute dynAttribute : model.getAttributes().values()) {
-			if (!dynAttribute.isNaming()
-					&& (objectListener == null || objectListener.acceptAttribute(dynAttribute.getName()))) {
-				layout.addComponent(createField(layout, dynamicObject, dynAttribute.getName(), create));
+			if (!dynAttribute.isNaming()) {
+				layout.add(createField(layout, dynamicObject, dynAttribute.getName()));
 			}
 		}
 	}

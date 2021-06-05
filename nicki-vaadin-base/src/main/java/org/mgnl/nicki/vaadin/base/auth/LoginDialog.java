@@ -24,7 +24,6 @@ package org.mgnl.nicki.vaadin.base.auth;
 
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 
-
 public interface LoginDialog {
 
 	void setApplication(NickiApplication application);

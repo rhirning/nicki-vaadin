@@ -24,36 +24,33 @@ package org.mgnl.nicki.vaadin.db.fields;
 
 import java.io.Serializable;
 
+import org.mgnl.nicki.vaadin.db.converter.StringToFloatConverter;
 import org.mgnl.nicki.vaadin.db.data.AttributeDataContainer;
 import org.mgnl.nicki.vaadin.db.data.DataContainer;
 import org.mgnl.nicki.vaadin.db.editor.DbBeanValueChangeListener;
 import org.mgnl.nicki.vaadin.db.listener.AttributeInputListener;
 
-import com.vaadin.data.util.converter.StringToFloatConverter;
-import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.component.textfield.TextField;
+
 
 @SuppressWarnings("serial")
 public class AttributeFloatField  extends BaseDbBeanAttributeField implements DbBeanAttributeField, Serializable {
 
-	private AbstractField<String> field;
+	private TextField field;
 	private DataContainer<Float> property;
 	public void init(String attributeName, Object bean, DbBeanValueChangeListener objectListener, String dbContextName) {
 
 		property = new AttributeDataContainer<Float>(bean, attributeName);
 		field = new TextField(getName(bean, attributeName));
-		field.setHeight(2, Unit.EM);
-		field.setWidth("600px");
+//		field.setHeight("2em");
+//		field.setWidth("600px");
 		if (property != null && property.getValue() != null) {
 			field.setValue(Float.toString(property.getValue()));
 		}
-		field.setImmediate(true);
-		field.addValueChangeListener(new AttributeInputListener<Float>(property, objectListener, new StringToFloatConverter(), 1f));
+		field.addValueChangeListener(new AttributeInputListener<TextField, String, Float>(property, objectListener, new StringToFloatConverter()));
 	}
 
-	public Field<String> getComponent(boolean readOnly) {
+	public TextField getComponent(boolean readOnly) {
 		field.setReadOnly(readOnly);
 		return field;
 	}

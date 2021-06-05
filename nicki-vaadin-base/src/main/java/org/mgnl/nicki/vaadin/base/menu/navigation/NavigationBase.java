@@ -25,19 +25,17 @@ package org.mgnl.nicki.vaadin.base.menu.navigation;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mgnl.nicki.vaadin.base.menu.application.MainView;
+import com.vaadin.flow.component.html.Div;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.CustomComponent;
-
-public abstract class NavigationBase extends Navigation  {
+public abstract class NavigationBase extends Div implements Navigation {
 	private static final long serialVersionUID = -4231539383235849692L;
-	private MainView mainView;
+	private NavigationMainView mainView;
 	private List<NavigationElement> list = new ArrayList<NavigationElement>();
 	
-	public NavigationBase(MainView mainView) {
-		this.mainView = mainView;
+	public NavigationBase(NavigationMainView tableNavigationMainView) {
+		this.mainView = tableNavigationMainView;
+
+		setSizeFull();
 	}
 
 	@Override
@@ -50,8 +48,8 @@ public abstract class NavigationBase extends Navigation  {
 	}
 	
 	@Override
-	public Container getContainer() {
-		return new BeanItemContainer<NavigationElement>(NavigationElement.class, list);
+	public List<NavigationElement> getContainer() {
+		return list;
 	}
 	
 	public void initContainer() {

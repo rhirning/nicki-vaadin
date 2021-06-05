@@ -26,11 +26,12 @@ import java.io.Serializable;
 
 import org.mgnl.nicki.core.objects.DynamicObject;
 
-import com.vaadin.data.Property;
-
-public interface DataContainer<T> extends Property<T>, Serializable{
+public interface DataContainer<T> extends Serializable{
 
 	DynamicObject getDynamicObject();
 	String getAttributeName();
+	T getValue();
+	void setValue(T value);
+	String getDisplay();
 
 }

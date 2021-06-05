@@ -28,10 +28,9 @@ import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.core.objects.DynamicAttribute;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.TextField;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.textfield.TextField;
+
 
 public class TextFieldSearchField<T> implements DynamicAttributeSearchField<T> {
 	private TextField textField = new TextField();
@@ -48,19 +47,14 @@ public class TextFieldSearchField<T> implements DynamicAttributeSearchField<T> {
 			Map<DynamicAttribute, String> searchMap) {
 		this.dynAttribute = dynamicAttribute;
 		this.map = searchMap;
-		textField.setCaption(I18n.getText(dynAttribute.getCaption(), dynAttribute.getName()));
-		textField.addValueChangeListener(new ValueChangeListener() {
-			private static final long serialVersionUID = 5368806006111504521L;
-
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				String value = (String) event.getProperty().getValue();
+		textField.setLabel(I18n.getText(dynAttribute.getCaption(), dynAttribute.getName()));
+		textField.addValueChangeListener(event -> {
+				String value = event.getValue();
 				if (StringUtils.isNotBlank(value)) {
 					map.put(dynAttribute, value);
 				} else if (map.containsKey(dynAttribute)) {
 					map.remove(dynAttribute);
 				}
-			}
 		});
 	}
 

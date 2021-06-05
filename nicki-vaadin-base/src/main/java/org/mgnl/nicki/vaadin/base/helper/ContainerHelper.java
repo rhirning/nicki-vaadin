@@ -23,85 +23,41 @@ package org.mgnl.nicki.vaadin.base.helper;
 
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.i18n.I18n;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ContainerHelper {
-	/*
-	public static <T extends Object> Container getListContainer(Collection<T> data, String namedProperties) {
-		Container container = new IndexedContainer(data);
-		container.addContainerProperty(namedProperties, String.class, "");
-		return container;
-	}
-	*/
 
-	public static <T extends Object> Container getListContainer(Collection<T> data, String... namedProperties) {
-		Container container = new IndexedContainer(data);
-		for (String name : namedProperties) {
-			container.addContainerProperty(name, String.class, "");
-		}
-		return container;
-	}
-
-	public static <T extends Object> Container getTableContainer(Collection<T> data, String... namedProperties) {
-		return new TableContainer(data, namedProperties);
-	}
-	
-	public static <T extends Object> Container getDataContainer(T data, String[] properties, String i18nBase) {
-		Container container = new BeanItemContainer<ValuePair>(ValuePair.class);
+	public static Collection<ValuePair> getDataContainer(Object data, String[] properties, String i18nBase) {
+		Collection<ValuePair> container = new ArrayList<ValuePair>();
 		for (String property : properties) {
 			addItem(container, data, property, i18nBase);
 		}
 		return container;
 	}
 	
-	private static <T extends Object> void addItem(Container container, T data, String name, String i18nBase) {
-		String translatedName = name;
+	private static <T extends Object> void addItem(Collection<ValuePair> container, Object data, String attributeName, String i18nBase) {
+		String translatedName = attributeName;
 		if (i18nBase != null) {
-			translatedName = I18n.getText(i18nBase + "." + name);
+			translatedName = I18n.getText(i18nBase + "." + attributeName);
 		}
 		try {
 			
 			if (data != null) {
-				container.addItem(new ValuePair(translatedName, BeanUtils.getProperty(data, name)));
+				container.add(new ValuePair(translatedName, BeanUtils.getProperty(data, attributeName)));
 				
 			} else {
-				container.addItem(new ValuePair(translatedName, ""));
+				container.add(new ValuePair(translatedName, ""));
 			}
 		} catch (Exception e) {
 			log.error("Error", e);
-		}
-	}
-	
-	public static class TableContainer extends IndexedContainer implements Container {
-		private static final long serialVersionUID = 1495392912411015597L;
-
-		public <T extends Object> TableContainer(
-				Collection<? extends T> collection, String... namedProperties) throws IllegalArgumentException {
-			super();
-			for (String name : namedProperties) {
-				addContainerProperty(name, Comparable.class, "");
-			}
-			for (T bean : collection) {
-				Item item = addItem(bean);
-				for (String name : namedProperties) {
-					@SuppressWarnings("unchecked")
-					Property<Object> property = item.getItemProperty(name);
-					property.setValue(get(bean, name));
-				}
-			}
 		}
 	}
 

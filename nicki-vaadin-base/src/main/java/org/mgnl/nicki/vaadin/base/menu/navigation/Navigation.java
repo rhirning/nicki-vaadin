@@ -24,17 +24,14 @@ package org.mgnl.nicki.vaadin.base.menu.navigation;
 
 import java.util.List;
 
-import com.vaadin.flow.component.html.Div;
+public interface Navigation {
 
-
-public abstract class Navigation extends Div {
-
-	public abstract boolean select(NavigationEntry entry);
+	boolean select(NavigationEntry entry);
 	
-	public abstract void init(List<NavigationFolder> navigationFolders);
+	void init(List<NavigationFolder> navigationFolders);
 	
-	public abstract Container getContainer();
+	List<NavigationElement> getContainer();
 
-	public abstract void selectInNavigation(NavigationEntry entry);
+	void selectInNavigation(NavigationEntry entry);
 
 }

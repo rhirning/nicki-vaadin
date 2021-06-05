@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.config.Config;
@@ -41,137 +42,207 @@ import org.mgnl.nicki.vaadin.base.application.AccessGroupEvaluator;
 import org.mgnl.nicki.vaadin.base.application.AccessRole;
 import org.mgnl.nicki.vaadin.base.application.AccessRoleEvaluator;
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
-import org.mgnl.nicki.vaadin.base.dialog.NickiDialog;
-import org.mgnl.nicki.vaadin.base.menu.navigation.Navigation;
 import org.mgnl.nicki.vaadin.base.menu.navigation.NavigationEntry;
 import org.mgnl.nicki.vaadin.base.menu.navigation.NavigationFolder;
 import org.mgnl.nicki.vaadin.base.menu.navigation.NavigationLabel;
-import org.mgnl.nicki.vaadin.base.menu.navigation.TableNavigation;
+import org.mgnl.nicki.vaadin.base.menu.navigation.NavigationMainView;
+import org.mgnl.nicki.vaadin.base.menu.navigation.NavigationTabSheet;
+import org.mgnl.nicki.vaadin.base.notification.Notification;
+import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
 import org.mgnl.nicki.verify.Verify;
 import org.mgnl.nicki.verify.VerifyException;
 
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.KeyModifier;
+import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.splitlayout.SplitLayout;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.server.StreamResource;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
-public class MainView extends NickiDialog {
+public class MainView extends AppLayout implements NavigationMainView {
 
-	private VerticalLayout mainLayout;
-	private VerticalLayout contentLayout;
-	private SplitLayout hsplit;
-	private Navigation navigation;
-	private View activeView;
-	private View startView;
+	public static final String LOGO_PATH = "logoPath";
+	public static final String LOGO_HEIGHT = "logoHeight";
+	public static final String LOGO_WIDTH = "logoWidth";
+	public static final String NAVIGATION_WIDTH = "navigationWidth";
+	public static final String TITLE = "title";
+	
+	private @Getter VerticalLayout contentLayout;
+	
+	
+	private NavigationTabSheet navigation;
+	private Component activeView;
+	private Component startView;
 	private Component headline;
 	private Person user;
 	private List<NavigationFolder> navigationFolders = new ArrayList<NavigationFolder>();
+	private ApplicationConfig applicationConfig;
+	private Map<String, String> config;
+    private final Button logoutButton;
+    private @Getter @Setter NickiApplication application;
 	private static final long serialVersionUID = 8701670605362637395L;
 
-	public MainView(Person user) {
+	public MainView(Person user, String configPath) throws IllegalAccessException, InvocationTargetException, InstantiationException {
 		this.user = user;
-		buildMainLayout();
-		add(mainLayout);
-		hsplit.setSplitPosition(250, Unit.PIXELS);
-		navigation = new TableNavigation(this);
-		// navigation = new ListSelectNavigation(this);
-		// navigation = new ButtonNavigation(this);
-		hsplit.addToPrimary(navigation);
-		contentLayout = buildContentLayout();
-		hsplit.setSecondComponent(contentLayout);
+		this.applicationConfig = JsonHelper.toBean(ApplicationConfig.class, getClass().getResourceAsStream(configPath));
+		this.config = applicationConfig.getConfig();
+		
+		this.navigation = new NavigationTabSheet(this);
+        // Header of the menu (the navbar)
+
+		//setPrimarySection(Section.DRAWER);
+        // menu toggle
+        final DrawerToggle drawerToggle = new DrawerToggle();
+        //drawerToggle.addClassName("menu-toggle");
+        addToNavbar(drawerToggle);
+
+        // image, logo
+        final HorizontalLayout top = new HorizontalLayout();
+        top.setDefaultVerticalComponentAlignment(Alignment.CENTER);
+        top.setClassName("menu-header");
+        addToNavbar(top);
+
+
+		VerticalLayout titleLayout = new VerticalLayout();
+		titleLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+		if (config.containsKey(LOGO_PATH)) {			
+			StreamResource resource = new StreamResource("logo.png", () -> MainView2.class.getResourceAsStream(config.get(LOGO_PATH)));
+			Image image = new Image(resource, "Restart");
+			if (config.containsKey(LOGO_HEIGHT)) {
+				image.setHeight(config.get(LOGO_HEIGHT));
+			}
+			if (config.containsKey(LOGO_WIDTH)) {
+				image.setWidth(config.get(LOGO_WIDTH));
+			}
+			titleLayout.add(image);
+			image.addClickListener(event -> restart());
+		} else if (config.containsKey(TITLE)) {
+	        final H3 title = new H3(config.get(TITLE));
+	        titleLayout.add(title);
+	        title.addClickListener(event -> restart());
+		} else {
+			Span image = new Span("Restart");
+			titleLayout.add(image);
+			image.addClickListener(event -> restart());
+		}
+        addToDrawer(titleLayout);
+
+		// logout button
+
+        logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
+        logoutButton.addClickListener(e -> logout());
+        logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
 
 	}
 
-	@AutoGenerated
-	private VerticalLayout buildMainLayout() {
-		// common part: create layout
-		mainLayout = new VerticalLayout();
-		mainLayout.setImmediate(false);
-		mainLayout.setWidth("100%");
-		mainLayout.setHeight("100%");
-		mainLayout.setMargin(false);
+	private void logout() {
+		if (getApplication() != null) {
+			getApplication().logout();
+		}
+    }
 
-		// top-level component properties
-		setWidth("100.0%");
-		setHeight("100.0%");
-
-		// hsplit
-		hsplit = buildHsplit();
-		mainLayout.addComponent(hsplit);
-
-		return mainLayout;
-	}
-
-	@AutoGenerated
-	private HorizontalSplitPanel buildHsplit() {
-		// common part: create layout
-		hsplit = new HorizontalSplitPanel();
-		hsplit.setImmediate(false);
-		hsplit.setWidth("100.0%");
-		hsplit.setHeight("100.0%");
-
-		return hsplit;
-	}
-
-	@AutoGenerated
-	private VerticalLayout buildContentLayout() {
-		// common part: create layout
-		contentLayout = new VerticalLayout();
-		contentLayout.setImmediate(false);
-		contentLayout.setWidth("100.0%");
-		contentLayout.setHeight("100.0%");
-
-		return contentLayout;
-	}
+    private Button createMenuButton(String caption, Icon icon) {
+        final Button routerButton = new Button(caption);
+        routerButton.setClassName("menu-button");
+        routerButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+        routerButton.setIcon(icon);
+        icon.setSize("24px");
+        return routerButton;
+    }
 	
-	// TODO: implement
 	public void restart() {
 		if (this.startView != null) {
-			showView(startView);
+			showView(startView, true);
 		}
 	}
+	
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+
+        // User can quickly activate logout with Ctrl+L
+        attachEvent.getUI().addShortcutListener(() -> logout(), Key.KEY_L,
+                KeyModifier.CONTROL);
+
+        // Finally, add logout button for all users
+        navigation.init(navigationFolders);
+        addToNavbar(logoutButton);
+        addToDrawer(navigation);
+        restart();
+        
+        
+    }
 
 	public boolean show(NavigationEntry entry) {
 
 		// TODO check is navigation change is allowed
-		if (activeView != null && activeView.isModified()) {
+		if (activeView != null && ((View) activeView).isModified()) {
 			Notification.show(I18n.getText("nicki.app.menu.message.modified"), Type.HUMANIZED_MESSAGE);
 			return false;
 		}
-		navigation.selectInNavigation(entry);
-		View view = entry.getView();
-		showView(view);
+//TODO		navigation.selectInNavigation(entry);
+		Component view = entry.getView();
+		showView(view, false);
 		return true;
 	}
 
-	public void showView(View view) {
+	public boolean showView(Component view, boolean checkModify) {
+		// TODO check is navigation change is allowed
+		if (checkModify && activeView != null && ((View) activeView).isModified()) {
+			Notification.show(I18n.getText("nicki.app.menu.message.modified"), Type.HUMANIZED_MESSAGE);
+			return false;
+		}
 		setActiveView(view);
-		view.init();
-		contentLayout.removeAllComponents();
+		if (view instanceof View) {
+			((View)view).init();
+		}
+
+		/*
+		if (((View) view).needsHeightFull()) {
+			contentLayout.setHeightFull();
+		} else {
+			contentLayout.setHeight("-1px");
+		}
+		contentLayout.removeAll();
 		if (null != getHeadline()) {
 			Component headline = getHeadline();
-			contentLayout.addComponent(headline);
-			contentLayout.addComponent(view);
+			contentLayout.add(headline);
+			contentLayout.add(view);
 			// contentLayout.setExpandRatio(headline, 0.01f);
-			contentLayout.setExpandRatio(view, 1);
+			contentLayout.setFlexGrow(1, view);
 		} else {
-			contentLayout.addComponent(view);
+			contentLayout.add(view);
 		}
+		*/
+		setContent(view);
+		return true;
 	}
 
-	public View getActiveView() {
+	public Component getActiveView() {
 		return activeView;
 	}
 
-	public void setActiveView(View activeView) {
+	public void setActiveView(Component activeView) {
 		this.activeView = activeView;
 	}
 
-	public void addNavigation(NickiApplication application, String classPath) throws IllegalAccessException, InvocationTargetException, InstantiationException, ClassNotFoundException {
-		ApplicationConfig applicationConfig = JsonHelper.toBean(ApplicationConfig.class, getClass().getResourceAsStream(classPath));
+	public void addNavigation(NickiApplication application) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		if (applicationConfig.getStart() != null
 				&& isVisible(applicationConfig.getStart())) {
 			this.startView = getView(application, applicationConfig.getStart());
@@ -184,7 +255,7 @@ public class MainView extends NickiDialog {
 							&& isVisible(applicationView)) {
 						String labelCaption = I18n.getText(chapter.getChapter());
 						String caption = I18n.getText(applicationView.getTitle());
-						View view = getView(application, applicationView);
+						Component view = getView(application, applicationView);
 						String navigation = applicationView.getNavigation();
 						addNavigationEntry(labelCaption, caption, view, navigation);
 					}
@@ -208,10 +279,10 @@ public class MainView extends NickiDialog {
 		return true;
 	}
 
-	private View getView(NickiApplication application, ApplicationView applicationView) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	private Component getView(NickiApplication application, ApplicationView applicationView) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		log.debug("View " + DataHelper.getMilli(new Date()) + ": " + applicationView.getView());
-		View view = Classes.newInstance(applicationView.getView());
-		view.setApplication(application);
+		Component view = Classes.newInstance(applicationView.getView());
+		((View) view).setApplication(application);
 		if (view instanceof ConfigurableView) {
 			ConfigurableView configurableView = (ConfigurableView) view;
 			configurableView.setConfiguration(applicationView.getConfiguration());
@@ -220,11 +291,11 @@ public class MainView extends NickiDialog {
 	}
 
 	@Deprecated
-	public void addNavigationEntry(String labelCaption, String caption, View view) {
+	public void addNavigationEntry(String labelCaption, String caption, Component view) {
 		addNavigationEntry(labelCaption, caption, view, null);
 	}
 
-	public void addNavigationEntry(String labelCaption, String caption, View view, String navigation) {
+	public void addNavigationEntry(String labelCaption, String caption, Component view, String navigation) {
 		if (isAllowed(view.getClass(), this.user)) {
 			NavigationFolder folder = getNavigationFolder(labelCaption);
 			NavigationEntry entry = new NavigationEntry(caption, view, navigation);
@@ -251,8 +322,7 @@ public class MainView extends NickiDialog {
 	}
 
 	public void initNavigation() {
-		navigation.init(navigationFolders);
-		restart();
+		//restart();
 	}
 
 	static public boolean isAllowed(Class<?> clazz, Person user) {
@@ -319,12 +389,6 @@ public class MainView extends NickiDialog {
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public void setApplication(NickiApplication application) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

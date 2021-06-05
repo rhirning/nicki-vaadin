@@ -37,25 +37,23 @@ import org.mgnl.nicki.core.objects.DataModel;
 import org.mgnl.nicki.core.objects.DynamicAttribute;
 import org.mgnl.nicki.core.objects.DynamicObject;
 import org.mgnl.nicki.core.objects.SearchResultEntry;
+import org.mgnl.nicki.vaadin.base.data.DynamicObjectGridColumn;
+import org.mgnl.nicki.vaadin.base.helper.GridHelper;
 
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.AbstractLayout;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("serial")
-public class DynamicObjectSearchDialog<T extends DynamicObject> extends CustomComponent {
-	private VerticalLayout mainLayout;
+public class DynamicObjectSearchDialog<T extends DynamicObject> extends VerticalLayout {
 	private Button searchButton;
-	private Table table;
-	private BeanItemContainer<T> container;
+	private Grid<T> table;
+	private List<T> container = new ArrayList<>();
 	private Button saveButton;
 	private boolean create;
 	private NickiContext context;
@@ -73,101 +71,51 @@ public class DynamicObjectSearchDialog<T extends DynamicObject> extends CustomCo
 		this.searcher = searcher;
 		this.baseDn = baseDn;
 		buildMainLayout();
-		setCompositionRoot(mainLayout);
 	}
 
 
-	private AbstractLayout buildMainLayout() throws InstantiateDynamicObjectException {
-		mainLayout = new VerticalLayout();
-		mainLayout.setWidth("100%");
-		mainLayout.setMargin(true);
-		AbstractLayout searchLayout = getLayout();
-		mainLayout.addComponent(searchLayout);
+	private void buildMainLayout() throws InstantiateDynamicObjectException {
+		setWidth("100%");
+		setMargin(true);
+		FormLayout searchLayout = getLayout();
+		add(searchLayout);
 		DynamicObjectSearchFieldFactory<T> factory = new DynamicObjectSearchFieldFactory<T>(context, searchDataMap);
 		factory.addFields(searchLayout, clazz);
 		
 		searchButton = new Button(I18n.getText("nicki.editor.generic.button.search"));
-		searchButton.addClickListener(new Button.ClickListener() {
-			
-			public void buttonClick(ClickEvent event) {
-				search();
-			}
-		});
+		searchButton.addClickListener(event -> search());
 
-		mainLayout.addComponent(searchButton);
-		table = new Table();
-		table.setSelectable(true);
-		container = new BeanItemContainer<T>(clazz);
-		table.setContainerDataSource(container);
-		table.setVisibleColumns(getVisibleColumns());
-		table.setColumnHeaders(getColumnHeaders());
-		mainLayout.addComponent(table);
+		add(searchButton);
+		table = new Grid<>();
+		table.setSelectionMode(SelectionMode.SINGLE);
+		container = new ArrayList<>();
+		for (DynamicObjectGridColumn<T> column : GridHelper.getColumns(context, clazz)) {
+			table.addColumn(column).setHeader(column.getCaption());
+		}
+		add(table);
 		saveButton = new Button(I18n.getText("nicki.editor.generic.button.save"));
-		saveButton.addClickListener(new Button.ClickListener() {
-			
-			public void buttonClick(ClickEvent event) {
-				save();
-			}
-		});
+		saveButton.addClickListener(event -> save());
 
-		mainLayout.addComponent(saveButton);
+		add(saveButton);
 		
 		
-		return mainLayout;
 	}
 
-	private GridLayout getLayout() {
-		GridLayout layout = new GridLayout();
-		layout.setColumns(2);
+	private FormLayout getLayout() {
+		FormLayout layout = new FormLayout();
 		layout.setWidth("100%");
-		layout.setSpacing(true);
 		return layout;
 	}
 
-
-	private String[] getColumnHeaders() {
-
-		List<String> columnsHeaders = new ArrayList<String>();
-		try {
-			DataModel model = context.getDataModel(clazz);
-			for (DynamicAttribute dynAttribute : model.getAttributes().values()) {
-				if (dynAttribute.isSearchable()) {
-					columnsHeaders.add(I18n.getText(dynAttribute.getCaption(), dynAttribute.getName()));
-				}
-			}
-		} catch (Exception e) {
-			log.error("Error reading datamodel", e);
-		}
-		return columnsHeaders.toArray(new String[]{});
-	}
-
-
-	private Object[] getVisibleColumns() {
-
-		List<String> columns = new ArrayList<String>();
-		try {
-			DataModel model = context.getDataModel(clazz);
-			for (DynamicAttribute dynAttribute : model.getAttributes().values()) {
-				if (dynAttribute.isSearchable()) {
-					columns.add(dynAttribute.getName());
-				}
-			}
-		} catch (Exception e) {
-			log.error("Error reading datamodel", e);
-		}
-		return columns.toArray(new Object[]{});
-	}
-
-
 	protected void search() {
-		container.removeAllItems();
+		container.clear();
 		for (SearchResultEntry entry : searchObjects()) {
 			T resultEntry = context.loadObject(clazz, entry.getDn());
-			container.addItem(resultEntry);
+			container.add(resultEntry);
 		}
+		table.setItems(container);
 	}
 	
-
 
 	public List<SearchResultEntry> searchObjects() {
 		DataModel model;
@@ -204,9 +152,8 @@ public class DynamicObjectSearchDialog<T extends DynamicObject> extends CustomCo
 		searcher.setDynamicObject(clazz, getSelected());
 	}
 
-	@SuppressWarnings("unchecked")
 	private T getSelected() {
-		return (T) table.getValue();
+		return table.asSingleSelect().getValue();
 	}
 
 

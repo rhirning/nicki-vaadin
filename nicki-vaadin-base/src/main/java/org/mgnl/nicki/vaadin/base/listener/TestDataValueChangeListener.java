@@ -27,49 +27,52 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ComponentContainer;
-import com.vaadin.ui.Field;
+import org.mgnl.nicki.core.objects.DynamicObject;
+import org.mgnl.nicki.vaadin.base.data.DataContainer;
+
+import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasComponents;
+import com.vaadin.flow.component.HasOrderedComponents;
+import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.HasValue.ValueChangeEvent;
+import com.vaadin.flow.component.HasValue.ValueChangeListener;
+import com.vaadin.flow.component.textfield.TextField;
 
 @SuppressWarnings("serial")
-public class TestDataValueChangeListener implements ValueChangeListener {
+public class TestDataValueChangeListener implements ValueChangeListener<ValueChangeEvent<String>> {
 
-	private Property<Map<String, String>> dataContainer;
-	private ComponentContainer testData;
-	public TestDataValueChangeListener(Property<Map<String, String>> dataContainer, ComponentContainer testData) {
+	private DataContainer<Map<String, String>> dataContainer;
+	private Component testData;
+	public TestDataValueChangeListener(DataContainer<Map<String, String>> dataContainer, Component testData) {
 		this.dataContainer = dataContainer;
 		this.testData = testData;
 	}
 
-	public void valueChange(ValueChangeEvent event) {
+	public void valueChanged(ValueChangeEvent<String> event) {
 		dataContainer.setValue(collectMapValues(testData));
 	}
 
-	public Map<String, String> collectMapValues(ComponentContainer cont) {
+	public Map<String, String> collectMapValues(Component cont) {
 		Map<String, String> map = new HashMap<String, String>();
-		for (Component component : cont) {
-			String caption = component.getCaption();
-			if (component instanceof Field) {
-				@SuppressWarnings("unchecked")
-				String value = ((Field<String>) component).getValue();
+		cont.getChildren().forEach( component -> {
+			if (component instanceof TextField) {
+				String caption = ((TextField)component).getLabel();
+				String value = ((TextField) component).getValue();
 				map.put(caption, value);
 			}
-		}
+		});
 		return map;
 	}
 
-	public List<String> collectValues(ComponentContainer cont) {
+	public List<String> collectValues(Component cont) {
 		List<String> list = new ArrayList<String>();
-		for (Component component : cont) {
-			if (component instanceof Field) {
-				@SuppressWarnings("unchecked")
-				String value = ((Field<String>) component).getValue();
+		cont.getChildren().forEach( component ->  {
+			if (component instanceof HasValue) {
+				String value = (String) ((HasValue<?,?>) component).getValue();
 				list.add(value);
 			}
-		}
+		});
 		return list;
 	}
 

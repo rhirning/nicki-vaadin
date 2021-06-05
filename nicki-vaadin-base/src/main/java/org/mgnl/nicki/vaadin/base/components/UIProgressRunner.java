@@ -4,6 +4,8 @@ package org.mgnl.nicki.vaadin.base.components;
 import org.mgnl.nicki.core.thread.NickiProgress;
 import org.mgnl.nicki.core.thread.ProgressRunner;
 
+import com.vaadin.flow.component.UI;
+
 /*-
  * #%L
  * nicki-vaadin-base
@@ -23,9 +25,6 @@ import org.mgnl.nicki.core.thread.ProgressRunner;
  * limitations under the License.
  * #L%
  */
-
-
-import com.vaadin.ui.UI;
 
 public abstract class UIProgressRunner extends ProgressRunner implements Runnable {
 
@@ -50,11 +49,6 @@ public abstract class UIProgressRunner extends ProgressRunner implements Runnabl
 		this.setCurrent(newCurrent);
 		this.setDetails(newDetails);
 		
-        UI.getCurrent().access(new Runnable() {
-            @Override
-            public void run() {
-            	getProgress().progressed(getCurrent(), getDetails());
-            }
-        });		
+        UI.getCurrent().access(() -> getProgress().progressed(getCurrent(), getDetails()));
 	}
 }

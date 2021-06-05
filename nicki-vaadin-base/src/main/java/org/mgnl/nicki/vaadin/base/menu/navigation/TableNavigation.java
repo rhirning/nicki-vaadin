@@ -1,6 +1,8 @@
 
 package org.mgnl.nicki.vaadin.base.menu.navigation;
 
+import java.util.HashMap;
+
 /*-
  * #%L
  * nicki-app-menu
@@ -23,108 +25,116 @@ package org.mgnl.nicki.vaadin.base.menu.navigation;
 
 
 import java.util.List;
+import java.util.Map;
 
+import org.mgnl.nicki.vaadin.base.components.NoHeaderGrid;
 import org.mgnl.nicki.vaadin.base.menu.application.MainView;
+import org.mgnl.nicki.vaadin.base.menu.application.TableNavigationMainView;
 
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.Property.ValueChangeListener;
-import com.vaadin.event.MouseEvents;
-import com.vaadin.event.MouseEvents.ClickEvent;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.Table.CellStyleGenerator;
-import com.vaadin.ui.Table.ColumnHeaderMode;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.SelectionMode;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.server.StreamResource;
 
-public class TableNavigation extends NavigationBase {
+public class TableNavigation extends NavigationBase implements Navigation {
 	private static final long serialVersionUID = -4231539383235849692L;
-	private static final Object VISIBLE_COLUMNS[] = {"navigationCaption"};
-	private VerticalLayout layout;
-	private Table table;
+	public static final String LOGO_PATH = "logoPpath";
+	public static final String LOGO_HEIGHT = "logoHeight";
+	public static final String LOGO_WIDTH = "logoWidth";
+	public static final String NAVIGATION_WIDTH = "navigationWidth";
+	private Grid<NavigationElement> table;
 	private NavigationEntry selected;
+	private Map<String, String> config = new HashMap<String, String>();
 	
-	public TableNavigation(MainView mainView) {
-		super(mainView);
+	public TableNavigation(NavigationMainView tableNavigationMainView,  Map<String, String> config ) {
+		super(tableNavigationMainView);
+		if (config != null) {
+			this.config.putAll(config);
+		}
 		buildMainLayout();
-		setCompositionRoot(layout);
 		setSizeFull();
 	}
 
-	private VerticalLayout buildMainLayout() {
-		layout = new VerticalLayout();
-		layout.setHeight("100%");
-		Panel panel = new Panel();
-		panel.setHeight("100px");
-		panel.setStyleName("logo");
-		layout.addComponent(panel);
-		panel.addClickListener(new MouseEvents.ClickListener() {
-			private static final long serialVersionUID = 4278900825719978293L;
+	private void buildMainLayout() {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSizeFull();
+		layout.setMargin(false);
+		layout.setSpacing(true);
+		layout.setPadding(false);
+		add(layout);
 
-			@Override
-			public void click(ClickEvent event) {
-				restart();
+		VerticalLayout logoLayout = new VerticalLayout();
+		logoLayout.setWidthFull();
+		logoLayout.setMargin(false);
+		logoLayout.setPadding(false);
+		layout.add(logoLayout);
+		
+		if (config.containsKey(LOGO_PATH)) {			
+			StreamResource resource = new StreamResource("logo.png", () -> TableNavigation.class.getResourceAsStream(config.get(LOGO_PATH)));
+			Image image = new Image(resource, "Restart");
+			if (config.containsKey(LOGO_HEIGHT)) {
+				image.setHeight(config.get(LOGO_HEIGHT));
 			}
-		});
-		table = new Table();
-		table.setImmediate(true);
-		table.setSelectable(true);
-		table.setNullSelectionAllowed(false);
-		table.addContainerProperty("navigationCaption", String.class, null);
-		table.setVisibleColumns(VISIBLE_COLUMNS);
-		table.setColumnHeaderMode(ColumnHeaderMode.HIDDEN);
-		table.setWidth("100%");
-		table.setHeight("100%");
-		table.setPageLength(0);
+			if (config.containsKey(LOGO_WIDTH)) {
+				image.setWidth(config.get(LOGO_WIDTH));
+			}
+			logoLayout.add(image);
+			logoLayout.setAlignItems(Alignment.CENTER);
+			image.addClickListener(event -> restart());
+		} else {
+			Span image = new Span("Restart");
+			image.setHeight(LOGO_HEIGHT);
+			logoLayout.add(image);
+			image.addClickListener(event -> restart());
+		}
+		table = new NoHeaderGrid<>();
+		table.setSelectionMode(SelectionMode.SINGLE);
+		String width = config.containsKey(NAVIGATION_WIDTH) ? config.get(NAVIGATION_WIDTH) : "-1px";
+		table.addComponentColumn(NavigationElement::getNavigationCaption).setWidth(width);
+		table.setSizeFull();		
 
-		table.addValueChangeListener(new ValueChangeListener() {
-			private static final long serialVersionUID = -3655302097682416518L;
-
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				if (table.getValue() instanceof NavigationEntry) {
-					NavigationEntry entry = (NavigationEntry) table.getValue();
+		table.addSelectionListener(event -> {
+				if (table.asSingleSelect().getValue() instanceof NavigationEntry) {
+					NavigationEntry entry = (NavigationEntry) table.asSingleSelect().getValue();
 					if (entry != selected) {
 						if (select(entry)) {
 							selected = entry;
 						} else {
-							table.setValue(selected);
+							table.select(selected);
 						}
 					}
 				} else {
 					if (selected != null) {
-						table.setValue(selected);
+						table.select(selected);
 					}
 				}
-			}
 		});
 		
-		table.setCellStyleGenerator(new CellStyleGenerator() {
-			private static final long serialVersionUID = -6749256680831726555L;
-
-			@Override
-			public String getStyle(Table source, Object itemId, Object propertyId) {
-				if (itemId instanceof NavigationFolder) {
+		table.setClassNameGenerator(item -> {
+				if (item instanceof NavigationFolder) {
 					return "folder";
 				}
-				else if (itemId instanceof NavigationEntry) {
+				else if (item instanceof NavigationEntry) {
 					return "entry";
-				} else if (itemId instanceof NavigationSeparator) {
+				} else if (item instanceof NavigationSeparator) {
 					return "separator";
 				}
-
 				return null;
-			}
 		});
-
-		layout.addComponent(table);
-		layout.setExpandRatio(table, 1.0f);
-		//layout.setExpandRatio(panel, 0.0f);
-		return layout;
+		
+		
+		
+		layout.add(table);
+		layout.setFlexGrow(1, table);
 	}
 	
 
 	public void restart() {
-		this.table.select(null);
+		this.table.deselectAll();
 		super.restart();
 	}
 
@@ -141,7 +151,7 @@ public class TableNavigation extends NavigationBase {
 				}
 			}
 		}
-		table.setContainerDataSource(getContainer());
+		table.setItems(getContainer());
 	}
 	
 	@Override

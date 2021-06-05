@@ -26,11 +26,12 @@ import java.util.Map;
 
 import org.mgnl.nicki.core.objects.DynamicAttribute;
 
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.combobox.ComboBox;
+
 
 public class ComboBoxSearchField<T> implements DynamicAttributeSearchField<T> {
-	private ComboBox comboBox = new ComboBox();
+	private ComboBox<String> comboBox = new ComboBox<>();
 
 	@Override
 	public Component getComponent() {
@@ -40,7 +41,7 @@ public class ComboBoxSearchField<T> implements DynamicAttributeSearchField<T> {
 	@Override
 	public void init(DynamicAttribute dynAttribute,
 			Map<DynamicAttribute, String> map) {
-		comboBox.setCaption(dynAttribute.getName());
+		comboBox.setLabel(dynAttribute.getName());
 	}
 
 	@Override
