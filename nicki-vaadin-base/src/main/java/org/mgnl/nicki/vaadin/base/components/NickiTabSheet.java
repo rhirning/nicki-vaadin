@@ -81,4 +81,13 @@ public class NickiTabSheet extends VerticalLayout {
 		tabs.add(tab);
 		return tab;
 	}
+
+
+	public void setSelectedTab(Component component) {
+		for (Tab tab: tabsToPages.keySet()) {
+			if (component == tabsToPages.get(tab)) {
+				tabs.setSelectedTab(tab);
+			}
+		}
+	}
 }

@@ -26,10 +26,10 @@ import java.io.Serializable;
 
 import org.mgnl.nicki.core.context.NickiContext;
 
-import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 @SuppressWarnings("serial")
-public abstract class EditorBase extends Component implements Serializable {
+public abstract class EditorBase extends VerticalLayout implements Serializable {
 	public EditorBase(NickiContext context) {
 		super();
 		this.context = context;
