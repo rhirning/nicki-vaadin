@@ -44,6 +44,8 @@ public abstract class EditorBase extends VerticalLayout implements Serializable 
 	public NickiContext getContext() {
 		return context;
 	}
+	
+	public abstract void init();
 
 
 }

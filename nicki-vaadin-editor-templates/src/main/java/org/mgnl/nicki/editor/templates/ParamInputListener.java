@@ -26,14 +26,14 @@ import java.util.Map;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
-import com.vaadin.flow.component.HasValue.ValueChangeEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.data.selection.SelectionEvent;
 import com.vaadin.flow.data.selection.SelectionListener;
 
 
 @SuppressWarnings("serial")
-public class ParamInputListener<C extends Component, X, T> implements ValueChangeListener<ComponentValueChangeEvent<C, X>> {
+public class ParamInputListener<C extends Component, X, T> implements ValueChangeListener<ComponentValueChangeEvent<C, X>>,
+	SelectionListener<C, T>{
 
 	private String name;
 	private Map<String, Object> map;

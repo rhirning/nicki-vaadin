@@ -554,4 +554,9 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 	public DoubleContext getContext() {
 		return doubleContext;
 	}
+
+	public String getApplicationTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

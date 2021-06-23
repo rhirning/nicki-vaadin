@@ -151,6 +151,57 @@ public class MainView extends AppLayout implements NavigationMainView {
 
 	}
 
+	public MainView(Person user) {
+		this.user = user;
+		
+		this.navigation = new NavigationTabSheet(this);
+        // Header of the menu (the navbar)
+
+		//setPrimarySection(Section.DRAWER);
+        // menu toggle
+        final DrawerToggle drawerToggle = new DrawerToggle();
+        //drawerToggle.addClassName("menu-toggle");
+        addToNavbar(drawerToggle);
+
+        // image, logo
+        final HorizontalLayout top = new HorizontalLayout();
+        top.setDefaultVerticalComponentAlignment(Alignment.CENTER);
+        top.setClassName("menu-header");
+        addToNavbar(top);
+
+
+		VerticalLayout titleLayout = new VerticalLayout();
+		titleLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+		if (config.containsKey(LOGO_PATH)) {			
+			StreamResource resource = new StreamResource("logo.png", () -> MainView2.class.getResourceAsStream(config.get(LOGO_PATH)));
+			Image image = new Image(resource, "Restart");
+			if (config.containsKey(LOGO_HEIGHT)) {
+				image.setHeight(config.get(LOGO_HEIGHT));
+			}
+			if (config.containsKey(LOGO_WIDTH)) {
+				image.setWidth(config.get(LOGO_WIDTH));
+			}
+			titleLayout.add(image);
+			image.addClickListener(event -> restart());
+		} else if (config.containsKey(TITLE)) {
+	        final H3 title = new H3(config.get(TITLE));
+	        titleLayout.add(title);
+	        title.addClickListener(event -> restart());
+		} else {
+			Span image = new Span("Restart");
+			titleLayout.add(image);
+			image.addClickListener(event -> restart());
+		}
+        addToDrawer(titleLayout);
+
+		// logout button
+
+        logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
+        logoutButton.addClickListener(e -> logout());
+        logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
+
+	}
+
 	private void logout() {
 		if (getApplication() != null) {
 			getApplication().logout();

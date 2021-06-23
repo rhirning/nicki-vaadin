@@ -25,15 +25,7 @@ import com.vaadin.flow.component.tabs.Tab;
  */
 
 
-@SuppressWarnings("serial")
-public class NickiTab extends Tab {
+public interface NickiTab {
 
-	public NickiTab(String label, Component... components) {
-		super(components);
-		setLabel(label);
-	}
-
-	void init( ) {
-		
-	}
+	void init();
 }

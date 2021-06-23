@@ -28,13 +28,15 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 
 public class DialogBase extends Dialog {
 	private static final long serialVersionUID = -3504431507552994635L;
 	
 	private Div div;
+
+	public DialogBase() {
+	}
 
 	public DialogBase(Command command) {
 		this(command.getTitle());

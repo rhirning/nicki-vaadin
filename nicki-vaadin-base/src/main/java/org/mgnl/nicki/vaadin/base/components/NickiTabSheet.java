@@ -21,15 +21,18 @@ package org.mgnl.nicki.vaadin.base.components;
  */
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
 
 import lombok.Getter;
 
@@ -83,11 +86,44 @@ public class NickiTabSheet extends VerticalLayout {
 	}
 
 
-	public void setSelectedTab(Component component) {
+	public void setSelectedTab(Tab tab) {
+		tabs.setSelectedTab(tab);
+	}
+
+	public void setSelectedTabComponent(Component component) {
 		for (Tab tab: tabsToPages.keySet()) {
 			if (component == tabsToPages.get(tab)) {
 				tabs.setSelectedTab(tab);
 			}
 		}
+	}
+
+
+	public void addSelectedTabChangeListener(ComponentEventListener<SelectedChangeEvent> listener) {
+		tabs.addSelectedChangeListener(listener);
+		
+	}
+
+
+	public Tab getSelectedTab() {
+		return tabs.getSelectedTab();
+	}
+	
+	public Component getSelectedTabComponent() {
+		if (getSelectedTab() != null) {
+			return tabsToPages.get(getSelectedTab());
+		} else {
+			return null;
+		}
+	}
+
+
+	public Iterator<Tab> iterator() {
+		return tabsToPages.keySet().iterator();
+	}
+
+
+	public Component getPage(Tab tab) {
+		return tabsToPages.get(tab);
 	}
 }
