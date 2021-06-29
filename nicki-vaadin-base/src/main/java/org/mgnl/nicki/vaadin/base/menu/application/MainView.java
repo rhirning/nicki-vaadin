@@ -117,7 +117,17 @@ public class MainView extends AppLayout implements NavigationMainView {
         top.setDefaultVerticalComponentAlignment(Alignment.CENTER);
         top.setClassName("menu-header");
         addToNavbar(top);
-
+        
+        if (config.containsKey(TITLE)) {
+	        final H3 title = new H3(config.get(TITLE));
+	        title.setWidthFull();
+	        top.add(title);
+	        top.setWidthFull();
+	        top.setFlexGrow(1, title);
+			if (this.startView != null) {
+				title.addClickListener(event -> restart());
+			}
+		} 
 
 		VerticalLayout titleLayout = new VerticalLayout();
 		titleLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
@@ -131,15 +141,15 @@ public class MainView extends AppLayout implements NavigationMainView {
 				image.setWidth(config.get(LOGO_WIDTH));
 			}
 			titleLayout.add(image);
-			image.addClickListener(event -> restart());
-		} else if (config.containsKey(TITLE)) {
-	        final H3 title = new H3(config.get(TITLE));
-	        titleLayout.add(title);
-	        title.addClickListener(event -> restart());
+			if (this.startView != null) {
+				image.addClickListener(event -> restart());
+			}
 		} else {
-			Span image = new Span("Restart");
-			titleLayout.add(image);
-			image.addClickListener(event -> restart());
+			if (this.startView != null) {
+				Span image = new Span("Restart");
+				titleLayout.add(image);
+				image.addClickListener(event -> restart());
+			}
 		}
         addToDrawer(titleLayout);
 
@@ -172,7 +182,7 @@ public class MainView extends AppLayout implements NavigationMainView {
 
 		VerticalLayout titleLayout = new VerticalLayout();
 		titleLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-		if (config.containsKey(LOGO_PATH)) {			
+		if (config != null && config.containsKey(LOGO_PATH)) {			
 			StreamResource resource = new StreamResource("logo.png", () -> MainView2.class.getResourceAsStream(config.get(LOGO_PATH)));
 			Image image = new Image(resource, "Restart");
 			if (config.containsKey(LOGO_HEIGHT)) {
@@ -183,12 +193,12 @@ public class MainView extends AppLayout implements NavigationMainView {
 			}
 			titleLayout.add(image);
 			image.addClickListener(event -> restart());
-		} else if (config.containsKey(TITLE)) {
-	        final H3 title = new H3(config.get(TITLE));
+		} else if (config != null && config.containsKey(TITLE)) {
+	        final Span title = new Span(config.get(TITLE));
 	        titleLayout.add(title);
 	        title.addClickListener(event -> restart());
 		} else {
-			Span image = new Span("Restart");
+			Button image = new Button("Restart");
 			titleLayout.add(image);
 			image.addClickListener(event -> restart());
 		}

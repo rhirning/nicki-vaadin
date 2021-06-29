@@ -20,11 +20,12 @@ public class GridLayout extends VerticalLayout {
 		}
 		if (components != null) {
 			for (Component component :components) {
-				if (lastHorizontalLayout == null || lastHorizontalLayout.getComponentCount() > columns) {
+				if (lastHorizontalLayout == null || lastHorizontalLayout.getComponentCount() >= columns) {
 					lastHorizontalLayout = new HorizontalLayout();
 					lastHorizontalLayout.setSpacing(true);
 					lastHorizontalLayout.setMargin(false);
-					add(lastHorizontalLayout);
+					lastHorizontalLayout.setPadding(false);
+					super.add(lastHorizontalLayout);
 				}
 				lastHorizontalLayout.add(component);
 			}

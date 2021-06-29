@@ -126,7 +126,7 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 	}
 
 	private Person getPerson() {
-		return (Person) application.getContext().getLoginContext().getUser();
+		return (Person) application.getDoubleContext().getLoginContext().getUser();
 	}
 
 	protected void saveInfo() {

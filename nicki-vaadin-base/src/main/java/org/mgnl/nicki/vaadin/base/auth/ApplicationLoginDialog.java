@@ -62,7 +62,10 @@ public class ApplicationLoginDialog extends FlexLayout implements LoginDialog {
     private void buildUI() {
         setSizeFull();
         setClassName("login-screen");
+        setJustifyContentMode(JustifyContentMode.CENTER);
+        setAlignItems(Alignment.CENTER);
 
+        /*
         // layout to center login form when there is sufficient screen space
         FlexLayout centeringLayout = new FlexLayout();
         centeringLayout.setSizeFull();
@@ -71,8 +74,9 @@ public class ApplicationLoginDialog extends FlexLayout implements LoginDialog {
 
     	
         centeringLayout.add(getLoginForm());
-
         add(centeringLayout);
+*/
+        add(getLoginForm());
     }
     
     protected Component getLoginForm() {

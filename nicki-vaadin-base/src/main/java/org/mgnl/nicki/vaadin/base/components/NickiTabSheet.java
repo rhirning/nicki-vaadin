@@ -1,5 +1,7 @@
 package org.mgnl.nicki.vaadin.base.components;
 
+import java.util.ArrayList;
+
 /*-
  * #%L
  * nicki-vaadin7-base
@@ -22,6 +24,7 @@ package org.mgnl.nicki.vaadin.base.components;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.vaadin.flow.component.Component;
@@ -85,6 +88,30 @@ public class NickiTabSheet extends VerticalLayout {
 		return tab;
 	}
 
+	@Override
+	public void remove(Component... components) {
+		if (components != null) {
+			List<Tab> toBeRemoved = new ArrayList<Tab>();
+			for (Component component : components) {
+				for (Tab tab: tabsToPages.keySet()) {
+					if (component == tabsToPages.get(tab)) {
+						if (component == getSelectedTabComponent()) {
+							tabs.setSelectedTab(null);
+						}
+						toBeRemoved.add(tab);
+					}
+				}
+			}
+			if (toBeRemoved.size() > 0) {
+				for (Tab tab : toBeRemoved) {
+					tabs.remove(tab);
+					tabsToPages.remove(tab);
+				}
+			}
+		}
+		// TODO Auto-generated method stub
+		super.remove(components);
+	}
 
 	public void setSelectedTab(Tab tab) {
 		tabs.setSelectedTab(tab);

@@ -64,20 +64,26 @@ import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.VaadinRequest;
+import com.vaadin.flow.server.VaadinService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("serial")
-public abstract class NickiApplication extends Div implements RouterLayout, Serializable, HasDynamicTitle {
+public abstract class NickiApplication extends VerticalLayout implements RouterLayout, Serializable, HasDynamicTitle {
 
+    /**
+     * The attribute key used to store the username in the session.
+     */
+    public static final String CURRENT_USER_SESSION_ATTRIBUTE_KEY = DoubleContext.class.getCanonicalName();
+    
 	private NickiContext nickiContext;
-	private DoubleContext doubleContext;
+//	private DoubleContext doubleContext;
 	private boolean useSystemContext;
 	private boolean useWelcomeDialog;
 	
@@ -108,14 +114,18 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 			} catch (DynamicObjectException e) {
 				log.error("Error", e);
 			}
-		} else {
-			
-			if (Config.getBoolean("nicki.application.auth.jaas")) {
-				loginJAAS();
+		} 
+		else {
+			if (getDoubleContext() != null) {
+				this.nickiContext = getDoubleContext().getContext();
 			} else {
-				loginSSO();
+				if (Config.getBoolean("nicki.application.auth.jaas")) {
+					loginJAAS();
+				} else {
+					loginSSO();
+				}
 			}
-			if (doubleContext != null) {
+			if (getDoubleContext() != null) {
 				try {
 					start();
 					return;
@@ -127,7 +137,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 			showLoginDialog();
 		}
 	}
-	
+
 	@Override
 	public String getPageTitle() {
 		return I18n.getText(getI18nBase() + ".main.title");
@@ -155,6 +165,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 			LoginDialog dialog = (LoginDialog) loginDialog;
 			dialog.setApplication(this);
 		}
+		setSizeFull();
 		removeAll();
 		add(loginDialog);
 	}
@@ -314,7 +325,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 
 	public void start() throws DynamicObjectException {
 		removeAll();
-		if (isAllowed(this.doubleContext.getLoginContext().getUser())) {
+		if (isAllowed(getDoubleContext().getLoginContext().getUser())) {
 			showStart();
 		} else {
 			logout();
@@ -327,9 +338,11 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 			add(new WelcomeDialog(this));
 		}
 		Component editor = getEditor();
-		add(editor);
-		if (editor instanceof HasSize) {
-			((HasSize) editor).setSizeFull();;
+		if (editor != null) {
+			add(editor);
+			if (editor instanceof HasSize) {
+				((HasSize) editor).setSizeFull();;
+			}
 		}
 	}
 	
@@ -461,7 +474,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 				if (showWelcomeDialog.groups() != null && showWelcomeDialog.groups().length > 0) {
 					try {
 						AccessGroupEvaluator groupEvaluator = showWelcomeDialog.groupEvaluator().newInstance();
-						if (groupEvaluator.isMemberOf((Person) doubleContext.getLoginContext().getUser(), showWelcomeDialog.groups())) {
+						if (groupEvaluator.isMemberOf((Person) getDoubleContext().getLoginContext().getUser(), showWelcomeDialog.groups())) {
 							return true;
 						}
 					} catch (InstantiationException | IllegalAccessException e) {
@@ -471,7 +484,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 				if (StringUtils.isNotBlank(showWelcomeDialog.groupsConfigName())) {
 					try {
 						AccessGroupEvaluator groupEvaluator = showWelcomeDialog.groupEvaluator().newInstance();
-						if (groupEvaluator.isMemberOf((Person) doubleContext.getLoginContext().getUser(), Config.getList(showWelcomeDialog.groupsConfigName(), ",").toArray(new String[0]))) {
+						if (groupEvaluator.isMemberOf((Person) getDoubleContext().getLoginContext().getUser(), Config.getList(showWelcomeDialog.groupsConfigName(), ",").toArray(new String[0]))) {
 							return true;
 						}
 					} catch (InstantiationException | IllegalAccessException e) {
@@ -481,7 +494,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 				if (showWelcomeDialog.roles() != null && showWelcomeDialog.roles().length > 0) {
 					try {
 						AccessRoleEvaluator roleEvaluator = showWelcomeDialog.roleEvaluator().newInstance();
-						if (roleEvaluator.hasRole((Person) doubleContext.getLoginContext().getUser(), showWelcomeDialog.roles())) {
+						if (roleEvaluator.hasRole((Person) getDoubleContext().getLoginContext().getUser(), showWelcomeDialog.roles())) {
 							return true;
 						}
 					} catch (InstantiationException | IllegalAccessException e) {
@@ -491,7 +504,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 				if (StringUtils.isNotBlank(showWelcomeDialog.rolesConfigName())) {
 					try {
 						AccessRoleEvaluator roleEvaluator = showWelcomeDialog.roleEvaluator().newInstance();
-						if (roleEvaluator.hasRole((Person) doubleContext.getLoginContext().getUser(), Config.getList(showWelcomeDialog.rolesConfigName(), ",").toArray(new String[0]))) {
+						if (roleEvaluator.hasRole((Person) getDoubleContext().getLoginContext().getUser(), Config.getList(showWelcomeDialog.rolesConfigName(), ",").toArray(new String[0]))) {
 							return true;
 						}
 					} catch (InstantiationException | IllegalAccessException e) {
@@ -507,7 +520,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 		new ConfirmDialog(command).open();;
 	}
 
-	public Div getView() {
+	public VerticalLayout getView() {
 		return this;
 	}
 
@@ -519,13 +532,29 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 	*/
 
 	public void setDoubleContext(DoubleContext doubleContext) {
-		this.doubleContext = doubleContext;
+        if (doubleContext == null) {
+            getCurrentRequest().getWrappedSession().removeAttribute(
+                    CURRENT_USER_SESSION_ATTRIBUTE_KEY);
+        } else {
+            getCurrentRequest().getWrappedSession().setAttribute(
+                    CURRENT_USER_SESSION_ATTRIBUTE_KEY, doubleContext);
+        }
 		if (doubleContext != null) {
 			this.nickiContext = doubleContext.getContext();
 		} else {
 			this.nickiContext = null;
 		}
 	}
+	
+	private static VaadinRequest getCurrentRequest() {
+        VaadinRequest request = VaadinService.getCurrentRequest();
+        if (request == null) {
+            throw new IllegalStateException(
+                    "No request bound to current thread.");
+        }
+        return request;
+    }
+
 
     public static final class Constants {        
         /** 
@@ -551,8 +580,10 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
     	public static final String ATTR_NICKI_CONTEXT = "NICKI_CONTEXT";
     }
 
-	public DoubleContext getContext() {
-		return doubleContext;
+	public DoubleContext getDoubleContext() {
+
+        return (DoubleContext) getCurrentRequest().getWrappedSession().getAttribute(
+                CURRENT_USER_SESSION_ATTRIBUTE_KEY);
 	}
 
 	public String getApplicationTitle() {
