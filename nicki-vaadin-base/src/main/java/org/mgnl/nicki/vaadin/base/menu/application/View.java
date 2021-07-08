@@ -3,6 +3,8 @@ package org.mgnl.nicki.vaadin.base.menu.application;
 
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 
+import com.vaadin.flow.component.HasSize;
+
 /*-
  * #%L
  * nicki-app-menu
@@ -25,7 +27,7 @@ import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 
 
 
-public interface View {
+public interface View extends HasSize {
 
 	void init();
 
@@ -36,5 +38,5 @@ public interface View {
 	default boolean needsHeightFull() {
 		return true;
 	}
-
+	
 }

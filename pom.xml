@@ -15,7 +15,7 @@
 		<idm.version>4.7</idm.version>
 		<activemq-version>5.14.5</activemq-version>
 		<nicki.version>8.32</nicki.version>
-		<vaadin.version>14.6.3</vaadin.version>
+		<vaadin.version>14.6.5</vaadin.version>
 		<project.scm.id>github</project.scm.id>
 	</properties>
 	<inceptionYear>2020</inceptionYear>

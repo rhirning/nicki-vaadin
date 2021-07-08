@@ -96,7 +96,9 @@ public class NickiTreeDataProvider extends TreeDataProvider<TreeData> {
 	
 	public void loadChildren(TreeData parent, boolean loadNextGeneration, boolean forceLoad) {
 		if (parent == null) {
-			loadChildren(root, loadNextGeneration, forceLoad);
+			if (root != null) {
+				loadChildren(root, loadNextGeneration, forceLoad);
+			}
 			return;
 		}
 		boolean loaded = loadedSet.contains(parent.getPath());

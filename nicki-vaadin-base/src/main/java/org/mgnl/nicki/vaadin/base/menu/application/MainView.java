@@ -83,13 +83,12 @@ public class MainView extends AppLayout implements NavigationMainView {
 	public static final String NAVIGATION_WIDTH = "navigationWidth";
 	public static final String TITLE = "title";
 	
-	private @Getter VerticalLayout contentLayout;
 	
 	
 	private NavigationTabSheet navigation;
-	private Component activeView;
+	private @Getter @Setter Component activeView;
 	private Component startView;
-	private Component headline;
+	private @Getter @Setter Component headline;
 	private Person user;
 	private List<NavigationFolder> navigationFolders = new ArrayList<NavigationFolder>();
 	private ApplicationConfig applicationConfig;
@@ -272,6 +271,7 @@ public class MainView extends AppLayout implements NavigationMainView {
 		setActiveView(view);
 		if (view instanceof View) {
 			((View)view).init();
+			((View)view).setSizeFull();
 		}
 
 		/*
@@ -293,14 +293,6 @@ public class MainView extends AppLayout implements NavigationMainView {
 		*/
 		setContent(view);
 		return true;
-	}
-
-	public Component getActiveView() {
-		return activeView;
-	}
-
-	public void setActiveView(Component activeView) {
-		this.activeView = activeView;
 	}
 
 	public void addNavigation(NickiApplication application) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -430,14 +422,6 @@ public class MainView extends AppLayout implements NavigationMainView {
 			log.debug(errorMsg.toString());
 		}
 		return allowed;
-	}
-
-	public Component getHeadline() {
-		return headline;
-	}
-
-	public void setHeadline(Component headline) {
-		this.headline = headline;
 	}
 
 	public NavigationEntry selectMenuItem(String navigationKey) {

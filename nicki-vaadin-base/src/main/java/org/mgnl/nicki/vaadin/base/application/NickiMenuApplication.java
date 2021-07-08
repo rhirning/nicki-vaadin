@@ -61,9 +61,11 @@ public abstract class NickiMenuApplication extends NickiApplication implements S
 		
 			mainView = new MainView((Person) getNickiContext().getUser(), configPath);
 			mainView.setApplication(this);
+			/* TODO
 			if (contentHeightFull) {
 				mainView.getContentLayout().setHeightFull();
 			}
+			*/
 			mainView.addNavigation(this);
 		} catch (IllegalAccessException | InvocationTargetException | InstantiationException
 				| ClassNotFoundException e) {
