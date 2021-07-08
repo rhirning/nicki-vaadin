@@ -334,9 +334,11 @@ public abstract class NickiApplication extends VerticalLayout implements RouterL
 	
 	public void showStart() throws DynamicObjectException {
 		removeAll();
+		/* TODO
 		if (isUseWelcomeDialog()) {
 			add(new WelcomeDialog(this));
 		}
+		*/
 		Component editor = getEditor();
 		if (editor != null) {
 			add(editor);

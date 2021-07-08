@@ -30,10 +30,12 @@ import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.application.ShowWelcomeDialog;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.router.Route;
 
 
 @AccessGroup(name = {"nickiAdmins", "IDM-Development"})
 @SuppressWarnings("serial")
+@Route("nickiScripts")
 @ShowWelcomeDialog(
 		configKey="nicki.app.editor.scripts.useWelcomeDialog",
 		groupsConfigName="nicki.app.editor.scripts.useWelcomeDialogGroups")

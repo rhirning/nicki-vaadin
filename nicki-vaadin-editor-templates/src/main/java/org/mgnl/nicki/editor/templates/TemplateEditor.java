@@ -32,11 +32,13 @@ import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.application.ShowWelcomeDialog;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.router.Route;
 
 @AccessGroup(name = {"nickiAdmins", "IDM-Development"})
 @ShowWelcomeDialog(
 		configKey="nicki.app.editor.templates.useWelcomeDialog",
 		groupsConfigName="nicki.app.editor.templates.useWelcomeDialogGroups")
+@Route("nickiTemplates")
 public class TemplateEditor extends NickiApplication {
 
 	private static final long serialVersionUID = -8245147689512577915L;
