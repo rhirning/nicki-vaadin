@@ -8,7 +8,6 @@
     <description>Integration of CKEditor 5 for Vaadin 14</description>
     <properties>
         <vaadin-applayout-addon.version>4.0.0.rc5</vaadin-applayout-addon.version>
-        <maven.compiler.release>8</maven.compiler.release>
     </properties>
 
     <dependencies>

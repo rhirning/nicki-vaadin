@@ -1,5 +1,7 @@
 package org.mgnl.nicki.vaadin.base.components;
 
+import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditor;
+
 /*-
  * #%L
  * nicki-vaadin-base
@@ -20,7 +22,6 @@ package org.mgnl.nicki.vaadin.base.components;
  * #L%
  */
 
-import org.vaadin.pekka.WysiwygE;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Pre;
@@ -28,7 +29,7 @@ import com.vaadin.flow.component.html.Pre;
 @SuppressWarnings("serial")
 public class RichTextArea extends Div {
 	
-	private WysiwygE editText;
+	private VaadinCKEditor editText;
 	private Pre pre;
 	private String text;
 	
@@ -41,7 +42,7 @@ public class RichTextArea extends Div {
 	private void init() {
 		pre = new Pre();
 		pre.setSizeFull();
-		editText = new WysiwygE();
+		editText = new VaadinCKEditor("");
 		editText.setSizeFull();
 		editText.addValueChangeListener(event -> {
 			this.text = event.getValue();
