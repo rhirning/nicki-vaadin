@@ -42,11 +42,11 @@ import org.mgnl.nicki.vaadin.base.editor.TreeEditor;
 import org.mgnl.nicki.vaadin.base.menu.application.View;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 @SuppressWarnings("serial")
-public class ScriptEditorComponent extends VerticalLayout implements Serializable, View {
+public class ScriptEditorComponent extends Div implements Serializable, View {
 	private NickiApplication nickiApplication;
 	private boolean isInit;
 	

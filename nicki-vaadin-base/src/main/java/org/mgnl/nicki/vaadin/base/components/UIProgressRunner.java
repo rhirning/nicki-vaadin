@@ -6,6 +6,8 @@ import org.mgnl.nicki.core.thread.ProgressRunner;
 
 import com.vaadin.flow.component.UI;
 
+import lombok.Getter;
+
 /*-
  * #%L
  * nicki-vaadin-base
@@ -27,9 +29,10 @@ import com.vaadin.flow.component.UI;
  */
 
 public abstract class UIProgressRunner extends ProgressRunner implements Runnable {
-
-	public UIProgressRunner(NickiProgress progress, String title, int count) {
+	private @Getter UI ui;
+	public UIProgressRunner(UI ui, NickiProgress progress, String title, int count) {
 		super(progress, title, count);
+		this.ui = ui;
 	}
 
 
@@ -41,14 +44,13 @@ public abstract class UIProgressRunner extends ProgressRunner implements Runnabl
         try {
             sleep(2000); // Sleep for 2 seconds
         } catch (InterruptedException e) {}
-
-        getProgress().finish();
+        ui.access(() -> getProgress().finish());
     }
 
 	public void progressed(int newCurrent, String newDetails) {
 		this.setCurrent(newCurrent);
 		this.setDetails(newDetails);
 		
-        UI.getCurrent().access(() -> getProgress().progressed(getCurrent(), getDetails()));
+        ui.access(() -> getProgress().progressed(getCurrent(), getDetails()));
 	}
 }

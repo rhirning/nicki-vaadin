@@ -41,7 +41,7 @@ public class NavigationEntry extends Span implements Serializable, NavigationEle
 	@Override
 	public Component getNavigationCaption() {
 		setText(getCaption());
-		getElement().getClassList().add("nav_entry");
+		addClassName("nav_entry");
 		return this;
 	}
 

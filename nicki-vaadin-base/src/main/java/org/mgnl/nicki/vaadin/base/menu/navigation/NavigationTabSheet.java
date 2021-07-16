@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.mgnl.nicki.vaadin.base.components.NickiVerticalTabSheet;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 
 @SuppressWarnings("serial")
@@ -45,13 +46,13 @@ public class NavigationTabSheet extends NickiVerticalTabSheet  {
 		for (NavigationFolder folder : navigationFolders) {
 			if (folder.isSeparator()) {
 				tab = addTab((Component) null, new NavigationSeparator());
-				tab.getElement().getClassList().add("nav_separator");
+				tab.addClassName("nav_separator");
 			} else {
 				tab = addTab(null, folder.getText());
-				tab.getElement().getClassList().add("nav_folder");
+				tab.addClassName("nav_folder");
 				for (NavigationEntry entry : folder.getEntries()) {
 					tab = addTab(entry.getView(), entry.getCaption());
-					tab.getElement().getClassList().add("nav_entry");
+					tab.addClassName("nav_entry");
 				}
 			}
 		}
@@ -59,6 +60,18 @@ public class NavigationTabSheet extends NickiVerticalTabSheet  {
 
 	public void selectInNavigation(NavigationEntry entry) {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	protected void initLayout() {
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.setSizeFull();
+		layout.setMargin(false);
+		layout.setSpacing(false);
+		layout.setPadding(false);
+
+		add(layout);
+		layout.add(getTabs());
 		
 	}
 

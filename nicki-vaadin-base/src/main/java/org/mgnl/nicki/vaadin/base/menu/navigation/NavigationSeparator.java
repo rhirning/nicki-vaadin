@@ -30,7 +30,7 @@ public class NavigationSeparator extends Span implements NavigationElement {
 
 	private static Span span = new Span("-----------------");
 	static {
-		span.getElement().getClassList().add("nav_separator");
+		span.addClassName("nav_separator");
 	}
 
 	@Override

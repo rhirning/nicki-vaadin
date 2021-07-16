@@ -31,16 +31,17 @@ public class GridLayout extends VerticalLayout {
 	private HorizontalLayout lastHorizontalLayout;
 	public GridLayout(int columns) {
 		this.columns = columns;
+		
 	}
 	@Override
 	public void add(Component... components) {
-		if (columns < 2) {
+		if (columns == 1) {
 			super.add(components);
 			return;
 		}
 		if (components != null) {
 			for (Component component :components) {
-				if (lastHorizontalLayout == null || lastHorizontalLayout.getComponentCount() >= columns) {
+				if (lastHorizontalLayout == null || (columns > -1 && lastHorizontalLayout.getComponentCount() >= columns)) {
 					lastHorizontalLayout = new HorizontalLayout();
 					lastHorizontalLayout.setSpacing(true);
 					lastHorizontalLayout.setMargin(false);

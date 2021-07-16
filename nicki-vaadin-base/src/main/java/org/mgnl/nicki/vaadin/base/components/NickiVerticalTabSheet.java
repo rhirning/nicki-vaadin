@@ -20,71 +20,27 @@ package org.mgnl.nicki.vaadin.base.components;
  * #L%
  */
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 
-import lombok.Getter;
-
 @SuppressWarnings("serial")
-public class NickiVerticalTabSheet extends HorizontalLayout {
-	private Tabs tabs = new Tabs();
-	private Map<Tab, Component> tabsToPages = new HashMap<>();
-	private @Getter Div pagesDiv = new Div();
-	private Tab activeTab;
+public class NickiVerticalTabSheet extends NickiTabSheet {
 		
 	public NickiVerticalTabSheet() {
-		tabs.setOrientation(Orientation.VERTICAL);
-		tabs.setSizeFull();
-		setMargin(false);
-		setSpacing(false);
-		setPadding(false);
-		
-		tabs.addSelectedChangeListener(event -> {
-			if (tabs.getSelectedTab() != activeTab) {
-			    Component selectedPage = tabsToPages.get(tabs.getSelectedTab());
-			    if (!showSelected(selectedPage, true)) {
-			    	Tab previousTab = event.getPreviousTab();
-			    	tabs.setSelectedTab(previousTab);
-			    } else {
-			    	activeTab = tabs.getSelectedTab();
-			    }
-			}
-		});
-		add(tabs, pagesDiv);
-	}
-	
-
-	public boolean showSelected(Component selectedPage, boolean checkModify) {
-		getPagesDiv().removeAll();
-		getPagesDiv().add(selectedPage);
-		return true;
-		
-	}
-	
-	public Tab addTab(Component content, String label) {
-		return addTab(content, new Span(label));
-	}
-	
-	public Tab addTab(Component content, String label, VaadinIcon icon) {
-		return addTab(content, new Icon(icon), new Span(label));
+		super();
+		getTabs().setOrientation(Orientation.VERTICAL);
 	}
 
-	public Tab addTab(Component content, Component... components) {
-		Tab tab = new Tab(components);
-		tabsToPages.put(tab, content);
-		tabs.add(tab);
-		return tab;
+	
+	protected void initLayout() {
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.setSizeFull();
+		layout.setMargin(false);
+		layout.setSpacing(false);
+		layout.setPadding(false);
+
+		add(layout);
+		layout.add(getTabs(), getPagesDiv());
+		
 	}
 }

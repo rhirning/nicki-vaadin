@@ -24,6 +24,7 @@ package org.mgnl.nicki.vaadin.base.application;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -48,6 +49,7 @@ import org.mgnl.nicki.core.context.AppContext;
 import org.mgnl.nicki.core.context.DoubleContext;
 import org.mgnl.nicki.core.context.NickiContext;
 import org.mgnl.nicki.core.context.Target;
+import org.mgnl.nicki.core.helper.NameValue;
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.core.objects.DynamicObject;
 import org.mgnl.nicki.core.objects.DynamicObjectException;
@@ -57,13 +59,13 @@ import org.mgnl.nicki.vaadin.base.auth.ApplicationLoginDialog;
 import org.mgnl.nicki.vaadin.base.auth.LoginDialog;
 import org.mgnl.nicki.vaadin.base.command.Command;
 import org.mgnl.nicki.vaadin.base.components.ConfirmDialog;
-import org.mgnl.nicki.vaadin.base.components.WelcomeDialog;
 import org.mgnl.nicki.vaadin.base.notification.Notification;
 import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
@@ -71,11 +73,12 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.server.VaadinService;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("serial")
-public abstract class NickiApplication extends VerticalLayout implements RouterLayout, Serializable, HasDynamicTitle {
+public abstract class NickiApplication extends Div implements RouterLayout, Serializable, HasDynamicTitle {
 
     /**
      * The attribute key used to store the username in the session.
@@ -86,8 +89,14 @@ public abstract class NickiApplication extends VerticalLayout implements RouterL
 //	private DoubleContext doubleContext;
 	private boolean useSystemContext;
 	private boolean useWelcomeDialog;
+	private @Getter Map<String, String> nameValues = new HashMap<>();
 	
-	public NickiApplication() {
+	public NickiApplication(NameValue ... nameValues) {
+		if (nameValues != null) {
+			for (NameValue nameValue : nameValues) {
+				this.nameValues.put(nameValue.getName(), nameValue.getValue());
+			}
+		}
 		init();
 	}
 	
@@ -342,9 +351,11 @@ public abstract class NickiApplication extends VerticalLayout implements RouterL
 		Component editor = getEditor();
 		if (editor != null) {
 			add(editor);
+			/*
 			if (editor instanceof HasSize) {
 				((HasSize) editor).setSizeFull();;
 			}
+			*/
 		}
 	}
 	
@@ -522,7 +533,7 @@ public abstract class NickiApplication extends VerticalLayout implements RouterL
 		new ConfirmDialog(command).open();;
 	}
 
-	public VerticalLayout getView() {
+	public Div getView() {
 		return this;
 	}
 

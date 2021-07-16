@@ -51,7 +51,7 @@ public class NavigationFolder extends Label implements Serializable, NavigationE
 		this.label = label;
 		setText(label.getCaption());
 		setSizeFull();
-		getElement().getClassList().add("nav_folder");
+		addClassName("nav_folder");
 
 	}
 	

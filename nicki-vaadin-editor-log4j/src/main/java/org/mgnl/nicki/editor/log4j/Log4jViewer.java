@@ -32,13 +32,12 @@ import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.menu.application.View;
 
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.renderer.ComponentRenderer;
+import com.vaadin.flow.component.html.Div;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Log4jViewer extends VerticalLayout implements View {
+public class Log4jViewer extends Div implements View {
 	private static final long serialVersionUID = 6677098857979852467L;
 	private Grid<LogLevel> table;
 	private NickiApplication application;

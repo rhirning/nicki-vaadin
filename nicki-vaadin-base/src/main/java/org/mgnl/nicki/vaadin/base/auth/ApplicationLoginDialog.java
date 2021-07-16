@@ -90,7 +90,7 @@ public class ApplicationLoginDialog extends FlexLayout implements LoginDialog {
     	password = new PasswordField("Passwort");
     	
     	Button loginButton = new Button("Log in");
-    	loginButton.getElement().getClassList().add("loginButton");
+    	loginButton.addClassName("loginButton");
     	loginButton.setWidth("100%");
     	loginButton.addClickListener(e -> login());
     	loginButton.addClickShortcut(Key.ENTER);
@@ -102,11 +102,11 @@ public class ApplicationLoginDialog extends FlexLayout implements LoginDialog {
     protected Component getErrorDialog() {
     	Div div = new Div();
     	H5 title = new H5("Falscher User oder falsches Passwort");
-    	title.getElement().getClassList().add("login-error");
+    	title.addClassName("login-error");
     	
     	Paragraph p = new Paragraph("Prüfen Sie Username und Passwort und versuchen Sie es noch einmal");
     	p.setWidth("300px");
-    	p.getElement().getClassList().add("login-error");
+    	p.addClassName("login-error");
     	div.add(title, p);
 		return div;
 	}

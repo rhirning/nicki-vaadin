@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.helper.DataHelper;
+import org.mgnl.nicki.core.helper.NameValue;
 import org.mgnl.nicki.dynamic.objects.objects.Person;
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.menu.application.MainView;
@@ -42,15 +43,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class NickiMenuApplication extends NickiApplication implements Serializable {
 
+	public static final String CONFIG_PATH = "configPath";
 	private MainView mainView;
 	private NavigationCommand command;
 	private Component navigationView;
-	private String configPath;
 	private @Setter boolean contentHeightFull;
 
 	public NickiMenuApplication(String configPath) {
-		super();
-		this.configPath = configPath;
+		super(new NameValue(CONFIG_PATH, configPath));
+	}
+	
+	protected String getConfigPath() {
+		return getNameValues().get(CONFIG_PATH);
 	}
 	
 
@@ -59,7 +63,7 @@ public abstract class NickiMenuApplication extends NickiApplication implements S
 		
 		try {
 		
-			mainView = new MainView((Person) getNickiContext().getUser(), configPath);
+			mainView = new MainView((Person) getNickiContext().getUser(), getConfigPath());
 			mainView.setApplication(this);
 			/* TODO
 			if (contentHeightFull) {
@@ -69,7 +73,7 @@ public abstract class NickiMenuApplication extends NickiApplication implements S
 			mainView.addNavigation(this);
 		} catch (IllegalAccessException | InvocationTargetException | InstantiationException
 				| ClassNotFoundException e) {
-			log.error("Error in menu config: " + configPath, e);
+			log.error("Error in menu config: " + getConfigPath(), e);
 		}
 
 		

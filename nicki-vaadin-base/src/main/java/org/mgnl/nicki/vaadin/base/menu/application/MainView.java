@@ -83,8 +83,6 @@ public class MainView extends AppLayout implements NavigationMainView {
 	public static final String NAVIGATION_WIDTH = "navigationWidth";
 	public static final String TITLE = "title";
 	
-	
-	
 	private NavigationTabSheet navigation;
 	private @Getter @Setter Component activeView;
 	private Component startView;
@@ -117,7 +115,7 @@ public class MainView extends AppLayout implements NavigationMainView {
         top.setClassName("menu-header");
         addToNavbar(top);
         
-        if (config.containsKey(TITLE)) {
+        if (config != null && config.containsKey(TITLE)) {
 	        final H3 title = new H3(config.get(TITLE));
 	        title.setWidthFull();
 	        top.add(title);
@@ -130,7 +128,7 @@ public class MainView extends AppLayout implements NavigationMainView {
 
 		VerticalLayout titleLayout = new VerticalLayout();
 		titleLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-		if (config.containsKey(LOGO_PATH)) {			
+		if (config != null && config.containsKey(LOGO_PATH)) {			
 			StreamResource resource = new StreamResource("logo.png", () -> MainView2.class.getResourceAsStream(config.get(LOGO_PATH)));
 			Image image = new Image(resource, "Restart");
 			if (config.containsKey(LOGO_HEIGHT)) {
@@ -157,7 +155,6 @@ public class MainView extends AppLayout implements NavigationMainView {
         logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
         logoutButton.addClickListener(e -> logout());
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
-
 	}
 
 	public MainView(Person user) {
@@ -208,7 +205,6 @@ public class MainView extends AppLayout implements NavigationMainView {
         logoutButton = createMenuButton("Logout", VaadinIcon.SIGN_OUT.create());
         logoutButton.addClickListener(e -> logout());
         logoutButton.getElement().setAttribute("title", "Logout (Ctrl+L)");
-
 	}
 
 	private void logout() {
@@ -271,7 +267,7 @@ public class MainView extends AppLayout implements NavigationMainView {
 		setActiveView(view);
 		if (view instanceof View) {
 			((View)view).init();
-			((View)view).setSizeFull();
+			//((View)view).setSizeFull();
 		}
 
 		/*
@@ -292,6 +288,7 @@ public class MainView extends AppLayout implements NavigationMainView {
 		}
 		*/
 		setContent(view);
+
 		return true;
 	}
 

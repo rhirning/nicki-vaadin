@@ -41,31 +41,55 @@ import lombok.Getter;
 
 @SuppressWarnings("serial")
 public class NickiTabSheet extends VerticalLayout {
-	private Tabs tabs = new Tabs();
+	private @Getter Tabs tabs = new Tabs();
 	private Map<Tab, Component> tabsToPages = new HashMap<>();
 	private @Getter Div pagesDiv;
+	private Tab activeTab;
 	
 	
 	public NickiTabSheet() {
-		setSizeFull();
 		setMargin(false);
 		setSpacing(false);
 		setPadding(false);
 		
 		tabs.addSelectedChangeListener(event -> {
-		    Component selectedPage = tabsToPages.get(tabs.getSelectedTab());
-		    showSelected(selectedPage);
+			if (tabs.getSelectedTab() != activeTab) {
+			    Component selectedPage = tabsToPages.get(tabs.getSelectedTab());
+			    if (!showSelected(selectedPage, true)) {
+			    	Tab previousTab = event.getPreviousTab();
+			    	tabs.setSelectedTab(previousTab);
+			    } else {
+			    	activeTab = tabs.getSelectedTab();
+			    }
+			}
 		});
 		pagesDiv = new Div();
 		pagesDiv.setSizeFull();
+		initLayout();
+	}
+	
+	protected void initLayout() {
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSizeFull();
+		layout.setMargin(false);
+		layout.setSpacing(false);
+		layout.setPadding(false);
 
-		add(tabs, pagesDiv);
+		add(layout);
+		layout.add(tabs, pagesDiv);
+		
 	}
 	
 
 	public void showSelected(Component selectedPage) {
 		getPagesDiv().removeAll();
+		getPagesDiv().add(selectedPage);		
+	}
+
+	public boolean showSelected(Component selectedPage, boolean checkModify) {
+		getPagesDiv().removeAll();
 		getPagesDiv().add(selectedPage);
+		return true;
 		
 	}
 	

@@ -14,14 +14,15 @@
 		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
 		<idm.version>4.7</idm.version>
 		<activemq-version>5.14.5</activemq-version>
-		<nicki.version>8.33</nicki.version>
-		<vaadin.version>14.6.5</vaadin.version>
+		<nicki.version>8.34-SNAPSHOT</nicki.version>
+		<vaadin.version>14.6.6</vaadin.version>
 		<project.scm.id>github</project.scm.id>
 	</properties>
 	<inceptionYear>2020</inceptionYear>
 	<modules>
 		<module>nicki-vaadin-apps</module>
 		<module>nicki-vaadin-base</module>
+		<module>nicki-vaadin-ckeditor</module>
 		<module>nicki-vaadin-db</module>
 		<module>nicki-vaadin-editor-log4j</module>
 		<module>nicki-vaadin-editor-projects</module>

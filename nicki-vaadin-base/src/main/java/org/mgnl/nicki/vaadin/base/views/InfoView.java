@@ -29,11 +29,17 @@ import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.menu.application.ConfigurableView;
 import org.mgnl.nicki.vaadin.base.notification.Notification;
 import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
-import org.vaadin.pekka.WysiwygE;
+import org.mgnl.nicki.vaadin.ckeditor.Constants.EditorType;
+import org.mgnl.nicki.vaadin.ckeditor.Constants.ThemeType;
+import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditor;
+import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditorBuilder;
 
+import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -47,9 +53,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
  * configPath					Config key for Script path
  * 
  */
+@Slf4j
 public class InfoView extends VerticalLayout implements ConfigurableView {
 	
-	private WysiwygE editText;
+	private VaadinCKEditor editText;
+	private VerticalLayout canvas;
 	private HorizontalLayout buttonLayout;
 
 	private Button saveInfoButton;
@@ -63,6 +71,8 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 	private boolean isInit;
 	
 	private InfoStore infoStore;
+	
+	private String data;
 	
 	Map<String, String> configuration;
 	
@@ -79,10 +89,11 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 				infoStore = Classes.newInstance(configuration.get("storeClass"));
 				infoStore.setConfiguration(configuration);
 				if (infoStore.getData() != null ) {
-					editText.setValue(infoStore.getData());
-					editText.setReadOnly(true);
+					data = infoStore.getData();
+					canvas.add(new Html("<div>" + data + "</div>"));
 				}
 			} catch (Exception e) {
+				log.error("could not load Info", e);
 				Notification.show("could not load Info", e.getMessage(), Type.ERROR_MESSAGE);
 				infoStore = null;
 			}
@@ -91,16 +102,19 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 
 			if (isEditor()) {
 				editInfoButton.addClickListener(event -> {
-					editText.setReadOnly(false);
+					canvas.removeAll();
+					canvas.add(editText);
+					editText.setValue(data);
 					saveInfoButton.setVisible(true);
 					editInfoButton.setVisible(false);
 				});
 	
 				saveInfoButton.addClickListener(event -> {
-					editText.setReadOnly(true);
+					saveInfo();
+					canvas.removeAll();
+					canvas.add(new Html("<div>" + data + "</div>"));
 					saveInfoButton.setVisible(false);
 					editInfoButton.setVisible(true);
-					saveInfo();
 				});
 				editInfoButton.setVisible(true);
 				saveInfoButton.setVisible(false);
@@ -130,10 +144,10 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 	}
 
 	protected void saveInfo() {
-		
+		data = editText.getValue();
 		if (infoStore != null) {
 			try {
-				infoStore.setData(editText.getValue());
+				infoStore.setData(data);
 				infoStore.save();
 			} catch (Exception e) {
 				Notification.show("could not update Info", e.getMessage(), Type.ERROR_MESSAGE);
@@ -156,7 +170,7 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 
 	private void buildMainLayout() {
 		setSizeFull();
-		setMargin(true);
+		setMargin(false);
 		setSpacing(false);
 		setPadding(false);
 		
@@ -166,11 +180,18 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 		
 
 		// editText
-		editText = new WysiwygE();
+		editText = new VaadinCKEditorBuilder().with(builder -> {
+			builder.editorData = "<p>This is a classic editor sample.</p>";
+			builder.editorType = EditorType.CLASSIC;
+		    builder.theme = ThemeType.LIGHT;
+		}).createVaadinCKEditor();
 		editText.setSizeFull();
-		add(editText);
+
+		canvas = new VerticalLayout();
+		//canvas.setSizeFull();
+		add(canvas);
 		
-		setFlexGrow(1, editText);
+		setFlexGrow(1, canvas);
 	}
 
 	private HorizontalLayout buildButtonLayout() {
