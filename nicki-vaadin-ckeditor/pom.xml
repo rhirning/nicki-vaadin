@@ -9,8 +9,6 @@
     <properties>
         <vaadin-applayout-addon.version>4.0.0.rc5</vaadin-applayout-addon.version>
         <maven.compiler.release>8</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
@@ -26,10 +24,6 @@
             <artifactId>jsoup</artifactId>
             <version>1.13.1</version>
         </dependency>
-		<dependency>
-		   <groupId>org.vaadin.pekka</groupId>
-		   <artifactId>wysiwyg_e-java</artifactId>
-		</dependency>
     </dependencies>
 
 <!-- 
