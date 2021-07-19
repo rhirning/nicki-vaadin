@@ -1,5 +1,7 @@
 package org.mgnl.nicki.vaadin.base.menu.navigation;
 
+import java.util.HashMap;
+
 /*-
  * #%L
  * nicki-vaadin7-base
@@ -21,22 +23,39 @@ package org.mgnl.nicki.vaadin.base.menu.navigation;
  */
 
 import java.util.List;
+import java.util.Map;
 
-import org.mgnl.nicki.vaadin.base.components.NickiVerticalTabSheet;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs;
 
 @SuppressWarnings("serial")
-public class NavigationTabSheet extends NickiVerticalTabSheet  {
+public class NavigationTabSheet extends Tabs  {
 	private NavigationMainView appLayout;
+	private Tab activeTab;
+	private Map<Tab, Component> tabsToPages = new HashMap<>();
 	
 	public NavigationTabSheet(NavigationMainView appLayout) {
 		this.appLayout = appLayout;
+
+		setOrientation(Orientation.VERTICAL);
 		setWidthFull();
+		addSelectedChangeListener(event -> {
+			if (getSelectedTab() != activeTab) {
+			    Component selectedPage = tabsToPages.get(getSelectedTab());
+			    if (!showSelected(selectedPage, true)) {
+			    	Tab previousTab = event.getPreviousTab();
+			    	setSelectedTab(previousTab);
+			    } else {
+			    	activeTab = getSelectedTab();
+			    }
+			}
+		});
 	}
 
-	@Override
 	public boolean showSelected(Component selectedPage, boolean checkModify) {
 		return appLayout.showView(selectedPage, checkModify);
 	}
@@ -62,7 +81,21 @@ public class NavigationTabSheet extends NickiVerticalTabSheet  {
 		// TODO Auto-generated method stub
 		
 	}
+	public Tab addTab(Component content, String label) {
+		return addTab(content, new Span(label));
+	}
 	
+	public Tab addTab(Component content, String label, VaadinIcon icon) {
+		return addTab(content, new Icon(icon), new Span(label));
+	}
+
+	public Tab addTab(Component content, Component... components) {
+		Tab tab = new Tab(components);
+		tabsToPages.put(tab, content);
+		add(tab);
+		return tab;
+	}
+	/*
 	protected void initLayout() {
 		HorizontalLayout layout = new HorizontalLayout();
 		layout.setSizeFull();
@@ -72,8 +105,8 @@ public class NavigationTabSheet extends NickiVerticalTabSheet  {
 
 		add(layout);
 		layout.add(getTabs());
-		
 	}
+		*/
 
 
 }

@@ -20,9 +20,7 @@ package org.mgnl.nicki.vaadin.base.components;
  * #L%
  */
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.vaadin.flow.component.Component;
@@ -35,22 +33,20 @@ import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.Tabs.Orientation;
 
-import lombok.Getter;
-
 @SuppressWarnings("serial")
-public class NickiVerticalTabSheet2 extends HorizontalLayout {
+public abstract class NickiVerticalTabSheet2 extends Div {
 	private Tabs tabs = new Tabs();
 	private Map<Tab, Component> tabsToPages = new HashMap<>();
-	private @Getter Div pagesDiv = new Div();
 	private Tab activeTab;
 		
 	public NickiVerticalTabSheet2() {
 		tabs.setOrientation(Orientation.VERTICAL);
 		tabs.setSizeFull();
+		/*
 		setMargin(false);
 		setSpacing(false);
 		setPadding(false);
-		
+		*/
 		tabs.addSelectedChangeListener(event -> {
 			if (tabs.getSelectedTab() != activeTab) {
 			    Component selectedPage = tabsToPages.get(tabs.getSelectedTab());
@@ -62,16 +58,11 @@ public class NickiVerticalTabSheet2 extends HorizontalLayout {
 			    }
 			}
 		});
-		add(tabs, pagesDiv);
+		add(tabs);
 	}
 	
 
-	public boolean showSelected(Component selectedPage, boolean checkModify) {
-		getPagesDiv().removeAll();
-		getPagesDiv().add(selectedPage);
-		return true;
-		
-	}
+	public abstract boolean showSelected(Component selectedPage, boolean checkModify);
 	
 	public Tab addTab(Component content, String label) {
 		return addTab(content, new Span(label));

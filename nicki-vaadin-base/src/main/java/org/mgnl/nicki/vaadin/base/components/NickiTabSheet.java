@@ -40,17 +40,16 @@ import com.vaadin.flow.component.tabs.Tabs.SelectedChangeEvent;
 import lombok.Getter;
 
 @SuppressWarnings("serial")
-public class NickiTabSheet extends VerticalLayout {
-	private @Getter Tabs tabs = new Tabs();
+public class NickiTabSheet extends Div {
+	private @Getter Tabs tabs;
 	private Map<Tab, Component> tabsToPages = new HashMap<>();
 	private @Getter Div pagesDiv;
 	private Tab activeTab;
 	
 	
 	public NickiTabSheet() {
-		setMargin(false);
-		setSpacing(false);
-		setPadding(false);
+		tabs = new Tabs();
+		tabs.setSizeFull();
 		
 		tabs.addSelectedChangeListener(event -> {
 			if (tabs.getSelectedTab() != activeTab) {

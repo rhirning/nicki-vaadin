@@ -28,6 +28,7 @@ public class NickiVerticalTabSheet extends NickiTabSheet {
 		
 	public NickiVerticalTabSheet() {
 		super();
+		setSizeFull();
 		getTabs().setOrientation(Orientation.VERTICAL);
 	}
 
