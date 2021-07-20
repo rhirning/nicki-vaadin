@@ -49,7 +49,8 @@ public class NickiTabSheet extends Div {
 	
 	public NickiTabSheet() {
 		tabs = new Tabs();
-		tabs.setSizeFull();
+//		tabs.setWidthFull();
+//		tabs.setHeight("-1px");
 		
 		tabs.addSelectedChangeListener(event -> {
 			if (tabs.getSelectedTab() != activeTab) {

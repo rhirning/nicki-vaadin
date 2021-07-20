@@ -36,6 +36,7 @@ public class DialogBase extends Dialog {
 	private Div div;
 
 	public DialogBase() {
+		init();
 	}
 
 	public DialogBase(Command command) {
@@ -45,7 +46,7 @@ public class DialogBase extends Dialog {
 
 
 	public DialogBase(String title) {
-		init();
+		this();
 		setCaption(title);
 	}
 

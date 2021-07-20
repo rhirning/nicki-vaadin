@@ -50,11 +50,9 @@ public class ContainerHelper {
 		}
 		try {
 			
-			if (data != null) {
+			if (data != null && StringUtils.isNotBlank(BeanUtils.getProperty(data, attributeName))) {
 				container.add(new ValuePair(translatedName, BeanUtils.getProperty(data, attributeName)));
 				
-			} else {
-				container.add(new ValuePair(translatedName, ""));
 			}
 		} catch (Exception e) {
 			log.error("Error", e);
