@@ -197,23 +197,15 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 	private HorizontalLayout buildButtonLayout() {
 		// common part: create layout
 		buttonLayout = new HorizontalLayout();
-		buttonLayout.setWidth("-1px");
-		buttonLayout.setHeight("-1px");
 		buttonLayout.setMargin(false);
 		buttonLayout.setSpacing(true);
 		
 		// editButton
-		editInfoButton = new Button();
-		editInfoButton.setText("Edit");
-		editInfoButton.setWidth("-1px");
-		editInfoButton.setHeight("-1px");
+		editInfoButton = new Button("Edit");
 		buttonLayout.add(editInfoButton);
 		
 		// saveButton
-		saveInfoButton = new Button();
-		saveInfoButton.setText("Save");
-		saveInfoButton.setWidth("-1px");
-		saveInfoButton.setHeight("-1px");
+		saveInfoButton = new Button("Save");
 		buttonLayout.add(saveInfoButton);
 		
 		return buttonLayout;
