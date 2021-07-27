@@ -30,11 +30,13 @@ import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.application.ShowWelcomeDialog;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.router.Route;
 
 
 @AccessGroup(name = {"nickiAdmins", "IDM-Development"})
 @SuppressWarnings("serial")
+@JsModule("@vaadin/vaadin-lumo-styles/presets/compact.js")
 @Route("nickiScripts")
 @ShowWelcomeDialog(
 		configKey="nicki.app.editor.scripts.useWelcomeDialog",

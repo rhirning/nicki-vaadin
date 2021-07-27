@@ -32,12 +32,14 @@ import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.application.ShowWelcomeDialog;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.router.Route;
 
 @AccessGroup(name = {"nickiAdmins", "IDM-Development"})
 @ShowWelcomeDialog(
 		configKey="nicki.app.editor.templates.useWelcomeDialog",
 		groupsConfigName="nicki.app.editor.templates.useWelcomeDialogGroups")
+@JsModule("@vaadin/vaadin-lumo-styles/presets/compact.js")
 @Route("nickiTemplates")
 public class TemplateEditor extends NickiApplication {
 

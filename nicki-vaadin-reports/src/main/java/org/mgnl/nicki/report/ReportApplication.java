@@ -31,10 +31,13 @@ import lombok.Setter;
 
 @SuppressWarnings("serial")
 public class ReportApplication extends TemplateEditor {
-	private @Getter @Setter ReportComponent reportApplicationComponent = new ReportComponent();
+	private @Getter @Setter ReportComponent reportApplicationComponent;
 
 	@Override
 	public Component getEditor() {
+		if (reportApplicationComponent == null) {
+			reportApplicationComponent = new ReportComponent();
+		}
 		reportApplicationComponent.setApplication(this);
 		reportApplicationComponent.init();
 		return reportApplicationComponent;
