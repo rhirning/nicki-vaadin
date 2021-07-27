@@ -64,8 +64,8 @@ import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.server.VaadinRequest;
@@ -76,7 +76,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("serial")
-public abstract class NickiApplication extends VerticalLayout implements RouterLayout, Serializable, HasDynamicTitle {
+public abstract class NickiApplication extends Div implements RouterLayout, Serializable, HasDynamicTitle {
 
     /**
      * The attribute key used to store the username in the session.
@@ -531,7 +531,7 @@ public abstract class NickiApplication extends VerticalLayout implements RouterL
 		new ConfirmDialog(command).open();;
 	}
 
-	public VerticalLayout getView() {
+	public Div getView() {
 		return this;
 	}
 
