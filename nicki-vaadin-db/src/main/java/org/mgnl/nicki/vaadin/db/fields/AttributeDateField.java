@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 import org.mgnl.nicki.core.helper.DataHelper;
+import org.mgnl.nicki.vaadin.base.data.DateHelper;
 import org.mgnl.nicki.vaadin.db.converter.LocalDateToDateConverter;
 import org.mgnl.nicki.vaadin.db.data.AttributeDataContainer;
 import org.mgnl.nicki.vaadin.db.data.DataContainer;
@@ -46,6 +47,7 @@ public class AttributeDateField  extends BaseDbBeanAttributeField implements DbB
 
 		property = new AttributeDataContainer<Date>(bean, attributeName);
 		field = new DatePicker(getName(bean, attributeName));
+		DateHelper.init(field);
 /*
 		field.setHeight("2em");
 		field.setWidth("600px");

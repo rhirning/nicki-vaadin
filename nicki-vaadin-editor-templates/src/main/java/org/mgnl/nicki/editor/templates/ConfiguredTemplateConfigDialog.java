@@ -63,6 +63,7 @@ public class ConfiguredTemplateConfigDialog extends FormLayout implements Templa
 				if (!StringUtils.startsWith(templateParameter.getName(), ".")) {
 					if (StringUtils.equalsIgnoreCase("date", templateParameter.getDataType())) {
 						DatePicker field = new DatePicker();
+						DateHelper.init(field);
 						field.setLabel(templateParameter.getDisplayName());
 						field.setWidth("-1px");
 						field.setHeight("-1px");

@@ -1,7 +1,11 @@
 
 package org.mgnl.nicki.vaadin.base.data;
 
+import java.util.Arrays;
+import java.util.Locale;
+
 import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.datepicker.DatePicker.DatePickerI18n;
 
 /*-
  * #%L
@@ -25,19 +29,23 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 
 
 public class DateHelper {
+	public static DatePickerI18n datePickerI18n = new DatePickerI18n()
+			.setFirstDayOfWeek(1)
+			.setWeek("Woche")
+	        .setCalendar("Kalender").setClear("Löschen").setToday("Heute")
+	        .setCancel("Abbrechen").setFirstDayOfWeek(1)
+	        .setMonthNames(Arrays.asList("Januar", "Februar", "März",
+	                "April", "Mai", "Juni", "Juli", "August", "September",
+	                "Oktober", "November", "Dezember"))
+	        .setWeekdays(Arrays.asList("Sonntag", "Montag", "Dienstag",
+	                "Mittwoch", "Donnerstag", "Freitag", "Samstag"))
+	        .setWeekdaysShort(Arrays.asList("So", "Mo", "Di", "Mi",
+	                "Do", "Fr", "Sa"));
 
 	public static void init(DatePicker field) {
-		// TODO Auto-generated method stub
+		field.setLocale(Locale.GERMANY);
 		
-	}
-	/*
-	public static LocalDateRenderer<SOURCE> getDisplayDateRenderer () {
-		return new DateRenderer(new SimpleDateFormat(DataHelper.FORMAT_DISPLAY_DAY));
+		field.setI18n(datePickerI18n);
 	}
 
-	public static void init(DatePicker field) {
-		//field.setResolution(DateResolution.DAY);
-		//field.setDateFormat("dd.MM.yyyy");
-	}
-*/
 }
