@@ -46,11 +46,13 @@ public class NavigationTabSheet extends Tabs  {
 		addSelectedChangeListener(event -> {
 			if (getSelectedTab() != activeTab) {
 			    Component selectedPage = tabsToPages.get(getSelectedTab());
-			    if (!showSelected(selectedPage, true)) {
-			    	Tab previousTab = event.getPreviousTab();
-			    	setSelectedTab(previousTab);
-			    } else {
-			    	activeTab = getSelectedTab();
+			    if (selectedPage != null) {
+				    if (!showSelected(selectedPage, true)) {
+				    	Tab previousTab = event.getPreviousTab();
+				    	setSelectedTab(previousTab);
+				    } else {
+				    	activeTab = getSelectedTab();
+				    }
 			    }
 			}
 		});
