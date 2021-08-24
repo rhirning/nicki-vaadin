@@ -27,6 +27,7 @@ import com.vaadin.flow.server.VaadinSession;
  * accepts any string as a user if the password is the same string, and
  * considers the user "admin" as the only administrator.
  */
+@SuppressWarnings("serial")
 public class BasicAccessControl implements AccessControl {
 
     @Override

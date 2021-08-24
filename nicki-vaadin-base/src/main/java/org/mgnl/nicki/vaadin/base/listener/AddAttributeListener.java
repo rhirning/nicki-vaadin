@@ -28,7 +28,6 @@ import com.vaadin.flow.component.textfield.TextField;
  * #L%
  */
 
-@SuppressWarnings("serial")
 public class AddAttributeListener {
 	private HasOrderedComponents<Component> container;
 	ListAttributeListener listener;

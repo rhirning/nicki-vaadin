@@ -24,9 +24,6 @@ package org.mgnl.nicki.vaadin.base.notification;
 import org.apache.commons.lang.StringUtils;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.Text;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.notification.Notification.Position;
 

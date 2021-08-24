@@ -27,13 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.mgnl.nicki.core.objects.DynamicObject;
 import org.mgnl.nicki.vaadin.base.data.DataContainer;
 
-import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasComponents;
-import com.vaadin.flow.component.HasOrderedComponents;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.HasValue.ValueChangeEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;

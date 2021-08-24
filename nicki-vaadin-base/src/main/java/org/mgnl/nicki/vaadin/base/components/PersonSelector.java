@@ -33,7 +33,6 @@ import org.mgnl.nicki.core.data.SearchQueryHandler;
 import org.mgnl.nicki.core.objects.SearchResultEntry;
 import org.mgnl.nicki.dynamic.objects.objects.Person;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;

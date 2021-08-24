@@ -23,7 +23,6 @@ package org.mgnl.nicki.vaadin.base.editor;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,9 +48,7 @@ import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.contextmenu.GridContextMenu;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;

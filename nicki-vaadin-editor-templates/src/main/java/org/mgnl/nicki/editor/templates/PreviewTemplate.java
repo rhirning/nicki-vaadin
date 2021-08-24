@@ -1,6 +1,8 @@
 
 package org.mgnl.nicki.editor.templates;
 
+import java.nio.charset.StandardCharsets;
+
 /*-
  * #%L
  * nicki-editor-templates
@@ -90,7 +92,7 @@ public class PreviewTemplate extends BaseTreeAction {
 	private void showResultDialog(Template template, Map<String, Object> params) {
 		try {
 			StringStreamSource streamSource = new StringStreamSource(template, context, params);
-			this.result.setValue(IOUtils.toString(streamSource.getStream()));
+			this.result.setValue(IOUtils.toString(streamSource.getStream(), StandardCharsets.UTF_8));
 
 			previewWindow = new DialogBase(I18n.getText(i18nBase + ".preview.window.title"), this);
 			previewWindow.setModal(true);

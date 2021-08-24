@@ -13,8 +13,8 @@
 	<properties>
 		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
 		<idm.version>4.7</idm.version>
-		<activemq-version>5.14.5</activemq-version>
-		<nicki.version>8.33</nicki.version>
+		<activemq-version>5.16.3</activemq-version>
+		<nicki.version>8.36</nicki.version>
 		<vaadin.version>14.6.7</vaadin.version>
 		<project.scm.id>github</project.scm.id>
 	</properties>
@@ -66,11 +66,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>2.0.1.Final</version>
@@ -79,11 +74,16 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.0.20.Final</version>
+            <version>7.0.1.Final</version>
         </dependency>
     </dependencies>
 	<dependencyManagement>
         <dependencies>
+	        <dependency>
+	            <groupId>com.google.code.gson</groupId>
+	            <artifactId>gson</artifactId>
+	            <version>2.8.6</version>
+	        </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
                 <artifactId>vaadin-bom</artifactId>
@@ -91,58 +91,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-		<!-- 
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-compatibility-server</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-compatibility-client-compiled</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-compatibility-themes</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>			
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-server</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-shared</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-client-compiled</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-client</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin-themes</artifactId>
-				<version>${vaadin.version}</version>
-			</dependency>
-			<dependency>
-			    <groupId>com.vaadin</groupId>
-			    <artifactId>vaadin-context-menu</artifactId>
-			    <version>3.0.2</version>
-			</dependency>
-			 -->
-			<dependency>
-				<groupId>javax.json</groupId>
-				<artifactId>javax.json-api</artifactId>
-				<version>1.0</version>
-			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
@@ -152,12 +100,12 @@
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
-				<version>2.14.0</version>
+				<version>2.14.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-api</artifactId>
-				<version>2.14.0</version>
+				<version>2.14.1</version>
 			</dependency>
 			<dependency>
 			    <groupId>org.apache.logging.log4j</groupId>
@@ -165,30 +113,26 @@
 			    <version>2.14.0</version>
 			</dependency>
 			<dependency>
-				<groupId>org.apache.jackrabbit</groupId>
-				<artifactId>jackrabbit-webapp</artifactId>
-				<version>2.4.3</version>
-			</dependency>
-			<dependency>
 				<groupId>org.beanshell</groupId>
 				<artifactId>bsh</artifactId>
-				<version>2.0b4</version>
+				<version>2.0b5</version>
 			</dependency>
 			<dependency>
 				<groupId>org.glassfish</groupId>
 				<artifactId>javax.json</artifactId>
-				<version>1.0.4</version>
+				<version>1.1.4</version>
 			</dependency>
+	        <dependency>
+	            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+	            <groupId>org.jsoup</groupId>
+	            <artifactId>jsoup</artifactId>
+	            <version>1.14.2</version>
+	        </dependency>
 			<dependency>
 				<groupId>org.projectlombok</groupId>
 				<artifactId>lombok</artifactId>
-				<version>1.18.0</version>
+				<version>1.18.20</version>
 				<scope>provided</scope>
-			</dependency>
-			<dependency>
-			   <groupId>org.vaadin.pekka</groupId>
-			   <artifactId>wysiwyg_e-java</artifactId>
-			   <version>2.0.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

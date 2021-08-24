@@ -28,12 +28,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.mgnl.nicki.vaadin.base.components.NoHeaderGrid;
-import org.mgnl.nicki.vaadin.base.menu.application.MainView;
-import org.mgnl.nicki.vaadin.base.menu.application.TableNavigationMainView;
-
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.SelectionMode;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;

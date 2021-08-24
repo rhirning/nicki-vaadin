@@ -27,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.helper.DataHelper;
 import org.mgnl.nicki.core.helper.NameValue;
 import org.mgnl.nicki.dynamic.objects.objects.Person;
-import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.menu.application.MainView;
 import org.mgnl.nicki.vaadin.base.menu.navigation.NavigationEntry;
 import org.mgnl.nicki.vaadin.base.navigation.Command;

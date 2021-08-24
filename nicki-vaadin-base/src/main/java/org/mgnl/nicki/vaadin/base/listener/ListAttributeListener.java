@@ -28,11 +28,9 @@ import org.mgnl.nicki.core.objects.DynamicObject;
 import org.mgnl.nicki.vaadin.base.data.DataContainer;
 import org.mgnl.nicki.vaadin.base.editor.DynamicObjectValueChangeListener;
 
-import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValue.ValueChangeEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
-import com.vaadin.flow.component.textfield.TextField;
 
 @SuppressWarnings("serial")
 public class ListAttributeListener extends BaseAttributeListener<String> implements ValueChangeListener<ValueChangeEvent<String>> {

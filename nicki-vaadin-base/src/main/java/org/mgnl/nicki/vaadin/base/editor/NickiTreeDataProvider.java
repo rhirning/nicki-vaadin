@@ -199,13 +199,5 @@ public class NickiTreeDataProvider extends TreeDataProvider<TreeData> {
 		String newPath = object.getChildPath(parent, object);
 		object.moveTo(newPath);
 	}
-	
-
-	private void unload(List<TreeData> children) {
-		if (children != null) {
-			children.stream().forEach(item -> loadedSet.remove(item));
-		}
-		
-	}
 
 }

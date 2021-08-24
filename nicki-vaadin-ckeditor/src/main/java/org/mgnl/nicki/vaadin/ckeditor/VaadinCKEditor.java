@@ -35,6 +35,7 @@ import org.mgnl.nicki.vaadin.ckeditor.Constants.*;
 /**
  * Used in @VaadinCKEditorBuilder.
  */
+@SuppressWarnings("serial")
 @Tag("vaadin-ckeditor")
 @JsModule("./vaadin-ckeditor.js")
 @JsModule("./translations/af.js")

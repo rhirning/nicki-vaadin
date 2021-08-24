@@ -1,9 +1,6 @@
 
 package org.mgnl.nicki.vaadin.base.components;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.tabs.Tab;
-
 /*-
  * #%L
  * nicki-vaadin-base

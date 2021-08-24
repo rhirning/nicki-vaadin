@@ -24,6 +24,7 @@ package org.mgnl.nicki.editor.log4j;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -44,8 +45,8 @@ public class BeanItemContainerRenderer extends Thread implements Runnable {
 	public void run() {
 		try {
 			for (NameValue entry : container) {
-				IOUtils.write(entry.getValue(), out);
-				IOUtils.write("\n", out);
+				IOUtils.write(entry.getValue(), out, StandardCharsets.UTF_8);
+				IOUtils.write("\n", out, StandardCharsets.UTF_8);
 			}
 			out.flush();
 			out.close();
