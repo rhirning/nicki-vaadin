@@ -87,5 +87,32 @@
 		</dependency-->
 	</dependencies>
 	<packaging>war</packaging>
-	<name>nicki-vaadin-apps</name>
+	<name>nicki-vaadin-apps</name>	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<!-- Take care of synchronizing java dependencies and imports. It also 
+				creates webpack.config.js if not exists yet. -->
+			<plugin>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<version>${vaadin.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-frontend</goal>
+						</goals>
+					</execution>
+				</executions>
+                <configuration>
+                    <pnpmEnable>true</pnpmEnable>
+                </configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
