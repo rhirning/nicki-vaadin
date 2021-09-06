@@ -196,7 +196,6 @@ public class TemplateConfig extends VerticalLayout implements ClassEditor {
 		});
 	}
 
-	@SuppressWarnings("deprecation")
 	@Deprecated
 	protected StreamResource createXLSStream() {
 		return new StreamResource(template != null ? template.getName() + "_" + DataHelper.getTime(new Date()) + ".xls" : "template.xls", () -> {
@@ -213,7 +212,7 @@ public class TemplateConfig extends VerticalLayout implements ClassEditor {
 	}
 
 	protected StreamResource createXLSXStream() {
-		return new StreamResource(template != null ? template.getName() + "_" + DataHelper.getTime(new Date()) + ".xlsX" : "template.xls",
+		return new StreamResource(template != null ? template.getName() + "_" + DataHelper.getTime(new Date()) + ".xlsx" : "template.xls",
 				() -> {
 				StreamSource xlsStreamSource = null;
 				if (isComplete() && template.hasPart("xls")) {
@@ -344,7 +343,7 @@ public class TemplateConfig extends VerticalLayout implements ClassEditor {
 			csvAnchor.setHref(csvSource);
 			csvAnchor.setEnabled(true);
 			if (template.hasPart("xls")) {
-				StreamResource xlsSource = createXLSStream();
+				StreamResource xlsSource = createXLSXStream();
 				xlsAnchor.setHref(xlsSource);
 				xlsAnchor.setEnabled(true);
 			}
