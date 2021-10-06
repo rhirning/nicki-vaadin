@@ -3,6 +3,8 @@ package org.mgnl.nicki.vaadin.base.components;
 
 import java.util.Collection;
 
+import org.mgnl.nicki.core.data.ValuePair;
+
 /*-
  * #%L
  * nicki-vaadin-base
@@ -24,7 +26,6 @@ import java.util.Collection;
  */
 
 
-import org.mgnl.nicki.vaadin.base.helper.ValuePair;
 
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;

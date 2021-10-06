@@ -27,6 +27,7 @@ import java.util.Collection;
 import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.config.Config;
 import org.mgnl.nicki.core.context.NickiContext;
+import org.mgnl.nicki.core.data.ValuePair;
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.dynamic.objects.objects.Person;
 import org.mgnl.nicki.ldap.helper.LdapHelper;
@@ -35,7 +36,6 @@ import org.mgnl.nicki.vaadin.base.command.SelectPersonCommand;
 import org.mgnl.nicki.vaadin.base.components.DataView;
 import org.mgnl.nicki.vaadin.base.components.DialogBase;
 import org.mgnl.nicki.vaadin.base.helper.ContainerHelper;
-import org.mgnl.nicki.vaadin.base.helper.ValuePair;
 import org.mgnl.nicki.vaadin.base.notification.Notification;
 
 import com.vaadin.flow.component.Key;

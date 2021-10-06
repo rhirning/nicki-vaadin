@@ -34,11 +34,11 @@ import javax.naming.NamingException;
 import org.apache.commons.io.FileUtils;
 import org.mgnl.nicki.core.data.FileEntry;
 import org.mgnl.nicki.core.data.TreeData;
+import org.mgnl.nicki.core.data.ValuePair;
 import org.mgnl.nicki.core.objects.DynamicObjectException;
 import org.mgnl.nicki.vaadin.base.editor.ClassEditor;
 import org.mgnl.nicki.vaadin.base.editor.NickiTreeEditor;
 import org.mgnl.nicki.vaadin.base.helper.ContainerHelper;
-import org.mgnl.nicki.vaadin.base.helper.ValuePair;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
