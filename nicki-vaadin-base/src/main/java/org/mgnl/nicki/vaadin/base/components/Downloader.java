@@ -35,6 +35,7 @@ public class Downloader {
 		layout.setMargin(true);
 		layout.setSpacing(true);
 		Anchor anchor = new Anchor(source, title);
+		anchor.setTarget("_blank");
 		layout.add(anchor);
 		
 		Dialog dialog = new Dialog(layout);

@@ -114,6 +114,8 @@ public class ExportTreeAction extends BaseTreeAction {
 		
 		// exportElement
 		exportElement = new Anchor();
+		exportElement.setTarget("_blank");
+
 		exportElement.setText("Element exportiern");
 		exportElement.setWidth("-1px");
 		exportElement.setHeight("-1px");
@@ -121,6 +123,7 @@ public class ExportTreeAction extends BaseTreeAction {
 		
 		// exportTree
 		exportTree = new Anchor();
+		exportTree.setTarget("_blank");
 		exportTree.setText("Baum exportieren");
 		exportTree.setWidth("-1px");
 		exportTree.setHeight("-1px");

@@ -303,18 +303,21 @@ public class TemplateConfig extends VerticalLayout implements ClassEditor {
 		 */
 
 		csvAnchor = new Anchor();
+		csvAnchor.setTarget("_blank");
 		csvAnchor.setWidth("-1px");
 		csvAnchor.setHeight("-1px");
 		csvAnchor.setText("CSV");
 		horizontalLayout.add(csvAnchor);
 
 		xlsAnchor = new Anchor();
+		xlsAnchor.setTarget("_blank");
 		xlsAnchor.setWidth("-1px");
 		xlsAnchor.setHeight("-1px");
 		xlsAnchor.setText("XLS");
 		horizontalLayout.add(xlsAnchor);
 
 		pdfAnchor = new Anchor();
+		pdfAnchor.setTarget("_blank");
 		pdfAnchor.setWidth("-1px");
 		pdfAnchor.setHeight("-1px");
 		pdfAnchor.setText("PDF");

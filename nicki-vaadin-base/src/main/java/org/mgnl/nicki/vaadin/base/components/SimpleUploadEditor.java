@@ -85,6 +85,8 @@ public class SimpleUploadEditor extends HorizontalLayout implements Receiver {
 		
 		// link
 		link = new Anchor();
+		link.setTarget("_blank");
+
 		link.setWidth("-1px");
 		link.setHeight("-1px");
 		add(link);

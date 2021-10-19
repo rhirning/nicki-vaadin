@@ -117,6 +117,7 @@ public class DirectoryEditor extends VerticalLayout implements ClassEditor {
 		StreamResource streamResource = new StreamResource(file.getName(), ()->fileResource.getStream());
 		streamResource.setCacheTime(0);
 		Anchor downloadButton = new Anchor(streamResource, "Download");
+		downloadButton.setTarget("_blank");
 		buttonLayout.add(downloadButton);
 		
 

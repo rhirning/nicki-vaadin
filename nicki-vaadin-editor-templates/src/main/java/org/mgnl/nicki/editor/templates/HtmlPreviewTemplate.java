@@ -88,6 +88,7 @@ public class HtmlPreviewTemplate extends BaseTreeAction {
 		
 		// result
 		result = new Anchor();
+		result.setTarget("_blank");
 		add(result);
 	}
 
