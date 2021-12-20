@@ -14,8 +14,9 @@
 		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
 		<idm.version>4.7</idm.version>
 		<activemq-version>5.16.3</activemq-version>
-		<nicki.version>8.48</nicki.version>
+		<nicki.version>8.49</nicki.version>
 		<vaadin.version>14.8.0</vaadin.version>
+		<log4j.version>2.17.0</log4j.version>
 		<project.scm.id>github</project.scm.id>
 	</properties>
 	<inceptionYear>2020</inceptionYear>
@@ -100,17 +101,17 @@
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-core</artifactId>
-				<version>2.16.0</version>
+				<version>${log4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
 				<artifactId>log4j-api</artifactId>
-				<version>2.16.0</version>
+				<version>${log4j.version}</version>
 			</dependency>
 			<dependency>
 			    <groupId>org.apache.logging.log4j</groupId>
 			    <artifactId>log4j-slf4j-impl</artifactId>
-			    <version>2.16.0</version>
+				<version>${log4j.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.beanshell</groupId>
