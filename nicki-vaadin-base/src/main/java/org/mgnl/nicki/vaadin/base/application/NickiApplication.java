@@ -103,6 +103,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 	}
 	
 	public void init() {
+		/*
 		@SuppressWarnings("unchecked")
 		Map<String, String> map = (Map<String, String>) UI.getCurrent().getSession().getSession().getAttribute(NickiServlet.NICKI_PARAMETERS);
 		AppContext.setRequestParameters(map);
@@ -111,6 +112,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 				System.out.println(paramName + "=" + map.get(paramName));
 			}
 		}
+		*/
 		setSizeFull();
 		add(new Label("Hallo"));
 
