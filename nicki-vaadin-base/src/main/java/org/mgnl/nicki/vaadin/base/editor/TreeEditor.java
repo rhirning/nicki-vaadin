@@ -33,7 +33,7 @@ public class TreeEditor extends NickiTreeEditor {
 	public TreeEditor(NickiApplication application, NickiContext ctx, DataProvider<TreeData> treeDataProvider, String messageKeyBase) {
 		super(application, ctx);
 		NickiTreeDataProvider nickiTreeDataProvider = new NickiTreeDataProvider(ctx, treeDataProvider);
-		treeSelector.getComponent().setDataProvider(nickiTreeDataProvider);
+		treeSelector.getComponent().setItems(nickiTreeDataProvider);
 		init(treeSelector, nickiTreeDataProvider, messageKeyBase);
 	}
 }

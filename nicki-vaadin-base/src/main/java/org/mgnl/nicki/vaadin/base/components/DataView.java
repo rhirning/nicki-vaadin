@@ -31,6 +31,9 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class DataView extends VerticalLayout {
 	
 	private Grid<ValuePair> dataTable;
@@ -38,7 +41,7 @@ public class DataView extends VerticalLayout {
 	private Label title;
 	private String titleString;
 // TODO:	private int length;
-	private String i18nBase;
+	private @Setter @Getter String i18nBase;
 	Collection<ValuePair> data;
 	
 	private static final long serialVersionUID = -1786011895038782304L;
@@ -80,10 +83,6 @@ public class DataView extends VerticalLayout {
 		dataTable.setHeight("-1px");
 		add(dataTable);
 		
-	}
-
-	public void setI18nBase(String i18nBase) {
-		this.i18nBase = i18nBase;
 	}
 
 }

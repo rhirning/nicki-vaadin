@@ -441,7 +441,7 @@ public class NickiTreeEditor extends SplitLayout {
 			List<TreeAction> classActions = new ArrayList<>();
 			List<TreeAction> rootClassActions = new ArrayList<>();
 			// treeActions
-			List<TreeAction> a = getTreeActions(classDefinition);
+			//List<TreeAction> a = getTreeActions(classDefinition);
 
 			if (this.children.get(classDefinition) != null) {
 				for (Class<? extends TreeData> childClassPattern : this.children.get(classDefinition)) {
@@ -489,6 +489,7 @@ public class NickiTreeEditor extends SplitLayout {
 		}
 	}
 
+	/*
 	private List<TreeAction> getTreeActions(Class<? extends TreeData> classDefinition) {
 		List<TreeAction> list = new ArrayList<>();
 		for (Class<? extends TreeData> clazz : this.treeActions.keySet()) {
@@ -498,6 +499,7 @@ public class NickiTreeEditor extends SplitLayout {
 		}
 		return list;
 	}
+	*/
 	public TreeData getSelectedObject() {
 		return selectedObject;
 	}

@@ -22,8 +22,6 @@ package org.mgnl.nicki.vaadin.base.application;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.helper.DataHelper;
 import org.mgnl.nicki.core.helper.NameValue;
 import org.mgnl.nicki.dynamic.objects.objects.Person;
@@ -107,6 +105,7 @@ public abstract class NickiMenuApplication extends NickiApplication implements S
 		}
 	}
 
+	/*
 	private NavigationCommand getNavigationCommand(List<String> viewParameters) {
 		log.debug("viewParameters=" + viewParameters);
 		if (viewParameters != null && viewParameters.size() > 0) {
@@ -126,6 +125,7 @@ public abstract class NickiMenuApplication extends NickiApplication implements S
 		}
 			
 	}
+	*/
 
 	public void navigate(NavigationCommand command) {
 		this.command = command;

@@ -18,7 +18,7 @@ package org.mgnl.nicki.vaadin.ckeditor;
  * limitations under the License.
  * #L%
  */
-import org.jsoup.safety.Whitelist;
+import org.jsoup.safety.Safelist;
 
 import java.util.Locale;
 
@@ -305,20 +305,20 @@ public class Constants {
      */
     public enum SanitizeType {
 
-        none(Whitelist.none()),
-        simpleText(Whitelist.simpleText()),
-        basic(Whitelist.basic()),
-        basicWithImages(Whitelist.basicWithImages()),
-        relaxed(Whitelist.relaxed());
+        none(Safelist.none()),
+        simpleText(Safelist.simpleText()),
+        basic(Safelist.basic()),
+        basicWithImages(Safelist.basicWithImages()),
+        relaxed(Safelist.relaxed());
 
-        private final Whitelist whitelist;
+        private final Safelist safelist;
 
-        SanitizeType(Whitelist value) {
-            this.whitelist = value;
+        SanitizeType(Safelist value) {
+            this.safelist = value;
         }
 
-        public Whitelist getValue(){
-            return this.whitelist;
+        public Safelist getValue(){
+            return this.safelist;
         }
 
     }

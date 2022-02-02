@@ -29,8 +29,10 @@ import com.vaadin.flow.component.html.Span;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 @Data
 public class NavigationEntry extends Span implements Serializable, NavigationElement {
 	private static final long serialVersionUID = 4285844482143266130L;

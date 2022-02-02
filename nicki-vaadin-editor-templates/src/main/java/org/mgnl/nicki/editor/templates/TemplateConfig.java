@@ -196,6 +196,7 @@ public class TemplateConfig extends VerticalLayout implements ClassEditor {
 		});
 	}
 
+	/*
 	@Deprecated
 	protected StreamResource createXLSStream() {
 		return new StreamResource(template != null ? template.getName() + "_" + DataHelper.getTime(new Date()) + ".xls" : "template.xls", () -> {
@@ -210,6 +211,7 @@ public class TemplateConfig extends VerticalLayout implements ClassEditor {
 				}
 		});
 	}
+	*/
 
 	protected StreamResource createXLSXStream() {
 		return new StreamResource(template != null ? template.getName() + "_" + DataHelper.getTime(new Date()) + ".xlsx" : "template.xls",

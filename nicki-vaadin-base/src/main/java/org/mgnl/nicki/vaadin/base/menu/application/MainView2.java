@@ -311,7 +311,7 @@ public class MainView2 extends AppLayout implements RouterLayout, NavigationMain
     }
     
 
-
+/*
     private Component createSeparator() {
         final Div div = new Div();
         div.setClassName("menu-separator");
@@ -326,7 +326,7 @@ public class MainView2 extends AppLayout implements RouterLayout, NavigationMain
         icon.setSize("24px");
         return label;
     }
-    
+  */  
 
 	static public boolean isAllowed(Class<?> clazz, Person user) {
 		boolean allowed = false;

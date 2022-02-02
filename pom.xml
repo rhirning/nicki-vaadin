@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mgnl.nicki.vaadin</groupId>
 	<artifactId>nicki-vaadin</artifactId>
-	<version>14.31-SNAPSHOT</version>
+	<version>22.1-SNAPSHOT</version>
 	<name>nicki-vaadin</name>
 	<packaging>pom</packaging>
 	<url>http://mgnl.org/nicki</url>
@@ -15,7 +15,7 @@
 		<idm.version>4.7</idm.version>
 		<activemq-version>5.16.3</activemq-version>
 		<nicki.version>8.50</nicki.version>
-		<vaadin.version>14.8.2</vaadin.version>
+		<vaadin.version>22.0.4</vaadin.version>
 		<log4j.version>2.17.1</log4j.version>
 		<project.scm.id>github</project.scm.id>
 	</properties>

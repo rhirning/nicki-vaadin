@@ -10,3 +10,5 @@
 **/webpack.config.js
 **/webpack.generated.js
 /cmd-mvn.cmd
+**/frontend/index.html
+**/generated/index.ts

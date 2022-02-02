@@ -3,7 +3,6 @@ package org.mgnl.nicki.vaadin.base.listener;
 
 import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
 import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasOrderedComponents;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.textfield.TextField;
@@ -29,15 +28,15 @@ import com.vaadin.flow.component.textfield.TextField;
  */
 
 public class AddAttributeListener {
-	private HasOrderedComponents<Component> container;
+	private HasOrderedComponents container;
 	ListAttributeListener listener;
 
-	public AddAttributeListener(HasOrderedComponents<Component> container, ListAttributeListener listener) {
+	public AddAttributeListener(HasOrderedComponents container, ListAttributeListener listener) {
 		this.container = container;
 		this.listener = listener;
 	}
 
-	public void buttonClick(ClickEvent event) {
+	public void buttonClick(ClickEvent<?> event) {
 		String value = "";
 		TextField input = new TextField(null, value);
 		input.addValueChangeListener((ValueChangeListener<? super ComponentValueChangeEvent<TextField, String>>) listener);
