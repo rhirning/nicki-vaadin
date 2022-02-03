@@ -133,29 +133,31 @@ public class MainView extends AppLayout implements NavigationMainView {
         
 		VerticalLayout titleLayout = new VerticalLayout();
 		titleLayout.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-		if (config != null && config.containsKey(LOGO_PATH)) {			
-			StreamResource resource = new StreamResource("logo.png", () -> MainView2.class.getResourceAsStream(config.get(LOGO_PATH)));
-			Image image = new Image(resource, "Restart");
-			if (config.containsKey(LOGO_HEIGHT)) {
-				image.setHeight(config.get(LOGO_HEIGHT));
+		titleLayout.addAttachListener(l -> {
+			if (config != null && config.containsKey(LOGO_PATH)) {
+				StreamResource resource = new StreamResource("logo.png", () -> getClass().getResourceAsStream(config.get(LOGO_PATH)));
+				Image image = new Image(resource, "Restart");
+				if (config.containsKey(LOGO_HEIGHT)) {
+					image.setHeight(config.get(LOGO_HEIGHT));
+				}
+				if (config.containsKey(LOGO_WIDTH)) {
+					image.setWidth(config.get(LOGO_WIDTH));
+				}
+				titleLayout.add(image);
+				image.addClickListener(event -> restart());
+			} else if (config != null && config.containsKey(TITLE)) {
+		        final H3 title = new H3(config.get(TITLE));
+		        title.setWidthFull();
+		        top.add(title);
+		        top.setWidthFull();
+		        top.setFlexGrow(1, title);
+				title.addClickListener(event -> restart());
+			} else {
+				Span image = new Span("Restart");
+				titleLayout.add(image);
+				image.addClickListener(event -> restart());
 			}
-			if (config.containsKey(LOGO_WIDTH)) {
-				image.setWidth(config.get(LOGO_WIDTH));
-			}
-			titleLayout.add(image);
-			image.addClickListener(event -> restart());
-		} else if (config != null && config.containsKey(TITLE)) {
-	        final H3 title = new H3(config.get(TITLE));
-	        title.setWidthFull();
-	        top.add(title);
-	        top.setWidthFull();
-	        top.setFlexGrow(1, title);
-			title.addClickListener(event -> restart());
-		} else {
-			Span image = new Span("Restart");
-			titleLayout.add(image);
-			image.addClickListener(event -> restart());
-		}
+		});
         addToDrawer(titleLayout);
 
 		// logout button
