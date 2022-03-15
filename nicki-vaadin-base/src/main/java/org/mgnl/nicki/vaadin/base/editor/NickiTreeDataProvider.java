@@ -31,6 +31,7 @@ import org.mgnl.nicki.core.context.NickiContext;
 import org.mgnl.nicki.core.data.TreeData;
 import org.mgnl.nicki.core.objects.DynamicObjectException;
 
+import com.vaadin.flow.data.provider.hierarchy.HierarchicalDataProvider;
 import com.vaadin.flow.data.provider.hierarchy.HierarchicalQuery;
 import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider;
 import com.vaadin.flow.function.SerializablePredicate;
@@ -39,7 +40,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @SuppressWarnings("serial")
-public class NickiTreeDataProvider extends TreeDataProvider<TreeData> {
+public class NickiTreeDataProvider extends TreeDataProvider<TreeData> implements HierarchicalDataProvider<TreeData, SerializablePredicate<TreeData>> {
 	private NickiContext context;
 	private @Getter org.mgnl.nicki.core.data.DataProvider<TreeData> treeDataProvider;
 	private @Getter @Setter SerializablePredicate<TreeData> filter = null;
