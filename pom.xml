@@ -14,7 +14,7 @@
 		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
 		<idm.version>4.7</idm.version>
 		<activemq-version>5.16.3</activemq-version>
-		<nicki.version>8.53</nicki.version>
+		<nicki.version>8.54</nicki.version>
 		<vaadin.version>22.0.9</vaadin.version>
 		<log4j.version>2.17.1</log4j.version>
 		<project.scm.id>github</project.scm.id>
