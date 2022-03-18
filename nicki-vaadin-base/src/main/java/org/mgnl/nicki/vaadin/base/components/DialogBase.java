@@ -57,7 +57,7 @@ public class DialogBase extends Dialog {
 
 
 
-	private void setCaption(String title) {
+	protected void setCaption(String title) {
 		Span titleSpan = new Span(title);
 		div.addComponentAsFirst(titleSpan);
 	}
