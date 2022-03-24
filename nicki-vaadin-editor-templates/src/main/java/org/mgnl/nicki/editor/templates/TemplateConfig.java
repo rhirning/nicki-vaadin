@@ -256,6 +256,7 @@ public class TemplateConfig extends VerticalLayout implements ClassEditor {
 	}
 
 	private void buildEditor() {
+		removeAll();
 		setMargin(true);
 		setSpacing(true);
 		setHeight("-1px");

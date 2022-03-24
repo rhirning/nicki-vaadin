@@ -114,9 +114,11 @@ public class NickiTreeDataProvider extends TreeDataProvider<TreeData> implements
 				    Collection<? extends TreeData> children = this.treeDataProvider.getChildren(context);
 				    if (children != null) {
 					    for (TreeData child : children) {
-							addItem(parent, child);
-							if (loadNextGeneration) {
-								loadChildren(child, false, forceLoad);
+							if (treeDataProvider.getEntryFilter().accepts(child)) {
+								addItem(parent, child);
+								if (loadNextGeneration) {
+									loadChildren(child, false, forceLoad);
+								}
 							}
 						}
 				    }

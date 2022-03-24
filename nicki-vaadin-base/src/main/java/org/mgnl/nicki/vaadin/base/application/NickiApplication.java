@@ -95,7 +95,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 				this.nameValues.put(nameValue.getName(), nameValue.getValue());
 			}
 		}
-		init();
+		addAttachListener(event -> init());
 	}
 	
 	public void init(VaadinRequest vaadinRequest) {
