@@ -25,22 +25,21 @@ package org.mgnl.nicki.editor.templates;
 
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.mgnl.nicki.core.context.NickiContext;
 import org.mgnl.nicki.core.data.TreeData;
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.dynamic.objects.objects.Template;
 import org.mgnl.nicki.vaadin.base.components.DialogBase;
 import org.mgnl.nicki.vaadin.base.editor.BaseTreeAction;
-import org.mgnl.nicki.vaadin.base.editor.LinkResource;
-
-import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Span;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("serial")
 public class HtmlPreviewTemplate extends BaseTreeAction {
-	private Anchor result;
+	private Span result;
 
 	private DialogBase previewWindow;
 	private NickiContext context;
@@ -68,8 +67,7 @@ public class HtmlPreviewTemplate extends BaseTreeAction {
 		try {
 			StringStreamSource streamSource = new StringStreamSource(template, context, params);
 
-			this.result.setHref(new LinkResource(template.getName() + ".html?a=b", streamSource));
-			result.setTarget("_blank");
+			this.result.getElement().setProperty("innerHTML", IOUtils.toString(streamSource.getStream(), "UTF-8"));
 			previewWindow = new DialogBase(I18n.getText(i18nBase + ".preview.window.title"), this);
 			previewWindow.setModal(true);
 			previewWindow.setWidth("1024px");
@@ -87,8 +85,8 @@ public class HtmlPreviewTemplate extends BaseTreeAction {
 		setMargin(true);
 		
 		// result
-		result = new Anchor();
-		result.setTarget("_blank");
+		result = new Span();
+		result.setSizeFull();
 		add(result);
 	}
 
