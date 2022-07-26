@@ -164,6 +164,9 @@ public class NickiQueueBrowser extends VerticalLayout  implements View {
 				}
 		});
 		
+		propertiesTable.addColumn(ValuePair::getName).setHeader("Property");
+		propertiesTable.addColumn(ValuePair::getValue).setHeader("Wert");
+		
 		messageTable.addItemClickListener(event -> {
 				try {
 					inspect(event.getItem());
