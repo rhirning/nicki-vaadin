@@ -3,6 +3,7 @@ package org.mgnl.nicki.vaadin.db.editor;
 
 import java.lang.reflect.Field;
 
+import org.mgnl.nicki.core.helper.DataHelper;
 
 /*-
  * #%L
@@ -28,9 +29,14 @@ import java.lang.reflect.Field;
 
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.db.annotation.Attribute;
+import org.mgnl.nicki.db.annotation.Table;
 import org.mgnl.nicki.db.context.DBContext;
 import org.mgnl.nicki.db.context.DBContextManager;
 import org.mgnl.nicki.db.helper.BeanHelper;
+import org.mgnl.nicki.db.verify.BeanUpdater;
+import org.mgnl.nicki.db.verify.BeanVerifier;
+import org.mgnl.nicki.db.verify.BeanVerifyError;
+import org.mgnl.nicki.db.verify.UpdateBeanException;
 import org.mgnl.nicki.vaadin.base.notification.Notification;
 import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
 
@@ -47,11 +53,11 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("serial")
 public class DbBeanViewer extends VerticalLayout implements NewClassEditor, ClassEditor {
 
-	private Object bean;
+	private @Getter @Setter Object bean;
 	private Button saveButton;
-	private boolean create;
-	private DbBeanValueChangeListener listener;
-	private String dbContextName;
+	private @Getter boolean create;
+	private @Getter DbBeanValueChangeListener listener;
+	private @Getter @Setter String dbContextName;
 	private String[] hiddenAttributes;
 	private FormLayout formLayout;
 	private @Getter @Setter boolean readOnly;
@@ -88,7 +94,7 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 	}
 
 
-	private void buildMainLayout() {
+	public void buildMainLayout() {
 		
 		setSizeUndefined();
 		Label label = new Label(I18n.getText(bean.getClass().getName()));
@@ -110,13 +116,39 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 			Notification.show("Bitte Pflichtfelder füllen", Type.ERROR_MESSAGE);
 			return;
 		}
+		if (getBean().getClass().isAnnotationPresent(Table.class) && getBean().getClass().getAnnotation(Table.class).verifyClass() != void.class) {
+			try {
+				BeanVerifier verifier = (BeanVerifier) getBean().getClass().getAnnotation(Table.class).verifyClass().newInstance();
+				verifier.verify(getBean());
+			} catch (BeanVerifyError e1) {
+				
+				Notification.show(DataHelper.getAsString(e1.getErrors(), "\n"), Type.ERROR_MESSAGE);
+				return;
+			} catch (Exception e) {
+				Notification.show("Invalid verifier for Class " + getBean().getClass(), Type.ERROR_MESSAGE);
+				return;
+			}
+		}
 		try {
 			try (DBContext dbContext = DBContextManager.getContext(dbContextName)) {
-				if (create) {
-					this.bean = dbContext.create(bean);
+				dbContext.beginTransaction();
+				if (isCreate()) {
+					setBean(dbContext.create(getBean()));
+				} else if (getBean().getClass().isAnnotationPresent(Table.class) && getBean().getClass().getAnnotation(Table.class).updateClass() != void.class) {
+					try {
+						BeanUpdater updater = (BeanUpdater) getBean().getClass().getAnnotation(Table.class).updateClass().newInstance();
+						updater.update(dbContext, getBean());
+					} catch (UpdateBeanException e) {
+						Notification.show("Error updating " + getBean().getClass() + ": " + e.getMessage(), Type.ERROR_MESSAGE);
+						return;
+					} catch (Exception e) {
+						Notification.show("Invalid updater for Class " + getBean().getClass(), Type.ERROR_MESSAGE);
+						return;
+					}
 				} else {
-					this.bean = dbContext.update(bean);
+					setBean(dbContext.update(getBean()));
 				}
+				dbContext.commit();
 				Notification.show(I18n.getText("nicki.editor.save.info"));
 			}
 			if (listener != null) {
@@ -128,7 +160,7 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 		}
 	}
 
-	private boolean verifyMandatory() {
+	public boolean verifyMandatory() {
 		for (Field field : bean.getClass().getDeclaredFields()) {
 			Attribute attribute = field.getAnnotation(Attribute.class);
 			if (attribute != null && attribute.mandatory()) {
@@ -139,18 +171,6 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 			}
 		}
 		return true;
-	}
-
-	public boolean isCreate() {
-		return create;
-	}
-
-	public String getDbContextName() {
-		return dbContextName;
-	}
-
-	public void setDbContextName(String dbContextName) {
-		this.dbContextName = dbContextName;
 	}
 	
 	public String getI18nBase() {

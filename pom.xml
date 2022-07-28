@@ -14,7 +14,7 @@
 		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
 		<idm.version>4.7</idm.version>
 		<activemq-version>5.16.3</activemq-version>
-		<nicki.version>8.57</nicki.version>
+		<nicki.version>8.58</nicki.version>
 		<vaadin.version>14.8.11</vaadin.version>
 		<log4j.version>2.17.1</log4j.version>
 		<project.scm.id>github</project.scm.id>
@@ -127,7 +127,7 @@
 	            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
 	            <groupId>org.jsoup</groupId>
 	            <artifactId>jsoup</artifactId>
-	            <version>1.14.2</version>
+	            <version>1.14.3</version>
 	        </dependency>
 			<dependency>
 				<groupId>org.projectlombok</groupId>
