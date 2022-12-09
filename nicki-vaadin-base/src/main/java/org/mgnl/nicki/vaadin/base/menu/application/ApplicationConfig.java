@@ -81,7 +81,7 @@ public class ApplicationConfig {
 			}
 		}
 		if (!isEmpty(roles)) {
-			if (accessRoleEvaluator.hasRole(person, groups.toArray(new String[0]))) {
+			if (accessRoleEvaluator.hasRole(person, roles.toArray(new String[0]))) {
 				return true;
 			}
 		}
