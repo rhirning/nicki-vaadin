@@ -26,7 +26,6 @@
 		<module>nicki-vaadin-ckeditor</module>
 		<module>nicki-vaadin-db</module>
 		<module>nicki-vaadin-editor-log4j</module>
-		<module>nicki-vaadin-editor-projects</module>
 		<module>nicki-vaadin-editor-scripts</module>
 		<module>nicki-vaadin-editor-templates</module>
 		<module>nicki-vaadin-mq-browser</module>
