@@ -90,6 +90,9 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 	private @Getter Map<String, String> nameValues = new HashMap<>();
 	
 	public NickiApplication(NameValue ... nameValues) {
+		log.info("Version: " + getImplementationVersion());
+		log.info("Nicki Vaadin Version: " + NickiApplication.class.getPackage().getImplementationVersion());
+		log.info("Nicki Version: " + Config.class.getPackage().getImplementationVersion());
 		if (nameValues != null) {
 			for (NameValue nameValue : nameValues) {
 				this.nameValues.put(nameValue.getName(), nameValue.getValue());
@@ -598,4 +601,9 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
         return (DoubleContext) getCurrentRequest().getWrappedSession().getAttribute(
                 CURRENT_USER_SESSION_ATTRIBUTE_KEY);
 	}
+
+	public String getImplementationVersion () {
+		return getClass().getPackage().getImplementationVersion();
+	}
+
 }
