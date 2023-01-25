@@ -25,11 +25,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.mgnl.nicki.vaadin</groupId>
-			<artifactId>nicki-vaadin-editor-projects</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mgnl.nicki.vaadin</groupId>
 			<artifactId>nicki-vaadin-editor-scripts</artifactId>
 			<version>${project.version}</version>
 		</dependency>
