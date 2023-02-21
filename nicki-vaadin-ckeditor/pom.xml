@@ -5,7 +5,7 @@
     <parent>
     	<groupId>org.mgnl.nicki.vaadin</groupId>
     	<artifactId>nicki-vaadin</artifactId>
-    	<version>14.46-SNAPSHOT</version>
+    	<version>14.46</version>
     	<relativePath>..</relativePath>
     </parent>
     <artifactId>nicki-vaadin-ckeditor</artifactId>
