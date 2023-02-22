@@ -1,5 +1,7 @@
 package org.mgnl.nicki.vaadin.base.menu.application;
 
+import java.io.Serializable;
+
 /*-
  * #%L
  * nicki-vaadin-base
@@ -35,7 +37,9 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ApplicationConfig {
+public class ApplicationConfig implements Serializable {
+
+	private static final long serialVersionUID = -5830038394908075938L;
 	private AccessGroupEvaluator accessGroupEvaluator = new DefaultGroupEvaluator();
 	private AccessRoleEvaluator accessRoleEvaluator = new DefaultRoleEvaluator();
 	private String accessGroupEvaluatorClass;
