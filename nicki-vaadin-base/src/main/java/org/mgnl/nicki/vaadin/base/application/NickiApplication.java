@@ -330,9 +330,14 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 			}
 		} catch (Exception e) {
 			log.debug("Login failed, user=" + name, e);
+			handleLoginFailed(name);
 		}
 		this.nickiContext = getTarget().getGuestContext();
 		return false;
+	}
+
+	protected void handleLoginFailed(String user) {
+
 	}
 
 	public void start() throws DynamicObjectException {
