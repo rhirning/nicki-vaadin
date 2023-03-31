@@ -27,13 +27,19 @@ import org.mgnl.nicki.core.data.DataProvider;
 import org.mgnl.nicki.core.data.TreeData;
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 
+import com.vaadin.flow.component.treegrid.TreeGrid;
+
 @SuppressWarnings("serial")
 public class TreeEditor extends NickiTreeEditor {
 	private TreeSelector<TreeData> treeSelector = new TreeSelector<>();
 	public TreeEditor(NickiApplication application, NickiContext ctx, DataProvider<TreeData> treeDataProvider, String messageKeyBase) {
 		super(application, ctx);
 		NickiTreeDataProvider nickiTreeDataProvider = new NickiTreeDataProvider(ctx, treeDataProvider);
-		treeSelector.getComponent().setDataProvider(nickiTreeDataProvider);
+		if (treeSelector.getComponent() instanceof TreeGrid) {
+			((TreeGrid<TreeData>) treeSelector.getComponent()).setDataProvider(nickiTreeDataProvider);			
+		} else {
+			treeSelector.getComponent().setItems(nickiTreeDataProvider);
+		}
 		init(treeSelector, nickiTreeDataProvider, messageKeyBase);
 	}
 }
