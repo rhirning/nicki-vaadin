@@ -31,6 +31,9 @@ import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.context.NickiContext;
 import org.mgnl.nicki.core.objects.ChildFilter;
 import org.mgnl.nicki.core.objects.DynamicObject;
+
+import lombok.Getter;
+
 import org.mgnl.nicki.core.data.DataProvider;
 import org.mgnl.nicki.core.data.EntryFilter;
 import org.mgnl.nicki.core.data.TreeData;
@@ -39,7 +42,7 @@ import org.mgnl.nicki.core.data.TreeData;
 @SuppressWarnings("serial")
 public class DynamicObjectRoot implements DataProvider<TreeData>, Serializable {
 	private String baseDn;
-	private EntryFilter entryFilter;
+	private @Getter EntryFilter entryFilter;
 
 	public DynamicObjectRoot(String baseDn, EntryFilter entryFilter) {
 		super();
@@ -66,10 +69,6 @@ public class DynamicObjectRoot implements DataProvider<TreeData>, Serializable {
 
 	public String getMessage() {
 		return "";
-	}
-
-	public EntryFilter getEntryFilter() {
-		return this.entryFilter;
 	}
 
 	@Override

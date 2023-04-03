@@ -1,5 +1,7 @@
 package org.mgnl.nicki.vaadin.base.data;
 
+import lombok.Getter;
+
 /*-
  * #%L
  * nicki-vaadin7-base
@@ -21,14 +23,10 @@ package org.mgnl.nicki.vaadin.base.data;
  */
 
 public class ObjectWrapper {
-	private Object object;
+	private @Getter Object object;
 
 	public ObjectWrapper(Object object) {
 		this.object = object;
-	}
-
-	public Object getObject() {
-		return object;
 	}
 	
 	public String getName() {

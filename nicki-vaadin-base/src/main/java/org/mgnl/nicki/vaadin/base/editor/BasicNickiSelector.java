@@ -31,12 +31,14 @@ import com.vaadin.flow.component.grid.Grid.SelectionMode;
 import com.vaadin.flow.data.selection.SelectionListener;
 import com.vaadin.flow.function.ValueProvider;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SuppressWarnings("serial")
 public abstract class BasicNickiSelector<T> implements NickiSelect<T> {
-	private Grid<T> component;
+	private @Getter @Setter Grid<T> component;
 
 	@Override
 	public void setHeight(String height) {
@@ -46,11 +48,6 @@ public abstract class BasicNickiSelector<T> implements NickiSelect<T> {
 	@Override
 	public void setWidth(String width) {
 		component.setWidth(width);
-	}
-
-	@Override
-	public Grid<T> getComponent() {
-		return component;
 	}
 
 	@Override
@@ -107,11 +104,6 @@ public abstract class BasicNickiSelector<T> implements NickiSelect<T> {
 	@Override
 	public void setCaption(ValueProvider<T, String> valueProvider) {
 		component.addColumn(valueProvider);
-	}
-
-	@Override
-	public void setComponent(Grid<T> component) {
-		this.component = component;
 	}
 
 

@@ -39,6 +39,8 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -66,7 +68,7 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 
 	private static final long serialVersionUID = -4894326575778098227L;
 	
-	private NickiApplication application;
+	private @Setter NickiApplication application;
 	
 	private boolean isInit;
 	
@@ -74,7 +76,7 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 	
 	private String data;
 	
-	Map<String, String> configuration;
+	private @Getter @Setter Map<String, String> configuration;
 	
 	public InfoView() {
 		buildMainLayout();
@@ -163,11 +165,6 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 		return false;
 	}
 
-	@Override
-	public void setApplication(NickiApplication application) {
-		this.application = application;
-	}
-
 	private void buildMainLayout() {
 		setSizeFull();
 		setMargin(false);
@@ -209,14 +206,6 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 		buttonLayout.add(saveInfoButton);
 		
 		return buttonLayout;
-	}
-
-	public Map<String, String> getConfiguration() {
-		return configuration;
-	}
-
-	public void setConfiguration(Map<String, String> configuration) {
-		this.configuration = configuration;
 	}
 
 }

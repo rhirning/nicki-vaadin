@@ -24,10 +24,12 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import lombok.Setter;
+
 @SuppressWarnings("serial")
 public class GridLayout extends VerticalLayout {
 
-	private int columns;
+	private @Setter int columns;
 	private HorizontalLayout lastHorizontalLayout;
 	public GridLayout(int columns) {
 		this.columns = columns;
@@ -52,10 +54,4 @@ public class GridLayout extends VerticalLayout {
 			}
 		}
 	}
-	public void setColumns(int columns) {
-		this.columns = columns;
-	}
-	
-	
-
 }

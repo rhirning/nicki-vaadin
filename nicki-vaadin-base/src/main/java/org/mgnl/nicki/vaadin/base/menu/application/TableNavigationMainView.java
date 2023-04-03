@@ -56,6 +56,7 @@ import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout.Orientation;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -67,9 +68,9 @@ public class TableNavigationMainView extends VerticalLayout implements Navigatio
 	private SplitLayout hsplit;
 	
 	private TableNavigation navigation;
-	private Component activeView;
+	private @Getter @Setter Component activeView;
 	private Component startView;
-	private Component headline;
+	private @Getter @Setter Component headline;
 	private Person user;
 	private List<NavigationFolder> navigationFolders = new ArrayList<NavigationFolder>();
 	private ApplicationConfig applicationConfig;
@@ -168,14 +169,6 @@ public class TableNavigationMainView extends VerticalLayout implements Navigatio
 			contentLayout.add(view);
 		}
 		return true;
-	}
-
-	public Component getActiveView() {
-		return activeView;
-	}
-
-	public void setActiveView(Component activeView) {
-		this.activeView = activeView;
 	}
 
 	public void addNavigation(NickiApplication application) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
@@ -306,14 +299,6 @@ public class TableNavigationMainView extends VerticalLayout implements Navigatio
 			log.debug(errorMsg.toString());
 		}
 		return allowed;
-	}
-
-	public Component getHeadline() {
-		return headline;
-	}
-
-	public void setHeadline(Component headline) {
-		this.headline = headline;
 	}
 
 	public NavigationEntry selectMenuItem(String navigationKey) {

@@ -24,20 +24,15 @@ package org.mgnl.nicki.vaadin.base.data;
 
 import org.mgnl.nicki.core.objects.DynamicObject;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @SuppressWarnings("serial")
 public class ListAttributeDataContainer<T> implements DataContainer<T> {
 
-	public DynamicObject getDynamicObject() {
-		return dynamicObject;
-	}
-
-	public String getAttributeName() {
-		return attributeName;
-	}
-
-	private DynamicObject dynamicObject;
-	private String attributeName;
-	private boolean readOnly = false;
+	private @Getter DynamicObject dynamicObject;
+	private @Getter String attributeName;
+	private @Getter @Setter boolean readOnly = false;
 	
 	public ListAttributeDataContainer(DynamicObject dynamicObject, String attributeName) {
 		this.dynamicObject = dynamicObject;
@@ -56,14 +51,6 @@ public class ListAttributeDataContainer<T> implements DataContainer<T> {
 	@SuppressWarnings("unchecked")
 	public Class<? extends T> getType() {
 		return (Class<? extends T>) dynamicObject.getModel().getDynamicAttribute(attributeName).getClass();
-	}
-
-	public boolean isReadOnly() {
-		return readOnly;
-	}
-
-	public void setReadOnly(boolean newStatus) {
-		this.readOnly = newStatus;
 	}
 
 	@Override

@@ -28,21 +28,15 @@ import org.mgnl.nicki.core.context.NickiContext;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @SuppressWarnings("serial")
 public abstract class EditorBase extends VerticalLayout implements Serializable {
+	private @Getter @Setter NickiContext context;
 	public EditorBase(NickiContext context) {
 		super();
 		this.context = context;
-	}
-
-	private NickiContext context;
-
-	public void setContext(NickiContext context) {
-		this.context = context;
-	}
-
-	public NickiContext getContext() {
-		return context;
 	}
 	
 	public abstract void init();

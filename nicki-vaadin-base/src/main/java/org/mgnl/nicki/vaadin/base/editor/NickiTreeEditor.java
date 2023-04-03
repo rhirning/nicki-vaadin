@@ -54,6 +54,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.treegrid.TreeGrid;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -72,7 +73,7 @@ public class NickiTreeEditor extends SplitLayout {
 		ALLOW, DENY
 	};
 
-	private NickiSelect<TreeData> selector;
+	private @Getter NickiSelect<TreeData> selector;
 	private TreeData selectedObject;
 	private Component viewer;
 	private String messageKeyBase;
@@ -562,10 +563,6 @@ public class NickiTreeEditor extends SplitLayout {
 
 	public NickiContext getNickiContext() {
 		return context;
-	}
-
-	public NickiSelect<TreeData> getSelector() {
-		return selector;
 	}
 
 	public void removeItem(TreeData item) {

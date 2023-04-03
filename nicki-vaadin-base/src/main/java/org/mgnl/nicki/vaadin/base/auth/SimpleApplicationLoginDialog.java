@@ -38,6 +38,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -65,7 +67,7 @@ public class SimpleApplicationLoginDialog extends VerticalLayout implements Logi
 
 	private static int MAX_COUNT = 3;
 
-	private NickiApplication application;
+	private @Getter @Setter NickiApplication application;
 	private int count = 0;
 	/**
 	 * The constructor should first build the main layout, set the
@@ -101,11 +103,11 @@ public class SimpleApplicationLoginDialog extends VerticalLayout implements Logi
 	}
 
 	public String getPassword() {
-		return (String) password.getValue();
+		return password.getValue();
 	}
 
 	public String getUsername() {
-		return (String) username.getValue();
+		return username.getValue();
 	}
 
 	
@@ -203,14 +205,6 @@ public class SimpleApplicationLoginDialog extends VerticalLayout implements Logi
 		horizontalLayout_3.add(buttonLogin);
 		
 		return horizontalLayout_3;
-	}
-
-	public NickiApplication getApplication() {
-		return application;
-	}
-
-	public void setApplication(NickiApplication application) {
-		this.application = application;
 	}
 
 }

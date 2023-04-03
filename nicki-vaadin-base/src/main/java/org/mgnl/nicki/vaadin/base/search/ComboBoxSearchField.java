@@ -29,9 +29,11 @@ import org.mgnl.nicki.core.objects.DynamicAttribute;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.combobox.ComboBox;
 
+import lombok.Getter;
+
 
 public class ComboBoxSearchField<T> implements DynamicAttributeSearchField<T> {
-	private ComboBox<String> comboBox = new ComboBox<>();
+	private @Getter ComboBox<String> comboBox = new ComboBox<>();
 
 	@Override
 	public Component getComponent() {

@@ -22,6 +22,7 @@ package org.mgnl.nicki.vaadin.base.views;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -31,13 +32,14 @@ import javax.naming.InitialContext;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 
+import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.config.Config;
+import org.mgnl.nicki.core.util.Classes;
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.application.ShowWelcomeDialog;
 import org.mgnl.nicki.vaadin.base.data.SystemInfoEntry;
 import org.mgnl.nicki.vaadin.base.data.SystemInfoEntry.TYPE;
-import org.mgnl.nicki.vaadin.base.menu.application.View;
-
+import org.mgnl.nicki.vaadin.base.menu.application.ConfigurableView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.grid.Grid;
@@ -53,11 +55,12 @@ import lombok.extern.slf4j.Slf4j;
 @ShowWelcomeDialog(
 		configKey="pnw.viewer.log.useWelcomeDialog",
 		groupsConfigName="pnw.app.viewer.log.useWelcomeDialogGroups")
-public class SystemInfoView extends VerticalLayout implements View {
+public class SystemInfoView extends VerticalLayout implements ConfigurableView {
 
 	private @Getter @Setter NickiApplication application;
 	private Grid<SystemInfoEntry> infoGrid;
 	private boolean isInit;
+	private @Getter @Setter Map<String, String> configuration;
 
 	public SystemInfoView() {
 		buildMainLayout();
@@ -65,10 +68,23 @@ public class SystemInfoView extends VerticalLayout implements View {
 
 	private void initInfoGrid() {
 		List<SystemInfoEntry> entries = new ArrayList<SystemInfoEntry>();
-		entries.add(new SystemInfoEntry(TYPE.VERSION, "SW Version",getApplication().getClass().getPackage().getImplementationVersion()));
-		entries.add(new SystemInfoEntry(TYPE.VERSION, "Nicki Vaadin Version",NickiApplication.class.getPackage().getImplementationVersion()));
-		entries.add(new SystemInfoEntry(TYPE.VERSION, "Nicki Version",Config.class.getPackage().getImplementationVersion()));
+		entries.add(new SystemInfoEntry(TYPE.VERSION, "SW Version", getApplication().getClass().getPackage().getImplementationVersion()));
+		entries.add(new SystemInfoEntry(TYPE.VERSION, "Nicki Vaadin Version", NickiApplication.class.getPackage().getImplementationVersion()));
+		entries.add(new SystemInfoEntry(TYPE.VERSION, "Nicki Version", Config.class.getPackage().getImplementationVersion()));
 
+		if (configuration != null) {
+			for (String key : configuration.keySet()) {
+				if (!StringUtils.equals(key, "view") && StringUtils.countMatches(configuration.get(key), ".") > 2) {
+					try {
+						Class<?> clazz = Classes.newInstance(configuration.get(key)).getClass();
+						entries.add(new SystemInfoEntry(TYPE.VERSION, key, clazz.getPackage().getImplementationVersion()));
+					} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+						log.error("Error creating version entry for " + configuration.get(key));
+					}
+				}
+			}
+		}
+		
 		for (Entry<Object, Object> property : System.getProperties().entrySet()) {
 			if (property.getKey() instanceof String && property.getValue() instanceof String) {
 				String key = (String ) property.getKey();

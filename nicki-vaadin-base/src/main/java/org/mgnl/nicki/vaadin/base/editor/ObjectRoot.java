@@ -37,6 +37,8 @@ import org.mgnl.nicki.core.context.NickiContext;
 import org.mgnl.nicki.vaadin.base.data.ChildObjectWrapper;
 import org.mgnl.nicki.vaadin.base.data.ObjectWrapper;
 
+import lombok.Getter;
+
 import org.mgnl.nicki.core.data.DataProvider;
 import org.mgnl.nicki.core.data.EntryFilter;
 
@@ -46,7 +48,7 @@ public class ObjectRoot implements DataProvider<ObjectWrapper>, Serializable {
 
 	private static ObjectWrapper ROOT = new ObjectWrapper("ROOT");
 	private Object[] objects;
-	private EntryFilter entryFilter;
+	private @Getter EntryFilter entryFilter;
 
 	public ObjectRoot(Object[] objects, EntryFilter entryFilter) {
 		super();
@@ -68,10 +70,6 @@ public class ObjectRoot implements DataProvider<ObjectWrapper>, Serializable {
 
 	public String getMessage() {
 		return "";
-	}
-
-	public EntryFilter getEntryFilter() {
-		return this.entryFilter;
 	}
 
 	public Collection<? extends ObjectWrapper> getChildren(NickiContext context, ObjectWrapper parent) {

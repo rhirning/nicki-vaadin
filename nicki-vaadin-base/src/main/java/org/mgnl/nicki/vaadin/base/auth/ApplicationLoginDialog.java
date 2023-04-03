@@ -42,6 +42,8 @@ import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -52,7 +54,7 @@ public class ApplicationLoginDialog extends FlexLayout implements LoginDialog {
 
 	private TextField userName;
 	private PasswordField password;
-	private NickiApplication application;
+	private @Getter @Setter NickiApplication application;
 	private int count = 0;
 
 	public ApplicationLoginDialog() {
@@ -128,13 +130,4 @@ public class ApplicationLoginDialog extends FlexLayout implements LoginDialog {
 		}
 
 	}
-	
-	public NickiApplication getApplication() {
-		return application;
-	}
-
-	public void setApplication(NickiApplication application) {
-		this.application = application;
-	}
-
 }

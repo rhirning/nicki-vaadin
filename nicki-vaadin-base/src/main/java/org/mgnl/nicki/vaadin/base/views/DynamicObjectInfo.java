@@ -31,6 +31,9 @@ import org.mgnl.nicki.core.data.InstantiateDynamicObjectException;
 import org.mgnl.nicki.core.objects.DynamicObject;
 import org.mgnl.nicki.core.objects.DynamicObjectException;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 
  * @author Ralf Hirning
@@ -45,7 +48,7 @@ import org.mgnl.nicki.core.objects.DynamicObjectException;
 @SuppressWarnings("serial")
 public abstract class DynamicObjectInfo<T extends DynamicObject> implements InfoStore {
 
-	private Map<String, String> configuration;
+	private @Setter @Getter Map<String, String> configuration;
 	private T dynamicObject;
 	private Class<? extends T> clazz;
 	
@@ -56,11 +59,6 @@ public abstract class DynamicObjectInfo<T extends DynamicObject> implements Info
 	public void setData(String value) throws InfoStoreException {
 		load();
 		dynamicObject.put(getAttributeName(), value);
-	}
-
-	@Override
-	public void setConfiguration(Map<String, String> configuration) {
-		this.configuration = configuration;
 	}
 
 	private void load() throws InfoStoreException {

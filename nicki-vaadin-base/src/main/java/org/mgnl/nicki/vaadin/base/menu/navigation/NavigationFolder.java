@@ -29,17 +29,14 @@ import java.util.List;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Label;
 
+import lombok.Getter;
+
 public class NavigationFolder extends Label implements Serializable, NavigationElement {
 	private static final long serialVersionUID = -4136800742337761293L;
-	private NavigationLabel label;
-	private boolean separator = false;
+	private @Getter NavigationLabel label;
+	private @Getter boolean separator = false;
 	
-	private List<NavigationEntry> entries = new ArrayList<NavigationEntry>();
-
-
-	public List<NavigationEntry> getEntries() {
-		return entries;
-	}
+	private @Getter List<NavigationEntry> entries = new ArrayList<NavigationEntry>();
 
 	public NavigationFolder() {
 		super();
@@ -57,14 +54,6 @@ public class NavigationFolder extends Label implements Serializable, NavigationE
 	
 	public void addEntry(NavigationEntry entry) {
 		entries.add(entry);
-	}
-
-	public NavigationLabel getLabel() {
-		return label;
-	}
-
-	public boolean isSeparator() {
-		return separator;
 	}
 
 	@Override

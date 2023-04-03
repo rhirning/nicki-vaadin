@@ -42,16 +42,11 @@ public class ApplicationConfig implements Serializable {
 	private static final long serialVersionUID = -5830038394908075938L;
 	private AccessGroupEvaluator accessGroupEvaluator = new DefaultGroupEvaluator();
 	private AccessRoleEvaluator accessRoleEvaluator = new DefaultRoleEvaluator();
-	private String accessGroupEvaluatorClass;
-	private String accessRoleEvaluatorClass;
+	private @Getter String accessGroupEvaluatorClass;
+	private @Getter String accessRoleEvaluatorClass;
 	private @Getter @Setter ApplicationView start;
 	private @Getter @Setter List<ApplicationChapter> chapters;
 	private @Getter @Setter Map<String, String> config;
-
-
-	public String getAccessGroupEvaluatorClass() {
-		return accessGroupEvaluatorClass;
-	}
 
 	public void setAccessGroupEvaluatorClass(String accessGroupEvaluatorClass) {
 		this.accessGroupEvaluatorClass = accessGroupEvaluatorClass;
@@ -60,10 +55,6 @@ public class ApplicationConfig implements Serializable {
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			log.error("Invalid AccessGroupEvaluatorClass", e);
 		}
-	}
-
-	public String getAccessRoleEvaluatorClass() {
-		return accessRoleEvaluatorClass;
 	}
 
 	public void setAccessRoleEvaluatorClass(String accessRoleEvaluatorClass) {

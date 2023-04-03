@@ -34,11 +34,14 @@ import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.HasValue.ValueChangeEvent;
 import com.vaadin.flow.component.HasValue.ValueChangeListener;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @SuppressWarnings("serial")
 public abstract class BaseAttributeListener<T> implements ValueChangeListener<ValueChangeEvent<T>> {
 
-	private DynamicObject dynamicObject;
-	private String name;
+	private @Getter @Setter DynamicObject dynamicObject;
+	private @Getter @Setter String name;
 	public BaseAttributeListener(DynamicObject dynamicObject, String name) {
 		this.setDynamicObject(dynamicObject);
 		this.setName(name);
@@ -60,17 +63,4 @@ public abstract class BaseAttributeListener<T> implements ValueChangeListener<Va
 		}
 		return list;
 	}
-	private void setName(String name) {
-		this.name = name;
-	}
-	public String getName() {
-		return name;
-	}
-	private void setDynamicObject(DynamicObject dynamicObject) {
-		this.dynamicObject = dynamicObject;
-	}
-	public DynamicObject getDynamicObject() {
-		return dynamicObject;
-	}
-
 }

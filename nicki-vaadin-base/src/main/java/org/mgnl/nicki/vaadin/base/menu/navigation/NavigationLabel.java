@@ -24,17 +24,14 @@ package org.mgnl.nicki.vaadin.base.menu.navigation;
 
 import java.io.Serializable;
 
+import lombok.Getter;
+
 @SuppressWarnings("serial")
 public class NavigationLabel implements Serializable {
-	private String caption;
+	private @Getter String caption;
 
 	public NavigationLabel(String caption) {
 		super();
 		this.caption = caption;
 	}
-
-	public String getCaption() {
-		return caption;
-	}
-
 }

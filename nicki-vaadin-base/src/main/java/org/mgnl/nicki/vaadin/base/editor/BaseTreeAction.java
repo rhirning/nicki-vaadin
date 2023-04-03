@@ -29,11 +29,13 @@ import org.mgnl.nicki.core.data.TreeData;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import lombok.Getter;
+
 	@SuppressWarnings("serial")
 	public class BaseTreeAction extends VerticalLayout implements TreeAction, Serializable {
 
-		private Class<? extends TreeData> targetClass;
-		private String name;
+		private @Getter Class<? extends TreeData> targetClass;
+		private @Getter String name;
 		private Consumer<TreeData> command;
 		
 		public BaseTreeAction(Class<? extends TreeData> classDefinition, String name, Consumer<TreeData> command ) {
@@ -42,14 +44,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 			this.command = command;
 			setSpacing(false);
 			setMargin(false);
-		}
-
-		public String getName() {
-			return this.name;
-		}
-
-		public Class<? extends TreeData> getTargetClass() {
-			return targetClass;
 		}
 		
 		@Override
