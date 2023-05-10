@@ -28,12 +28,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringReader;
+import java.util.function.Consumer;
 
 import javax.naming.NamingException;
 
 import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.data.TreeData;
 import org.mgnl.nicki.core.objects.DynamicObjectException;
+import org.mgnl.nicki.core.util.ProtocolEntry;
 import org.mgnl.nicki.dynamic.objects.objects.Script;
 import org.mgnl.nicki.vaadin.base.editor.ClassEditor;
 import org.mgnl.nicki.vaadin.base.editor.NickiTreeEditor;
@@ -46,6 +48,7 @@ import com.vaadin.flow.component.textfield.TextArea;
 
 import bsh.EvalError;
 import bsh.Interpreter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -75,6 +78,8 @@ public class ScriptViewer extends VerticalLayout implements ClassEditor {
 
 
 	private boolean isInit;
+	
+	private @Setter Consumer<ProtocolEntry> protocol;
 
 	public ScriptViewer(Object request) {
 		this.request = request;
@@ -121,6 +126,9 @@ public class ScriptViewer extends VerticalLayout implements ClassEditor {
 		resultLayout.removeAll();
 		resultObject.setText("");
 		String script = (String) editor.getValue();
+		if (protocol != null) {
+			protocol.accept(new ProtocolEntry("executeScript", null, "script", script));
+		}
 		try {
 			StringBuilder scriptOutput = new StringBuilder();
 			Object resultObj = evalScript(script, scriptOutput, false);

@@ -24,6 +24,7 @@ package org.mgnl.nicki.editor.scripts;
 
 
 import java.io.Serializable;
+import java.util.function.Consumer;
 
 import org.mgnl.nicki.core.config.Config;
 import org.mgnl.nicki.core.context.AppContext;
@@ -31,6 +32,7 @@ import org.mgnl.nicki.core.context.NickiContext;
 import org.mgnl.nicki.core.data.DataProvider;
 import org.mgnl.nicki.core.data.TreeData;
 import org.mgnl.nicki.core.i18n.I18n;
+import org.mgnl.nicki.core.util.ProtocolEntry;
 import org.mgnl.nicki.dynamic.objects.objects.Org;
 import org.mgnl.nicki.dynamic.objects.objects.Script;
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
@@ -45,9 +47,12 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.VaadinIcon;
 
+import lombok.Setter;
+
 @SuppressWarnings("serial")
 public class ScriptEditorComponent extends Div implements Serializable, View {
 	private NickiApplication nickiApplication;
+	private @Setter Consumer<ProtocolEntry> protocol;
 	private boolean isInit;
 	
 	public ScriptEditorComponent() {
@@ -61,6 +66,9 @@ public class ScriptEditorComponent extends Div implements Serializable, View {
 	@SuppressWarnings("unchecked")
 	private Component getEditor() {
 		ScriptViewer scriptViewer = new ScriptViewer(AppContext.getRequest());
+		if (protocol != null) {
+			scriptViewer.setProtocol(protocol);
+		}
 
 		DataProvider<TreeData> treeDataProvider = new DynamicObjectRoot(Config.getString("nicki.scripts.basedn"), new ShowAllFilter());
 		TreeEditor editor = new TreeEditor(getNickiApplication(), getNickiContext(), treeDataProvider, getI18nBase());

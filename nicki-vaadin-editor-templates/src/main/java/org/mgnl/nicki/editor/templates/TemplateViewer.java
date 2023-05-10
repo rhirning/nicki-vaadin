@@ -1,6 +1,10 @@
 
 package org.mgnl.nicki.editor.templates;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 /*-
  * #%L
  * nicki-editor-templates
@@ -24,9 +28,11 @@ package org.mgnl.nicki.editor.templates;
 
 import javax.naming.NamingException;
 
+import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.data.TreeData;
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.core.objects.DynamicObjectException;
+import org.mgnl.nicki.core.util.ProtocolEntry;
 import org.mgnl.nicki.dynamic.objects.objects.Template;
 import org.mgnl.nicki.vaadin.base.components.DialogBase;
 import org.mgnl.nicki.vaadin.base.components.NickiTabSheet;
@@ -44,6 +50,7 @@ import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -55,7 +62,8 @@ public class TemplateViewer extends VerticalLayout implements ClassEditor {
 	private Button saveButton;
 	private Button executeButton;
 	private NickiTreeEditor editor;
-	private Dialog previewWindow;	
+	private Dialog previewWindow;
+	private @Setter Consumer<ProtocolEntry> protocol;
 
 	/**
 	 * The constructor should first build the main layout, set the
@@ -162,6 +170,23 @@ public class TemplateViewer extends VerticalLayout implements ClassEditor {
 	public void save() throws DynamicObjectException, NamingException {
 		if (template.isComplete() && !template.isNew()) {
 			template.update();
+			if (protocol != null) {
+				List<String> data = new ArrayList<String>();
+				data.add("path");
+				data.add(template.getPath());
+				data.add("data");
+				data.add(template.getData());
+				if (template.getParts() != null) {
+					for (String entry : template.getParts()) {
+						String key = StringUtils.substringBefore(entry, "=");
+						if (StringUtils.isNotBlank(key)) {
+							data.add("part_" + key);
+							data.add(StringUtils.substringAfter(entry, "="));
+						}
+					}
+				}
+				protocol.accept(new ProtocolEntry("updateTemplate", null, data.toArray(new String[0])));
+			}
 		}
 	}
 	

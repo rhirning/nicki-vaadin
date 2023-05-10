@@ -25,9 +25,11 @@ package org.mgnl.nicki.editor.templates;
 
 
 import java.io.Serializable;
+import java.util.function.Consumer;
 
 import org.mgnl.nicki.core.config.Config;
 import org.mgnl.nicki.core.i18n.I18n;
+import org.mgnl.nicki.core.util.ProtocolEntry;
 import org.mgnl.nicki.dynamic.objects.objects.Org;
 import org.mgnl.nicki.dynamic.objects.objects.Template;
 import org.mgnl.nicki.core.context.NickiContext;
@@ -45,10 +47,13 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
+import lombok.Setter;
+
 public class TemplateEditorComponent extends VerticalLayout implements Serializable, View {
 
 	private static final long serialVersionUID = -8245147689512577915L;
 	private NickiApplication nickiApplication;
+	private @Setter Consumer<ProtocolEntry> protocol;
 	private boolean isInit;
 
 	public TemplateEditorComponent() {
@@ -62,6 +67,9 @@ public class TemplateEditorComponent extends VerticalLayout implements Serializa
 	@SuppressWarnings("unchecked")
 	public Component getEditor() {
 		TemplateViewer templateViewer = new TemplateViewer();
+		if (protocol != null) {
+			templateViewer.setProtocol(protocol);
+		}
 
 		DataProvider<TreeData> dataProvider = new DynamicObjectRoot(getTemplatesRoot(), new ShowAllFilter());
 		TreeEditor editor = new TreeEditor(getNickiApplication(), getNickiApplication().getNickiContext(), dataProvider, getI18nBase());
