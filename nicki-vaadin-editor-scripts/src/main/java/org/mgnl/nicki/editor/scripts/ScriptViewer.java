@@ -91,27 +91,28 @@ public class ScriptViewer extends VerticalLayout implements ClassEditor {
 		init();
 		editor.setValue(StringUtils.trimToEmpty(script.getData()));
 
-		executeButton.addClickListener(event -> {
-				try {
-					evaluate();
-				} catch (IOException e) {
-					log.error("Error", e);
-				}
-		});
-
-		saveButton.addClickListener(event -> {
-				try {
-					save();
-				} catch (Exception e) {
-					log.error("Error", e);
-				}
-		});
-
 	}
 
 	private void init() {
 		if (!isInit) {
 			buildMainLayout();
+
+			executeButton.addClickListener(event -> {
+					try {
+						evaluate();
+					} catch (IOException e) {
+						log.error("Error", e);
+					}
+			});
+
+			saveButton.addClickListener(event -> {
+					try {
+						save();
+					} catch (Exception e) {
+						log.error("Error", e);
+					}
+			});
+			
 			isInit = true;
 		}
 		

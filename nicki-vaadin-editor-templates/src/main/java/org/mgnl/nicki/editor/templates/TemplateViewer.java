@@ -64,6 +64,7 @@ public class TemplateViewer extends VerticalLayout implements ClassEditor {
 	private NickiTreeEditor editor;
 	private Dialog previewWindow;
 	private @Setter Consumer<ProtocolEntry> protocol;
+	private boolean isInit;
 
 	/**
 	 * The constructor should first build the main layout, set the
@@ -78,27 +79,33 @@ public class TemplateViewer extends VerticalLayout implements ClassEditor {
 	public void setDynamicObject(NickiTreeEditor nickiEditor, TreeData dynamicObject) {
 		this.editor = nickiEditor;
 		this.template = (Template) dynamicObject;
-		buildEditor();
-		setSizeFull();
-		initI18n();
-		
+		init();
 		createSheets();
 		
-		saveButton.addClickListener(event -> {
+
+	}
+	
+	private void init() {
+		if (!isInit) {
+			buildEditor();
+			setSizeFull();
+			initI18n();
+			saveButton.addClickListener(event -> {
 				try {
 					save();
 				} catch (Exception e) {
 					log.error("Error", e);
 				}
-		});
-		executeButton.addClickListener(event -> {
+			});
+			executeButton.addClickListener(event -> {
 				try {
 					execute();
 				} catch (Exception e) {
 					log.error("Error", e);
 				}
-		});
-		
+			});
+		}
+		isInit = true;
 	}
 	
 	private void initI18n() {
@@ -118,6 +125,16 @@ public class TemplateViewer extends VerticalLayout implements ClassEditor {
 	}
 
 	private void createSheets() {
+		if (tab != null) {
+			remove(tab);
+		}
+
+		
+		tab = new NickiTabSheet();
+		tab.setSizeFull();
+		add(tab);
+		setFlexGrow(1, tab);
+		
 		tab.addTab(new SimpleEditor(new AttributeDataContainer<String>(template, "data")), I18n.getText(editor.getMessageKeyBase() +".tab.data"), null);
 		tab.addTab(new SimpleEditor(new PartDataContainer(template, Template.ATTRIBUTE_PARTS, "pdf", "=")), I18n.getText(editor.getMessageKeyBase() +".tab.pdf"), null);
 //		tab.addTab(new SimpleEditor(new PartDataContainer(template, Template.ATTRIBUTE_PARTS, "xls", "=")), I18n.getText(editor.getMessageKeyBase() +".tab.xls"), null);
@@ -137,11 +154,6 @@ public class TemplateViewer extends VerticalLayout implements ClassEditor {
 	private void buildEditor() {
 		setSizeFull();
 		removeAll();
-		
-		tab = new NickiTabSheet();
-		tab.setSizeFull();
-		add(tab);
-		setFlexGrow(1, tab);
 		setSpacing(false);
 		setMargin(false);
 
