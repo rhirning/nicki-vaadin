@@ -28,6 +28,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -45,6 +46,7 @@ import org.apache.commons.lang.StringUtils;
 import org.mgnl.nicki.core.config.Config;
 import org.mgnl.nicki.core.data.ValuePair;
 import org.mgnl.nicki.core.helper.JsonHelper;
+import org.mgnl.nicki.core.util.ProtocolEntry;
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.components.NickiTabSheet;
 import org.mgnl.nicki.vaadin.base.menu.application.View;
@@ -62,6 +64,7 @@ import com.vaadin.flow.component.splitlayout.SplitLayout.Orientation;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -118,6 +121,7 @@ public class NickiQueueBrowser extends VerticalLayout  implements View {
 	private boolean isInit;
 
 	private static final long TIMEOUT = 10;
+	private @Setter Consumer<ProtocolEntry> protocol;
 
 	
 	public NickiQueueBrowser(String configBase, String queue, String selector) {
@@ -185,6 +189,16 @@ public class NickiQueueBrowser extends VerticalLayout  implements View {
 			if (StringUtils.isNotBlank(queueName)) {
 				NickiMessage nickiMessage = JsonHelper.toBean(NickiMessage.class, messageTextArea.getValue());
 				sendMessage(configBase, queueName, nickiMessage);
+				if (protocol != null) {
+					List<String> data = new ArrayList<String>();
+					data.add("configBase");
+					data.add(configBase);
+					data.add("queueName");
+					data.add(queueName);
+					data.add("message");
+					data.add(messageTextArea.getValue());
+					protocol.accept(new ProtocolEntry("sendMessage", null, data.toArray(new String[0])));
+				}
 			} else {
 				Notification.show("Welche Queue?", Type.HUMANIZED_MESSAGE);
 			}

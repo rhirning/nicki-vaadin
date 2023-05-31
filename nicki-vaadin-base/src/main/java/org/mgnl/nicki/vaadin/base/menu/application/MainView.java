@@ -121,7 +121,7 @@ public class MainView extends AppLayout implements NavigationMainView {
         
 
         if (config != null && config.containsKey(TITLE)) {
-	        final H3 title = new H3(config.get(TITLE));
+	        final H3 title = new H3(I18n.getText(config.get(TITLE)));
 	        title.setWidthFull();
 	        top.add(title);
 	        top.setWidthFull();
