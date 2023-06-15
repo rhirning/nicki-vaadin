@@ -11,4 +11,4 @@
 **/webpack.generated.js
 /cmd-mvn.cmd
 **/frontend/index.html
-**/generated/index.ts
+**/frontend/generated/*

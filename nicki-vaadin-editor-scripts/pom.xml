@@ -16,8 +16,9 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.beanshell</groupId>
-			<artifactId>bsh</artifactId>
+		    <groupId>org.apache-extras.beanshell</groupId>
+		    <artifactId>bsh</artifactId>
+		    <version>2.0b6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
