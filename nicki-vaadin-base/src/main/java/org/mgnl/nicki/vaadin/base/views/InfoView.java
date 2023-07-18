@@ -20,162 +20,27 @@ package org.mgnl.nicki.vaadin.base.views;
  * #L%
  */
 
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.mgnl.nicki.core.util.Classes;
-import org.mgnl.nicki.dynamic.objects.objects.Person;
-import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.menu.application.ConfigurableView;
-import org.mgnl.nicki.vaadin.base.notification.Notification;
-import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
 import org.mgnl.nicki.vaadin.ckeditor.Constants.EditorType;
 import org.mgnl.nicki.vaadin.ckeditor.Constants.ThemeType;
 import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditor;
 import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditorBuilder;
 
-import com.vaadin.flow.component.Html;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
-/**
- * 
- * @author Ralf Hirning
- *
- * configuration:
- * 
- * editorGroup					Group for editors
- * storeClass					FQN
- * targetName (optional)		Name of Target where to store the script
- * configPath					Config key for Script path
- * 
- */
-@Slf4j
-public class InfoView extends VerticalLayout implements ConfigurableView {
-	
+public class InfoView extends BaseInfoView implements ConfigurableView {
+
+	private static final long serialVersionUID = -9132765874201737313L;
 	private VaadinCKEditor editText;
-	private VerticalLayout canvas;
-	private HorizontalLayout buttonLayout;
 
-	private Button saveInfoButton;
-
-	private Button editInfoButton;
-
-	private static final long serialVersionUID = -4894326575778098227L;
-	
-	private @Setter NickiApplication application;
-	
-	private boolean isInit;
-	
-	private InfoStore infoStore;
-	
-	private String data;
-	
-	private @Getter @Setter Map<String, String> configuration;
-	
-	public InfoView() {
-		buildMainLayout();
+	@Override
+	public void setValue(String data) {
+		editText.setValue(data);
 	}
 
 	@Override
-	public void init() {
-
-		if (!isInit) {
-			
-			try {
-				infoStore = Classes.newInstance(configuration.get("storeClass"));
-				infoStore.setConfiguration(configuration);
-				if (infoStore.getData() != null ) {
-					data = infoStore.getData();
-					canvas.add(new Html("<div>" + data + "</div>"));
-				}
-			} catch (Exception e) {
-				log.error("could not load Info", e);
-				Notification.show("could not load Info", e.getMessage(), Type.ERROR_MESSAGE);
-				infoStore = null;
-			}
-			editInfoButton.setVisible(false);
-			saveInfoButton.setVisible(false);
-
-			if (isEditor()) {
-				editInfoButton.addClickListener(event -> {
-					canvas.removeAll();
-					canvas.add(editText);
-					editText.setValue(data);
-					saveInfoButton.setVisible(true);
-					editInfoButton.setVisible(false);
-				});
-	
-				saveInfoButton.addClickListener(event -> {
-					saveInfo();
-					canvas.removeAll();
-					canvas.add(new Html("<div>" + data + "</div>"));
-					saveInfoButton.setVisible(false);
-					editInfoButton.setVisible(true);
-				});
-				editInfoButton.setVisible(true);
-				saveInfoButton.setVisible(false);
-			} else {
-				editInfoButton.setVisible(false);
-				saveInfoButton.setVisible(false);				
-			}
-		}
-		
-		isInit = true;
-	}
-
-	private boolean isEditor() {
-		String editorGroup = configuration.get("editorGroup");
-		if (editorGroup != null) {
-			for (String group : StringUtils.split(editorGroup, ",")) {
-				if (getPerson().isMemberOf(group)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private Person getPerson() {
-		return (Person) application.getDoubleContext().getLoginContext().getUser();
-	}
-
-	protected void saveInfo() {
-		data = editText.getValue();
-		if (infoStore != null) {
-			try {
-				infoStore.setData(data);
-				infoStore.save();
-			} catch (Exception e) {
-				Notification.show("could not update Info", e.getMessage(), Type.ERROR_MESSAGE);
-			}
-		} else {
-			Notification.show("could not create Info", Type.ERROR_MESSAGE);
-		}
-
-	}
-
-	@Override
-	public boolean isModified() {
-		return false;
-	}
-
-	private void buildMainLayout() {
-		setSizeFull();
-		setMargin(false);
-		setSpacing(false);
-		setPadding(false);
-		
-		// buttonLayout
-		buttonLayout = buildButtonLayout();
-		add(buttonLayout);
-		
-
+	public void addComponent(VerticalLayout canvas) {
 		// editText
 		editText = new VaadinCKEditorBuilder().with(builder -> {
 			builder.editorData = "<p>This is a classic editor sample.</p>";
@@ -183,29 +48,12 @@ public class InfoView extends VerticalLayout implements ConfigurableView {
 		    builder.theme = ThemeType.LIGHT;
 		}).createVaadinCKEditor();
 		editText.setSizeFull();
-
-		canvas = new VerticalLayout();
-		//canvas.setSizeFull();
-		add(canvas);
-		
-		setFlexGrow(1, canvas);
+		canvas.add(editText);
 	}
 
-	private HorizontalLayout buildButtonLayout() {
-		// common part: create layout
-		buttonLayout = new HorizontalLayout();
-		buttonLayout.setMargin(false);
-		buttonLayout.setSpacing(true);
-		
-		// editButton
-		editInfoButton = new Button("Edit");
-		buttonLayout.add(editInfoButton);
-		
-		// saveButton
-		saveInfoButton = new Button("Save");
-		buttonLayout.add(saveInfoButton);
-		
-		return buttonLayout;
+	@Override
+	protected String getValue() {
+		return editText.getValue();
 	}
 
 }
