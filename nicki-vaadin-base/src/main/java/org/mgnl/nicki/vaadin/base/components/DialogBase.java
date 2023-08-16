@@ -29,14 +29,13 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 
 public class DialogBase extends Dialog {
 	private static final long serialVersionUID = -3504431507552994635L;
 
-	private HorizontalLayout titleLayout;
+	private VerticalLayout titleLayout;
 	private Div div;
 
 	public DialogBase() {
@@ -64,9 +63,7 @@ public class DialogBase extends Dialog {
 	}
 	
 	protected void init() {
-		titleLayout = new HorizontalLayout();
-		titleLayout.setWidthFull();
-		titleLayout.setAlignItems(Alignment.STRETCH);
+		titleLayout = new VerticalLayout();
 		titleLayout.setMargin(false);
 		titleLayout.setVisible(false);
 
@@ -78,22 +75,12 @@ public class DialogBase extends Dialog {
 	public void setCompositionRoot(Component component) {
 		div.add(component);
 	}
-	
-	public enum POSITION {LEFT, RIGHT}
-	
-	public void addCloseButton(String caption) {
-		addCloseButton(caption, POSITION.RIGHT);
-	}
 		
-	public void addCloseButton(String caption, POSITION position) {
+	public void addCloseButton(String caption) {
 		titleLayout.setVisible(true);
 		Button closeButton = new Button(caption);
 		closeButton.addClickListener(e -> close());
-		if (position == POSITION.LEFT) {
-			titleLayout.addComponentAsFirst(closeButton);	
-		} else {
-			titleLayout.add(closeButton);
-		}
+		titleLayout.add(closeButton);
 	}
 
 
