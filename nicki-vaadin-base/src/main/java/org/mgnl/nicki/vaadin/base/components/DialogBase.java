@@ -25,14 +25,18 @@ package org.mgnl.nicki.vaadin.base.components;
 import org.mgnl.nicki.vaadin.base.command.Command;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 
 public class DialogBase extends Dialog {
 	private static final long serialVersionUID = -3504431507552994635L;
-	
+
+	private HorizontalLayout titleLayout;
 	private Div div;
 
 	public DialogBase() {
@@ -42,38 +46,54 @@ public class DialogBase extends Dialog {
 	public DialogBase(Command command) {
 		this(command.getTitle());
 	}
-	
-
 
 	public DialogBase(String title) {
 		this();
 		setCaption(title);
 	}
 
-	public DialogBase(String title, Component components) {
+	public DialogBase(String title, Component component) {
 		this(title);
-		div.add(components);
+		div.add(component);
 	}
-
-
 
 	protected void setCaption(String title) {
+		titleLayout.setVisible(true);
 		Span titleSpan = new Span(title);
-		div.addComponentAsFirst(titleSpan);
+		titleLayout.addComponentAsFirst(titleSpan);
 	}
-
-
-
-	private void init() {
+	
+	protected void init() {
+		titleLayout = new HorizontalLayout();
+		titleLayout.setWidthFull();
+		titleLayout.setAlignItems(Alignment.STRETCH);
+		titleLayout.setMargin(false);
+		titleLayout.setVisible(false);
 
         div = new Div();
         div.setSizeUndefined();
-        add(div);
-		
+        add(titleLayout, div);		
 	}
 
 	public void setCompositionRoot(Component component) {
 		div.add(component);
+	}
+	
+	public enum POSITION {LEFT, RIGHT}
+	
+	public void addCloseButton(String caption) {
+		addCloseButton(caption, POSITION.RIGHT);
+	}
+		
+	public void addCloseButton(String caption, POSITION position) {
+		titleLayout.setVisible(true);
+		Button closeButton = new Button(caption);
+		closeButton.addClickListener(e -> close());
+		if (position == POSITION.LEFT) {
+			titleLayout.addComponentAsFirst(closeButton);	
+		} else {
+			titleLayout.add(closeButton);
+		}
 	}
 
 
