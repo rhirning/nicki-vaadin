@@ -128,19 +128,36 @@ public abstract class BaseInfoView extends VerticalLayout implements Configurabl
 	public abstract void addComponent(VerticalLayout canvas);
 
 	private boolean isEditor() {
-		String editorGroup = configuration.get("editorGroup");
-		if (editorGroup != null) {
-			for (String group : StringUtils.split(editorGroup, ",")) {
-				if (getPerson().isMemberOf(group)) {
+		String editorGroups = configuration.get("editorGroup");
+		String editorRoles = configuration.get("editorRole");
+		return isGroupMember(getPerson(), StringUtils.split(editorGroups, ","))
+				|| hasRole(getPerson(), StringUtils.split(editorRoles, ","));
+	}
+
+	private Person getPerson() {
+		return (Person) application.getDoubleContext().getLoginContext().getUser();
+	}
+	
+	public boolean isGroupMember(Person person, String[] groups) {
+		if (groups != null && groups.length > 0) {
+			for (String group : groups) {
+				if (person.isMemberOf(group)) {
 					return true;
 				}
 			}
 		}
 		return false;
 	}
-
-	private Person getPerson() {
-		return (Person) application.getDoubleContext().getLoginContext().getUser();
+	
+	public boolean hasRole(Person person, String[] roles) {
+		if (roles != null) {
+			for (String role : roles) {
+				if (person.hasRole(role)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	protected void saveInfo() {
