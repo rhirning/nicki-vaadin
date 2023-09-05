@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mgnl.nicki.vaadin</groupId>
 	<artifactId>nicki-vaadin</artifactId>
-	<version>22.14-SNAPSHOT</version>
+	<version>22.15-SNAPSHOT</version>
 	<name>nicki-vaadin</name>
 	<packaging>pom</packaging>
 	<url>http://mgnl.org/nicki</url>
