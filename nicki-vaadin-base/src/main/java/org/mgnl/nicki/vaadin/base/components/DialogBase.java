@@ -25,17 +25,14 @@ package org.mgnl.nicki.vaadin.base.components;
 import org.mgnl.nicki.vaadin.base.command.Command;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 
 public class DialogBase extends Dialog {
 	private static final long serialVersionUID = -3504431507552994635L;
-
-	private VerticalLayout titleLayout;
+	
 	private Div div;
 
 	public DialogBase() {
@@ -45,42 +42,38 @@ public class DialogBase extends Dialog {
 	public DialogBase(Command command) {
 		this(command.getTitle());
 	}
+	
+
 
 	public DialogBase(String title) {
 		this();
 		setCaption(title);
 	}
 
-	public DialogBase(String title, Component component) {
+	public DialogBase(String title, Component components) {
 		this(title);
-		div.add(component);
+		div.add(components);
 	}
 
+
+
 	protected void setCaption(String title) {
-		titleLayout.setVisible(true);
 		Span titleSpan = new Span(title);
-		titleLayout.addComponentAsFirst(titleSpan);
+		div.addComponentAsFirst(titleSpan);
 	}
-	
-	protected void init() {
-		titleLayout = new VerticalLayout();
-		titleLayout.setMargin(false);
-		titleLayout.setVisible(false);
+
+
+
+	private void init() {
 
         div = new Div();
         div.setSizeUndefined();
-        add(titleLayout, div);		
+        add(div);
+		
 	}
 
 	public void setCompositionRoot(Component component) {
 		div.add(component);
-	}
-		
-	public void addCloseButton(String caption) {
-		titleLayout.setVisible(true);
-		Button closeButton = new Button(caption);
-		closeButton.addClickListener(e -> close());
-		titleLayout.add(closeButton);
 	}
 
 
