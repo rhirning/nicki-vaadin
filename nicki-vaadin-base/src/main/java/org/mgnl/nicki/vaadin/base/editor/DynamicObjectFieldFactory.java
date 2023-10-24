@@ -28,6 +28,7 @@ import org.mgnl.nicki.core.objects.DataModel;
 import org.mgnl.nicki.core.objects.DynamicAttribute;
 import org.mgnl.nicki.core.objects.DynamicObject;
 import org.mgnl.nicki.dynamic.objects.types.TextArea;
+import org.mgnl.nicki.vaadin.base.fields.AttributeFieldException;
 import org.mgnl.nicki.vaadin.base.fields.AttributeTextAreaReadonlyField;
 import org.mgnl.nicki.vaadin.base.fields.AttributeTextField;
 import org.mgnl.nicki.vaadin.base.fields.DynamicAttributeField;
@@ -36,11 +37,13 @@ import org.mgnl.nicki.vaadin.base.fields.TableListReadonlyAttributeField;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @SuppressWarnings("serial")
 public class DynamicObjectFieldFactory implements Serializable {
 	
 
-	public Component createField(HasComponents parent, DynamicObject dynamicObject, String attributeName) {
+	public Component createField(HasComponents parent, DynamicObject dynamicObject, String attributeName) throws AttributeFieldException {
 		DynamicAttribute dynAttribute = dynamicObject.getDynamicAttribute(attributeName);
 		DynamicAttributeField<String> field = null;
 
@@ -64,7 +67,11 @@ public class DynamicObjectFieldFactory implements Serializable {
 		DataModel model = dynamicObject.getModel();
 		for (DynamicAttribute dynAttribute : model.getAttributes().values()) {
 			if (!dynAttribute.isNaming()) {
-				layout.add(createField(layout, dynamicObject, dynAttribute.getName()));
+				try {
+					layout.add(createField(layout, dynamicObject, dynAttribute.getName()));
+				} catch (AttributeFieldException e) {
+					log.debug("Error creating field for DynamicAttribute " + dynAttribute, e);
+				}
 			}
 		}
 	}

@@ -34,20 +34,26 @@ import org.mgnl.nicki.vaadin.base.listener.AttributeInputListener;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.textfield.TextField;
 
+import lombok.extern.slf4j.Slf4j;
 
 
+@Slf4j
 @SuppressWarnings("serial")
 public class AttributeTextField  extends BaseDynamicAttributeField implements DynamicAttributeField<String>, Serializable {
 
 	private TextField field;
 	private DataContainer<String> property;
-	public void init(String attributeName, DynamicObject dynamicObject, DynamicObjectValueChangeListener<String> objectListener) {
+	public void init(String attributeName, DynamicObject dynamicObject, DynamicObjectValueChangeListener<String> objectListener) throws AttributeFieldException {
 
 		property = new AttributeDataContainer<String>(dynamicObject, attributeName);
 		field = new TextField(getName(dynamicObject, attributeName));
 //		field.setHeight("2em");
 //		field.setWidth("600px");
-		field.setValue(StringUtils.stripToEmpty(property.getValue()));
+		try {
+			field.setValue(StringUtils.stripToEmpty(property.getValue()));
+		} catch (Exception e) {
+			throw new AttributeFieldException(e);
+		}
 		field.addValueChangeListener(new AttributeInputListener<String>(property, objectListener));
 	}
 

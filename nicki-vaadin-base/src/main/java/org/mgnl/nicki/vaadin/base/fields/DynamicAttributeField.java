@@ -33,5 +33,5 @@ public interface DynamicAttributeField<T> {
 	Component getComponent(boolean readOnly);
 
 	void init(String attributeName, DynamicObject dynamicObject,
-			DynamicObjectValueChangeListener<T> objectListener);
+			DynamicObjectValueChangeListener<T> objectListener) throws AttributeFieldException;
 }
