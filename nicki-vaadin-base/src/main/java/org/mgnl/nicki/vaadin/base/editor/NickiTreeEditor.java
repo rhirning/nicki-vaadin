@@ -36,6 +36,7 @@ import org.mgnl.nicki.core.data.TreeData;
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.core.objects.DynamicObject;
 import org.mgnl.nicki.core.objects.DynamicObjectException;
+import org.mgnl.nicki.core.util.Classes;
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.command.DeleteCommand;
 import org.mgnl.nicki.vaadin.base.components.EnterNameDialog;
@@ -297,7 +298,7 @@ public class NickiTreeEditor extends SplitLayout {
 			}			
 		} else {
 			try {
-				dynamicObjects.add(parentClass.newInstance());
+				dynamicObjects.add(Classes.newInstance(parentClass));
 			} catch (InstantiationException | IllegalAccessException e) {
 				log.error("Error configuring parent class " + parentClass.getName(), e);
 				return;

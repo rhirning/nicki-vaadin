@@ -30,9 +30,7 @@ import com.vaadin.flow.component.datepicker.DatePicker.DatePickerI18n;
 
 public class DateHelper {
 	public static DatePickerI18n datePickerI18n = new DatePickerI18n()
-			.setFirstDayOfWeek(1)
-			.setWeek("Woche")
-	        .setCalendar("Kalender").setClear("Löschen").setToday("Heute")
+			.setFirstDayOfWeek(1).setToday("Heute")
 	        .setCancel("Abbrechen").setFirstDayOfWeek(1)
 	        .setMonthNames(Arrays.asList("Januar", "Februar", "März",
 	                "April", "Mai", "Juni", "Juli", "August", "September",

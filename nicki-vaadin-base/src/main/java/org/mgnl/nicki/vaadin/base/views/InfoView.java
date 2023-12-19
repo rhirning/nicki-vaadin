@@ -1,5 +1,7 @@
 package org.mgnl.nicki.vaadin.base.views;
 
+
+
 /*-
  * #%L
  * nicki-vaadin-base
@@ -21,10 +23,7 @@ package org.mgnl.nicki.vaadin.base.views;
  */
 
 import org.mgnl.nicki.vaadin.base.menu.application.ConfigurableView;
-import org.mgnl.nicki.vaadin.ckeditor.Constants.EditorType;
-import org.mgnl.nicki.vaadin.ckeditor.Constants.ThemeType;
-import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditor;
-import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditorBuilder;
+import org.vaadin.klaudeta.quill.QuillEditor;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -32,7 +31,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 public class InfoView extends BaseInfoView implements ConfigurableView {
 
 	private static final long serialVersionUID = -9132765874201737313L;
-	private VaadinCKEditor editText;
+	private QuillEditor editText;
 
 	@Override
 	public void setValue(String data) {
@@ -42,12 +41,8 @@ public class InfoView extends BaseInfoView implements ConfigurableView {
 	@Override
 	public void addComponent(VerticalLayout canvas) {
 		// editText
-		editText = new VaadinCKEditorBuilder().with(builder -> {
-			builder.editorData = "<p>This is a classic editor sample.</p>";
-			builder.editorType = EditorType.CLASSIC;
-		    builder.theme = ThemeType.LIGHT;
-		}).createVaadinCKEditor();
-		editText.setSizeFull();
+		editText = new QuillEditor();
+//		editText.setSizeFull();
 		canvas.add(editText);
 	}
 

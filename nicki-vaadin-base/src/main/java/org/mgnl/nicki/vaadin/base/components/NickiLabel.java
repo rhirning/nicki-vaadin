@@ -27,7 +27,7 @@ public class NickiLabel extends TextField {
 
 	public NickiLabel() {
 		super();
-		setReadonly(true);
+		setReadOnly(true);
 	}
 
 	public NickiLabel(String value) {

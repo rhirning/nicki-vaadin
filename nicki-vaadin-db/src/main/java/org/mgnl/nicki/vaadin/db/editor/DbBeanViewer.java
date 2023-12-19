@@ -28,6 +28,7 @@ import org.mgnl.nicki.core.helper.DataHelper;
 
 
 import org.mgnl.nicki.core.i18n.I18n;
+import org.mgnl.nicki.core.util.Classes;
 import org.mgnl.nicki.db.annotation.Attribute;
 import org.mgnl.nicki.db.annotation.Table;
 import org.mgnl.nicki.db.context.DBContext;
@@ -83,7 +84,7 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 	}
 	
 	public void init(Class<?> classDefinition, Object... foreignObjects ) throws InstantiationException, IllegalAccessException {
-		this.bean = classDefinition.newInstance();
+		this.bean = Classes.newInstance(classDefinition);
 		if (foreignObjects != null && foreignObjects.length > 0) {
 			for (Object foreignObject : foreignObjects) {
 				BeanHelper.addForeignKey(bean, foreignObject);
@@ -118,7 +119,7 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 		}
 		if (getBean().getClass().isAnnotationPresent(Table.class) && getBean().getClass().getAnnotation(Table.class).verifyClass() != void.class) {
 			try {
-				BeanVerifier verifier = (BeanVerifier) getBean().getClass().getAnnotation(Table.class).verifyClass().newInstance();
+				BeanVerifier verifier = (BeanVerifier) Classes.newInstance(getBean().getClass().getAnnotation(Table.class).verifyClass());
 				verifier.verify(getBean());
 			} catch (BeanVerifyError e1) {
 				
@@ -136,7 +137,7 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 					setBean(dbContext.create(getBean()));
 				} else if (getBean().getClass().isAnnotationPresent(Table.class) && getBean().getClass().getAnnotation(Table.class).updateClass() != void.class) {
 					try {
-						BeanUpdater updater = (BeanUpdater) getBean().getClass().getAnnotation(Table.class).updateClass().newInstance();
+						BeanUpdater updater = (BeanUpdater) Classes.newInstance(getBean().getClass().getAnnotation(Table.class).updateClass());
 						updater.update(dbContext, getBean());
 					} catch (UpdateBeanException e) {
 						Notification.show("Error updating " + getBean().getClass() + ": " + e.getMessage(), Type.ERROR_MESSAGE);

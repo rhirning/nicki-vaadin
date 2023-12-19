@@ -1,6 +1,6 @@
 package org.mgnl.nicki.vaadin.base.components;
 
-import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditor;
+import org.vaadin.klaudeta.quill.QuillEditor;
 
 /*-
  * #%L
@@ -29,7 +29,7 @@ import com.vaadin.flow.component.html.Pre;
 @SuppressWarnings("serial")
 public class RichTextArea extends Div {
 	
-	private VaadinCKEditor editText;
+	private QuillEditor editText;
 	private Pre pre;
 	private String text;
 	
@@ -42,8 +42,8 @@ public class RichTextArea extends Div {
 	private void init() {
 		pre = new Pre();
 		pre.setSizeFull();
-		editText = new VaadinCKEditor("");
-		editText.setSizeFull();
+		editText = new QuillEditor();
+		//editText.setSizeFull();
 		editText.addValueChangeListener(event -> {
 			this.text = event.getValue();
 		});
@@ -63,6 +63,6 @@ public class RichTextArea extends Div {
 	}
 
 	public String getValue() {
-		return this.text;
+		return editText.getValue();
 	}
 }

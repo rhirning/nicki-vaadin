@@ -64,7 +64,7 @@ public class NickiProgressComponent extends VerticalLayout implements NickiProgr
 
 	public void progressed(int newCurrent, String newDetails) {
 		this.current = newCurrent;
-		float value = new Float(current) / count;
+		float value = Float.valueOf(current) / count;
 		progress.setValue(value);
 		details.setText(newDetails);
 		if (StringUtils.isNotBlank(newDetails)) {

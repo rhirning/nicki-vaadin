@@ -375,7 +375,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 		} else if (roleAnnotation != null){
 			try {
 				Person roleUser = getUser(user, getAccessTargetName());
-				AccessRoleEvaluator roleEvaluator = roleAnnotation.evaluator().newInstance();
+				AccessRoleEvaluator roleEvaluator = Classes.newInstance(roleAnnotation.evaluator());
 				allowed = roleEvaluator.hasRole(roleUser, roleAnnotation.name());
 				if (roleAnnotation.configName() != null && roleAnnotation.configName().length > 0) {
 					allowed |= roleEvaluator.hasRole(roleUser, Config.getStringValues(roleAnnotation.configName()));
@@ -388,7 +388,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 		if (!allowed && groupAnnotation != null) {
 			try {
 				Person groupUser = getUser(user, getAccessTargetName());
-				AccessGroupEvaluator groupEvaluator = groupAnnotation.evaluator().newInstance();
+				AccessGroupEvaluator groupEvaluator = Classes.newInstance(groupAnnotation.evaluator());
 				allowed = groupEvaluator.isMemberOf(groupUser, groupAnnotation.name());
 				if (groupAnnotation.configName() != null && groupAnnotation.configName().length > 0) {
 					allowed |= groupEvaluator.isMemberOf(groupUser, Config.getStringValues(groupAnnotation.configName()));
@@ -493,7 +493,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 			} else {
 				if (showWelcomeDialog.groups() != null && showWelcomeDialog.groups().length > 0) {
 					try {
-						AccessGroupEvaluator groupEvaluator = showWelcomeDialog.groupEvaluator().newInstance();
+						AccessGroupEvaluator groupEvaluator = Classes.newInstance(showWelcomeDialog.groupEvaluator());
 						if (groupEvaluator.isMemberOf((Person) getDoubleContext().getLoginContext().getUser(), showWelcomeDialog.groups())) {
 							return true;
 						}
@@ -503,7 +503,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 				}
 				if (StringUtils.isNotBlank(showWelcomeDialog.groupsConfigName())) {
 					try {
-						AccessGroupEvaluator groupEvaluator = showWelcomeDialog.groupEvaluator().newInstance();
+						AccessGroupEvaluator groupEvaluator = Classes.newInstance(showWelcomeDialog.groupEvaluator());
 						if (groupEvaluator.isMemberOf((Person) getDoubleContext().getLoginContext().getUser(), Config.getList(showWelcomeDialog.groupsConfigName(), ",").toArray(new String[0]))) {
 							return true;
 						}
@@ -513,7 +513,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 				}
 				if (showWelcomeDialog.roles() != null && showWelcomeDialog.roles().length > 0) {
 					try {
-						AccessRoleEvaluator roleEvaluator = showWelcomeDialog.roleEvaluator().newInstance();
+						AccessRoleEvaluator roleEvaluator = Classes.newInstance(showWelcomeDialog.roleEvaluator());
 						if (roleEvaluator.hasRole((Person) getDoubleContext().getLoginContext().getUser(), showWelcomeDialog.roles())) {
 							return true;
 						}
@@ -523,7 +523,7 @@ public abstract class NickiApplication extends Div implements RouterLayout, Seri
 				}
 				if (StringUtils.isNotBlank(showWelcomeDialog.rolesConfigName())) {
 					try {
-						AccessRoleEvaluator roleEvaluator = showWelcomeDialog.roleEvaluator().newInstance();
+						AccessRoleEvaluator roleEvaluator = Classes.newInstance(showWelcomeDialog.roleEvaluator());
 						if (roleEvaluator.hasRole((Person) getDoubleContext().getLoginContext().getUser(), Config.getList(showWelcomeDialog.rolesConfigName(), ",").toArray(new String[0]))) {
 							return true;
 						}

@@ -34,10 +34,6 @@ import org.mgnl.nicki.vaadin.base.listener.AttributeInputListener;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.textfield.TextField;
 
-import lombok.extern.slf4j.Slf4j;
-
-
-@Slf4j
 @SuppressWarnings("serial")
 public class AttributeTextField  extends BaseDynamicAttributeField implements DynamicAttributeField<String>, Serializable {
 

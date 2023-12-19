@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mgnl.nicki.vaadin</groupId>
 	<artifactId>nicki-vaadin</artifactId>
-	<version>22.17-SNAPSHOT</version>
+	<version>23.01-SNAPSHOT</version>
 	<name>nicki-vaadin</name>
 	<packaging>pom</packaging>
 	<url>http://mgnl.org/nicki</url>
@@ -14,16 +14,16 @@
 		<project.build.ssourceEncoding>iso-8859-1</project.build.ssourceEncoding>
 		<idm.version>4.7</idm.version>
 		<activemq-version>5.16.3</activemq-version>
-		<nicki.version>8.87</nicki.version>
-		<vaadin.version>22.0.28</vaadin.version>
+		<nicki.version>11.01</nicki.version>
+		<vaadin.version>23.3.30</vaadin.version>
 		<log4j.version>2.17.1</log4j.version>
 		<project.scm.id>github</project.scm.id>
+        <jaxb.version>4.0.4</jaxb.version>
 	</properties>
 	<inceptionYear>2020</inceptionYear>
 	<modules>
 		<module>nicki-vaadin-apps</module>
 		<module>nicki-vaadin-base</module>
-		<module>nicki-vaadin-ckeditor</module>
 		<module>nicki-vaadin-db</module>
 		<module>nicki-vaadin-editor-log4j</module>
 		<module>nicki-vaadin-editor-scripts</module>
@@ -32,7 +32,7 @@
 		<module>nicki-vaadin-reports</module>
 		<module>nicki-vaadin-user-admin</module>
 	</modules>
-	    <dependencies>
+    <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
             <!-- Replace artifactId with vaadin-core to use only free components -->
@@ -134,6 +134,16 @@
 				<version>1.18.20</version>
 				<scope>provided</scope>
 			</dependency>
+<dependency>
+   <groupId>org.vaadin.klaudeta</groupId>
+   <artifactId>quill-editor</artifactId>
+   <version>1.0.1</version>
+</dependency>
+			<dependency>
+				<groupId>in.virit</groupId>
+				<artifactId>viritin</artifactId>
+				<version>1.7.4</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -151,13 +161,12 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-compiler-plugin</artifactId>
+			    <version>3.8.0</version>
+			    <configuration>
+			        <release>11</release>
+			    </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -195,6 +204,17 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.1.0</version>
+			</plugin>
+			<plugin>
+			    <artifactId>maven-failsafe-plugin</artifactId>
+			    <version>3.2.3</version>
+			    <dependencies>
+			        <dependency>
+			            <groupId>com.sun.xml.bind</groupId>
+			            <artifactId>jaxb-impl</artifactId>
+			            <version>${jaxb.version}</version>
+			        </dependency>
+			    </dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

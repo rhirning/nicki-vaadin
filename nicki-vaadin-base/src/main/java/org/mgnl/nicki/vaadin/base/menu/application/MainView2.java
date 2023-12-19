@@ -329,7 +329,7 @@ public class MainView2 extends AppLayout implements RouterLayout, NavigationMain
 			allowed = true;
 		} else if (roleAnnotation != null) {
 			try {
-				AccessRoleEvaluator roleEvaluator = roleAnnotation.evaluator().newInstance();
+				AccessRoleEvaluator roleEvaluator = Classes.newInstance(roleAnnotation.evaluator());
 				allowed = roleEvaluator.hasRole(user, roleAnnotation.name());
 				allowed |= roleEvaluator.hasRole(user, Config.getStringValues(roleAnnotation.configName()));
 			} catch (Exception e) {
@@ -339,7 +339,7 @@ public class MainView2 extends AppLayout implements RouterLayout, NavigationMain
 		}
 		if (!allowed && groupAnnotation != null) {
 			try {
-				AccessGroupEvaluator groupEvaluator = groupAnnotation.evaluator().newInstance();
+				AccessGroupEvaluator groupEvaluator = Classes.newInstance(groupAnnotation.evaluator());
 				allowed = groupEvaluator.isMemberOf(user, groupAnnotation.name());
 				if (groupAnnotation.configName() != null && groupAnnotation.configName().length > 0) {
 					allowed |= groupEvaluator.isMemberOf(user, Config.getStringValues(groupAnnotation.configName()));

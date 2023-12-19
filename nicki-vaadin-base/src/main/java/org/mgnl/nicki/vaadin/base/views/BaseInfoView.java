@@ -29,7 +29,6 @@ import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.menu.application.ConfigurableView;
 import org.mgnl.nicki.vaadin.base.notification.Notification;
 import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
-import org.mgnl.nicki.vaadin.base.views.InfoStore;
 import com.vaadin.flow.component.Html;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
