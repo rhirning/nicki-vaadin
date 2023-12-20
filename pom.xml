@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.mgnl.nicki.vaadin</groupId>
 	<artifactId>nicki-vaadin</artifactId>
-	<version>23.02</version>
+	<version>23.03-SNAPSHOT</version>
 	<name>nicki-vaadin</name>
 	<packaging>pom</packaging>
 	<url>http://mgnl.org/nicki</url>
@@ -270,7 +270,7 @@
 		<connection>scm:git:https://github.com/rhirning/nicki-vaadin</connection>
 		<developerConnection>scm:git:https://github.com/rhirning/nicki-vaadin</developerConnection>
 		<url>scm:git:https://github.com/rhirning/nicki-vaadin</url>
-		<tag>nicki-vaadin-23.02</tag>
+		<tag>nicki-vaadin-14.53</tag>
 	</scm>
 	<distributionManagement>
 		<repository>
