@@ -23,7 +23,10 @@ package org.mgnl.nicki.vaadin.base.views;
  */
 
 import org.mgnl.nicki.vaadin.base.menu.application.ConfigurableView;
-import org.vaadin.klaudeta.quill.QuillEditor;
+import org.mgnl.nicki.vaadin.ckeditor.Constants.EditorType;
+import org.mgnl.nicki.vaadin.ckeditor.Constants.ThemeType;
+import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditor;
+import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditorBuilder;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -31,7 +34,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 public class InfoView extends BaseInfoView implements ConfigurableView {
 
 	private static final long serialVersionUID = -9132765874201737313L;
-	private QuillEditor editText;
+	private VaadinCKEditor editText;
 
 	@Override
 	public void setValue(String data) {
@@ -41,7 +44,11 @@ public class InfoView extends BaseInfoView implements ConfigurableView {
 	@Override
 	public void addComponent(VerticalLayout canvas) {
 		// editText
-		editText = new QuillEditor();
+		editText = new VaadinCKEditorBuilder().with(builder -> {
+			builder.editorData = "";
+			builder.editorType = EditorType.CLASSIC;
+//		    builder.theme = ThemeType.DARK;
+		}).createVaadinCKEditor();
 //		editText.setSizeFull();
 		canvas.add(editText);
 	}

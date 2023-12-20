@@ -26,18 +26,14 @@
 			<version>${nicki.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.mgnl.nicki.vaadin</groupId>
+			<artifactId>nicki-vaadin-ckeditor</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
-		</dependency>
-<dependency>
-   <groupId>org.vaadin.klaudeta</groupId>
-   <artifactId>quill-editor</artifactId>
-</dependency>
-
-		<dependency>
-			<groupId>in.virit</groupId>
-			<artifactId>viritin</artifactId>
 		</dependency>
         <dependency>
             <groupId>javax.servlet</groupId>

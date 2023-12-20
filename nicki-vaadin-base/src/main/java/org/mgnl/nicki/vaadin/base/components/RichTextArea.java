@@ -1,6 +1,10 @@
 package org.mgnl.nicki.vaadin.base.components;
 
-import org.vaadin.klaudeta.quill.QuillEditor;
+
+import org.mgnl.nicki.vaadin.ckeditor.Constants.EditorType;
+import org.mgnl.nicki.vaadin.ckeditor.Constants.ThemeType;
+import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditor;
+import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditorBuilder;
 
 /*-
  * #%L
@@ -29,7 +33,7 @@ import com.vaadin.flow.component.html.Pre;
 @SuppressWarnings("serial")
 public class RichTextArea extends Div {
 	
-	private QuillEditor editText;
+	private VaadinCKEditor editText;
 	private Pre pre;
 	private String text;
 	
@@ -42,8 +46,12 @@ public class RichTextArea extends Div {
 	private void init() {
 		pre = new Pre();
 		pre.setSizeFull();
-		editText = new QuillEditor();
-		//editText.setSizeFull();
+		editText = new VaadinCKEditorBuilder().with(builder -> {
+			builder.editorData = "";
+			builder.editorType = EditorType.CLASSIC;
+//		    builder.theme = ThemeType.DARK;
+		}).createVaadinCKEditor();
+		editText.setSizeFull();
 		editText.addValueChangeListener(event -> {
 			this.text = event.getValue();
 		});
