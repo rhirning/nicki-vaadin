@@ -38,7 +38,7 @@ public class TreeEditor extends NickiTreeEditor {
 		if (treeSelector.getComponent() instanceof TreeGrid) {
 			((TreeGrid<TreeData>) treeSelector.getComponent()).setDataProvider(nickiTreeDataProvider);			
 		} else {
-			treeSelector.getComponent().setItems(nickiTreeDataProvider);
+			treeSelector.getComponent().setDataProvider(nickiTreeDataProvider);
 		}
 		init(treeSelector, nickiTreeDataProvider, messageKeyBase);
 	}
