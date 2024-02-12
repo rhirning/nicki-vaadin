@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>nicki-vaadin</artifactId>
 		<groupId>org.mgnl.nicki.vaadin</groupId>
-		<version>22.24-SNAPSHOT</version>
+		<version>14.62-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<dependencies>
