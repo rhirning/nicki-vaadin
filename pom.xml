@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.ssourceEncoding>iso-8859-1</project.build.ssourceEncoding>
 		<idm.version>4.7</idm.version>
-		<nicki.version>11.10</nicki.version>
+		<nicki.version>11.11</nicki.version>
 		<vaadin.version>23.3.30</vaadin.version>
 		<log4j.version>2.17.1</log4j.version>
 		<project.scm.id>github</project.scm.id>
@@ -214,7 +214,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
-				<version>1.14</version>
+				<version>2.4.0</version>
 				<configuration>
 					<verbose>false</verbose>
 					<addSvnKeyWords>false</addSvnKeyWords>
