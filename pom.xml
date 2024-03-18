@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.ssourceEncoding>iso-8859-1</project.build.ssourceEncoding>
 		<idm.version>4.7</idm.version>
-		<nicki.version>11.12</nicki.version>
+		<nicki.version>11.13</nicki.version>
 		<vaadin.version>23.3.30</vaadin.version>
 		<log4j.version>2.17.1</log4j.version>
 		<project.scm.id>github</project.scm.id>
@@ -38,6 +38,10 @@
             <!-- Replace artifactId with vaadin-core to use only free components -->
             <artifactId>vaadin-core</artifactId>
             <exclusions>
+            	<exclusion>
+				    <groupId>org.apache.commons</groupId>
+				    <artifactId>commons-compress</artifactId>
+            	</exclusion>
                 <!-- Webjars are only needed when running in Vaadin 13 compatibility mode -->
                 <exclusion>
                     <groupId>com.vaadin.webjar</groupId>
@@ -70,6 +74,11 @@
             <artifactId>validation-api</artifactId>
             <version>2.0.1.Final</version>
         </dependency>
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-compress</artifactId>
+		</dependency>
+
         <!-- Bean validation implementation -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
@@ -96,6 +105,11 @@
 				<artifactId>javax.servlet-api</artifactId>
 				<version>3.1.0</version>
 				<scope>provided</scope>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-compress</artifactId>
+			    <version>1.26.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>

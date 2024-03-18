@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 public class GridExportColumn<T> {
 
-	private ValueProvider<T, String> valueProvider;
+	private ValueProvider<T,?> valueProvider;
 	private String header;
-	public GridExportColumn(ValueProvider<T, String> valueProvider) {
+	public GridExportColumn(ValueProvider<T, ?> valueProvider) {
 		this.valueProvider = valueProvider;
 	}
 	
@@ -18,11 +18,19 @@ public class GridExportColumn<T> {
 		return this;
 	}
 	
-	public String get(T item) {
+	public Object get(T item) {
 		return valueProvider.apply(item);
 	}
 
 	public GridExportColumn<T> setSortable(boolean b) {
+		return this;
+	}
+
+	public GridExportColumn<T> setFlexGrow(int i) {
+		return this;
+	}
+
+	public GridExportColumn<T> setWidth(String string) {
 		return this;
 	}
 

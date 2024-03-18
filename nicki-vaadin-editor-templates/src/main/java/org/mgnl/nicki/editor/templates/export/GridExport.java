@@ -23,6 +23,7 @@ import com.vaadin.flow.server.StreamResource;
 
 import freemarker.template.TemplateException;
 import lombok.Data;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -51,8 +52,9 @@ import lombok.extern.slf4j.Slf4j;
 public class GridExport<T> {
 	private List<GridExportColumn<T>> columns = new ArrayList<GridExportColumn<T>>();
 	private String name;
+	private @Setter String templatePath = "export/export";
 
-	public GridExportColumn<T> addColumn(ValueProvider<T, String> valueProvider) {
+	public GridExportColumn<T> addColumn(ValueProvider<T, ?> valueProvider) {
 		GridExportColumn<T> column = new GridExportColumn<T>(valueProvider);
 		columns.add(column);
 		return column;
@@ -77,7 +79,7 @@ public class GridExport<T> {
 		Map<String, Object> dataModel = new HashMap<>();
 		dataModel.put("columns", columns);
 		dataModel.put("items", items);
-		return XlsDocuHelper.generateXlsx(TYPE.CLASSPATH, "export/export", dataModel);
+		return XlsDocuHelper.generateXlsx(TYPE.CLASSPATH, templatePath, dataModel);
 	}
 	
 	
