@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import org.mgnl.nicki.core.data.Period;
 import org.mgnl.nicki.core.helper.DataHelper;
 import org.mgnl.nicki.core.helper.PERIOD;
+import org.mgnl.nicki.core.i18n.I18n;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.datepicker.DatePicker;
@@ -32,7 +33,7 @@ public class PeriodSelect extends HorizontalLayout {
 		fromPicker.setPlaceholder("von");
 		toPicker = new DatePicker();
 		toPicker.setPlaceholder("bis");
-		executeButton = new Button("Ausführen");
+		executeButton = new Button(I18n.getText("nicki.period.select.button.execute"));
 		add(periodSelect, fromPicker, toPicker, executeButton);
 		setVerticalComponentAlignment(Alignment.END, periodSelect, fromPicker, toPicker, executeButton);
 		setMargin(false);
