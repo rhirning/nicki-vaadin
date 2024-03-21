@@ -82,7 +82,12 @@ public class PeriodSelect extends HorizontalLayout {
 
 	public Calendar getFrom() {
 		if (periodSelect.getValue() == PERIOD.USER_DEFINED) {
-			LocalDate val = fromPicker.getValue();
+			LocalDate val;
+			if (fromPicker != null) {
+				val = fromPicker.getValue();
+			} else {
+				val = LocalDate.now();
+			}
 			return getCalendar(val);
 		} else {
 			return periodSelect.getValue().getStart();
@@ -91,7 +96,12 @@ public class PeriodSelect extends HorizontalLayout {
 
 	public Calendar getTo() {
 		if (periodSelect.getValue() == PERIOD.USER_DEFINED) {
-			LocalDate val = toPicker.getValue();
+			LocalDate val;
+			if (toPicker != null) {
+				val = toPicker.getValue();
+			} else {
+				val = LocalDate.now();
+			}
 			val = val.plusDays(1);
 			return getCalendar(val);
 		} else {
