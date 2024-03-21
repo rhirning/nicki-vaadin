@@ -81,7 +81,7 @@ public class PeriodSelect extends HorizontalLayout {
 	public Calendar getFrom() {
 		if (periodSelect.getValue() == PERIOD.USER_DEFINED) {
 			LocalDate val;
-			if (fromPicker != null) {
+			if (fromPicker.getValue() != null) {
 				val = fromPicker.getValue();
 			} else {
 				val = LocalDate.now();
@@ -95,7 +95,7 @@ public class PeriodSelect extends HorizontalLayout {
 	public Calendar getTo() {
 		if (periodSelect.getValue() == PERIOD.USER_DEFINED) {
 			LocalDate val;
-			if (toPicker != null) {
+			if (toPicker.getValue() != null) {
 				val = toPicker.getValue();
 			} else {
 				val = LocalDate.now();
