@@ -62,9 +62,7 @@ public class PeriodSelect extends HorizontalLayout {
 
 	private void execute(PERIOD period) {
 		if (consumer != null) {
-			if (periodSelect.getValue() != PERIOD.USER_DEFINED || (fromPicker.getValue() != null && toPicker.getValue() != null)) {
-				consumer.accept(period);
-			}
+			consumer.accept(period);
 		}
 	}
 
