@@ -30,6 +30,7 @@ import org.mgnl.nicki.core.config.Config;
 import org.mgnl.nicki.core.context.NickiContext;
 import org.mgnl.nicki.core.data.Query;
 import org.mgnl.nicki.core.data.SearchQueryHandler;
+import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.core.objects.SearchResultEntry;
 import org.mgnl.nicki.dynamic.objects.objects.Person;
 
@@ -173,7 +174,7 @@ public class PersonSelector extends VerticalLayout {
 		closeButton = new Button();
 		closeButton.setWidth("-1px");
 		closeButton.setHeight("-1px");
-		closeButton.setText("Schliessen");
+		closeButton.setText(I18n.getText("nicki.editor.generic.button.close"));
 		add(closeButton);
 	}
 

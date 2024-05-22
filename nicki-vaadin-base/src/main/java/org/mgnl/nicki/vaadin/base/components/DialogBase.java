@@ -26,15 +26,11 @@ import org.mgnl.nicki.vaadin.base.command.Command;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Span;
 
 
 public class DialogBase extends Dialog {
 	private static final long serialVersionUID = -3504431507552994635L;
 	
-	private Div div;
-
 	public DialogBase() {
 		init();
 	}
@@ -43,38 +39,25 @@ public class DialogBase extends Dialog {
 		this(command.getTitle());
 	}
 	
-
-
 	public DialogBase(String title) {
-		this();
-		setCaption(title);
+		setHeaderTitle(title);
 	}
 
 	public DialogBase(String title, Component components) {
-		this(title);
-		div.add(components);
+		setHeaderTitle(title);
+		add(components);
 	}
-
-
 
 	protected void setCaption(String title) {
-		Span titleSpan = new Span(title);
-		div.addComponentAsFirst(titleSpan);
+		setHeaderTitle(title);
 	}
 
-
-
 	private void init() {
-
-        div = new Div();
-        div.setSizeUndefined();
-        add(div);
-		
+		setResizable(true);
+		setDraggable(true);
 	}
 
 	public void setCompositionRoot(Component component) {
-		div.add(component);
+		add(component);
 	}
-
-
 }

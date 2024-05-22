@@ -56,7 +56,7 @@ public class DbBeanFieldFactory implements Serializable {
 		this.dbContextName = dbContextName;
 	}
 	
-	public Component createField(Object bean, String attributeName, boolean create) {
+	public <T> Component createField(T bean, String attributeName, boolean create) {
 		java.lang.reflect.Field field;
 		try {
 			field = bean.getClass().getDeclaredField(attributeName);
@@ -114,14 +114,13 @@ public class DbBeanFieldFactory implements Serializable {
 		for (java.lang.reflect.Field field : BeanHelper.getFields(bean.getClass())) {
 			if (hiddenAttributes == null || !DataHelper.contains(hiddenAttributes, field.getName())) {
 				Attribute attribute = field.getAnnotation(Attribute.class);
-				boolean all = true;
-				if (all || !attribute.primaryKey()
-						&& (objectListener == null || objectListener.acceptAttribute(field.getName()))) {
+				boolean all = false;
+				if (all || (objectListener == null || objectListener.acceptAttribute(field.getName()))) {
 					Component component = createField(bean, field.getName(), create);
 					if (component != null) {
 						((HasSize) component).setWidth("100%");
-						if (attribute.primaryKey() || readonly) {
-							component.getElement().setProperty("readonly", readonly);
+						if (attribute.autogen() || attribute.primaryKey() || readonly) {
+							component.getElement().setProperty("readonly", true);
 						}
 						layout.add(component);
 					} else {

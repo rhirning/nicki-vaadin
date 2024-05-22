@@ -59,6 +59,11 @@ public class GridExport<T> {
 		columns.add(column);
 		return column;
 	}
+
+	public GridExportColumn<T> addColumn(GridExportColumn<T> column) {
+		columns.add(column);
+		return column;
+	}
 		
 	public StreamResource getXlsStreamResource(String filename, Collection<T> items) {
 

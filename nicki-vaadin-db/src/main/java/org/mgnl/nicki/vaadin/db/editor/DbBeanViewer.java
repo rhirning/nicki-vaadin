@@ -44,6 +44,7 @@ import org.mgnl.nicki.vaadin.base.notification.Notification.Type;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import lombok.Getter;
@@ -55,7 +56,9 @@ import lombok.extern.slf4j.Slf4j;
 public class DbBeanViewer extends VerticalLayout implements NewClassEditor, ClassEditor {
 
 	private @Getter @Setter Object bean;
+	private HorizontalLayout buttonsLayout;
 	private Button saveButton;
+	private Button closeButton;
 	private @Getter boolean create;
 	private @Getter DbBeanValueChangeListener listener;
 	private @Getter @Setter String dbContextName;
@@ -100,7 +103,8 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 		setSizeUndefined();
 		Label label = new Label(I18n.getText(bean.getClass().getName()));
 		formLayout = new FormLayout();
-		add(label, formLayout);
+		buttonsLayout = new HorizontalLayout();
+		add(label, formLayout, buttonsLayout);
 		DbBeanFieldFactory factory = new DbBeanFieldFactory(listener, dbContextName);
 		factory.addFields(formLayout, bean, create, hiddenAttributes, isReadOnly());
 		
@@ -108,7 +112,12 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 			saveButton = new Button(I18n.getText("nicki.editor.generic.button.save"));
 			saveButton.addClickListener(event -> save());
 	
-			add(saveButton);
+			buttonsLayout.add(saveButton);
+		}
+		if (listener != null) {
+			closeButton = new Button(I18n.getText("nicki.editor.generic.button.close"));
+			closeButton.addClickListener(event -> listener.close(null));
+			buttonsLayout.add(closeButton);
 		}
 	}
 
