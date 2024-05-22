@@ -123,7 +123,7 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 
 	public void save() {
 		if (!verifyMandatory()) {
-			Notification.show("Bitte Pflichtfelder füllen", Type.ERROR_MESSAGE);
+			Notification.show(I18n.getText("nicki.editor.generic.message.mandatory"), Type.ERROR_MESSAGE);
 			return;
 		}
 		if (getBean().getClass().isAnnotationPresent(Table.class) && getBean().getClass().getAnnotation(Table.class).verifyClass() != void.class) {
@@ -135,7 +135,7 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 				Notification.show(DataHelper.getAsString(e1.getErrors(), "\n"), Type.ERROR_MESSAGE);
 				return;
 			} catch (Exception e) {
-				Notification.show("Invalid verifier for Class " + getBean().getClass(), Type.ERROR_MESSAGE);
+				Notification.show(I18n.getText("nicki.editor.generic.message.invalid.verifier", getBean().getClass().getName()), Type.ERROR_MESSAGE);
 				return;
 			}
 		}
@@ -149,10 +149,10 @@ public class DbBeanViewer extends VerticalLayout implements NewClassEditor, Clas
 						BeanUpdater updater = (BeanUpdater) Classes.newInstance(getBean().getClass().getAnnotation(Table.class).updateClass());
 						updater.update(dbContext, getBean());
 					} catch (UpdateBeanException e) {
-						Notification.show("Error updating " + getBean().getClass() + ": " + e.getMessage(), Type.ERROR_MESSAGE);
+						Notification.show(I18n.getText("nicki.editor.generic.message.invalid.verifier", getBean().getClass().getName(), e.getMessage()), Type.ERROR_MESSAGE);
 						return;
 					} catch (Exception e) {
-						Notification.show("Invalid updater for Class " + getBean().getClass(), Type.ERROR_MESSAGE);
+						Notification.show(I18n.getText("nicki.editor.generic.message.invalid.updater", getBean().getClass().getName()), Type.ERROR_MESSAGE);
 						return;
 					}
 				} else {
