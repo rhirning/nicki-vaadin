@@ -58,7 +58,7 @@ public class ConfirmDialog extends DialogBase {
 	
 	public void setCommand(Command confirmCommand) {
 		this.command = confirmCommand;
-		super.setCaption(confirmCommand.getTitle());
+		super.setHeaderTitle(confirmCommand.getTitle());
 
 		if (!isInit) {
 			buildMainLayout();

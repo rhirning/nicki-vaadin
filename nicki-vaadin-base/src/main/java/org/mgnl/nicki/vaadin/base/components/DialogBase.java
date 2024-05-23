@@ -25,36 +25,34 @@ package org.mgnl.nicki.vaadin.base.components;
 import org.mgnl.nicki.vaadin.base.command.Command;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.icon.Icon;
 
 
 public class DialogBase extends Dialog {
 	private static final long serialVersionUID = -3504431507552994635L;
-	
+		
 	public DialogBase() {
-		init();
+		setResizable(true);
+		setDraggable(true);
 	}
-
 	public DialogBase(Command command) {
 		this(command.getTitle());
 	}
 	
 	public DialogBase(String title) {
+		this();
 		setHeaderTitle(title);
+		Button closeButton = new Button(new Icon("lumo", "cross"), e -> close());
+		closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+		getHeader().add(closeButton);
 	}
 
-	public DialogBase(String title, Component components) {
-		setHeaderTitle(title);
+	public DialogBase(String title, Component ... components) {
+		this(title);
 		add(components);
-	}
-
-	protected void setCaption(String title) {
-		setHeaderTitle(title);
-	}
-
-	private void init() {
-		setResizable(true);
-		setDraggable(true);
 	}
 
 	public void setCompositionRoot(Component component) {
