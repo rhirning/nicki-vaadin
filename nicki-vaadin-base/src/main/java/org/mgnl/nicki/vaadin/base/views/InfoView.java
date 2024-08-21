@@ -2,6 +2,9 @@ package org.mgnl.nicki.vaadin.base.views;
 
 
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 /*-
  * #%L
  * nicki-vaadin-base
@@ -23,33 +26,38 @@ package org.mgnl.nicki.vaadin.base.views;
  */
 
 import org.mgnl.nicki.vaadin.base.menu.application.ConfigurableView;
-import org.mgnl.nicki.vaadin.ckeditor.Constants.EditorType;
-import org.mgnl.nicki.vaadin.ckeditor.Constants.ThemeType;
-import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditor;
-import org.mgnl.nicki.vaadin.ckeditor.VaadinCKEditorBuilder;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-
+import com.vaadin.flow.component.textfield.TextArea;
 
 public class InfoView extends BaseInfoView implements ConfigurableView {
 
 	private static final long serialVersionUID = -9132765874201737313L;
-	private VaadinCKEditor editText;
+//	private VaadinCKEditor editText;
+	
+	private TextArea editText;
+	public InfoView() {
+		super();
+	}
 
 	@Override
 	public void setValue(String data) {
-		editText.setValue(data);
+        Document doc = Jsoup.parse(data);   // pretty print HTML
+		editText.setValue(doc.toString());
 	}
 
 	@Override
 	public void addComponent(VerticalLayout canvas) {
 		// editText
+		/**
 		editText = new VaadinCKEditorBuilder().with(builder -> {
 			builder.editorData = "";
 			builder.editorType = EditorType.CLASSIC;
 //		    builder.theme = ThemeType.DARK;
 		}).createVaadinCKEditor();
-//		editText.setSizeFull();
+		*/
+		editText = new TextArea();
+		editText.setSizeFull();
 		canvas.add(editText);
 	}
 

@@ -1,5 +1,25 @@
 package org.mgnl.nicki.editor.templates.export;
 
+/*-
+ * #%L
+ * nicki-vaadin-editor-templates
+ * %%
+ * Copyright (C) 2020 - 2024 Ralf Hirning
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -17,7 +37,6 @@ import org.mgnl.nicki.template.engine.ConfigurationFactory.TYPE;
 import org.mgnl.nicki.template.report.helper.XlsDocuHelper;
 import org.xml.sax.SAXException;
 
-import com.itextpdf.text.DocumentException;
 import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.server.StreamResource;
 
@@ -72,15 +91,14 @@ public class GridExport<T> {
 					try {
 						return getXlsDoc(items);
 					} catch (IOException | TemplateException
-							| InvalidPrincipalException | ParserConfigurationException | SAXException
-							| DocumentException e) {
+							| InvalidPrincipalException | ParserConfigurationException | SAXException e) {
 						log.error("Error reading protocol");
 						return null;
 					}
 				});
 	}
 	
-	public InputStream getXlsDoc(Collection<T> items) throws IOException, TemplateException, InvalidPrincipalException, ParserConfigurationException, SAXException, DocumentException {
+	public InputStream getXlsDoc(Collection<T> items) throws IOException, TemplateException, InvalidPrincipalException, ParserConfigurationException, SAXException {
 		Map<String, Object> dataModel = new HashMap<>();
 		dataModel.put("columns", columns);
 		dataModel.put("items", items);

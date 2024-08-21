@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.ssourceEncoding>iso-8859-1</project.build.ssourceEncoding>
 		<idm.version>4.7</idm.version>
-		<nicki.version>11.14</nicki.version>
+		<nicki.version>11.15</nicki.version>
 		<vaadin.version>23.3.30</vaadin.version>
 		<log4j.version>2.17.1</log4j.version>
 		<project.scm.id>github</project.scm.id>
@@ -23,7 +23,6 @@
 	<modules>
 		<module>nicki-vaadin-apps</module>
 		<module>nicki-vaadin-base</module>
-		<module>nicki-vaadin-ckeditor</module>
 		<module>nicki-vaadin-db</module>
 		<module>nicki-vaadin-editor-log4j</module>
 		<module>nicki-vaadin-editor-scripts</module>
@@ -35,39 +34,7 @@
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <!-- Replace artifactId with vaadin-core to use only free components -->
             <artifactId>vaadin-core</artifactId>
-            <exclusions>
-            	<exclusion>
-				    <groupId>org.apache.commons</groupId>
-				    <artifactId>commons-compress</artifactId>
-            	</exclusion>
-                <!-- Webjars are only needed when running in Vaadin 13 compatibility mode -->
-                <exclusion>
-                    <groupId>com.vaadin.webjar</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.webjars.bowergithub.insites</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.webjars.bowergithub.polymer</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.webjars.bowergithub.polymerelements</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.webjars.bowergithub.vaadin</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.webjars.bowergithub.webcomponents</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
@@ -95,7 +62,7 @@
 	        </dependency>
             <dependency>
                 <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-bom</artifactId>
+                <artifactId>vaadin-core</artifactId>
                 <version>${vaadin.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -264,7 +231,7 @@
 			<plugin>
 			   <groupId>org.owasp</groupId>
 			   <artifactId>dependency-check-maven</artifactId>
-			   <version>8.3.1</version>
+			   <version>10.0.3</version>
 			   <configuration>
 			   		<pnpmAuditAnalyzerEnabled>false</pnpmAuditAnalyzerEnabled>
 			   </configuration>
