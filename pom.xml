@@ -21,7 +21,6 @@
 	</properties>
 	<inceptionYear>2020</inceptionYear>
 	<modules>
-		<module>nicki-vaadin-apps</module>
 		<module>nicki-vaadin-base</module>
 		<module>nicki-vaadin-db</module>
 		<module>nicki-vaadin-editor-log4j</module>
