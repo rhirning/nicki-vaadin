@@ -22,7 +22,7 @@ package org.mgnl.nicki.vaadin.base.fields;
  */
 
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.core.objects.DynamicObject;;
 

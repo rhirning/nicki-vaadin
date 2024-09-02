@@ -21,7 +21,7 @@ package org.mgnl.nicki.vaadin.base.notification;
  */
 
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Span;

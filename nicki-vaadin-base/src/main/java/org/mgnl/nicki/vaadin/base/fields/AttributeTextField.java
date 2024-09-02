@@ -24,7 +24,7 @@ package org.mgnl.nicki.vaadin.base.fields;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.objects.DynamicObject;
 import org.mgnl.nicki.vaadin.base.data.AttributeDataContainer;
 import org.mgnl.nicki.vaadin.base.data.DataContainer;

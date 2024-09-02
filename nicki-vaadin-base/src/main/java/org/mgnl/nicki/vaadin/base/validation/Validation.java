@@ -26,7 +26,7 @@ import java.time.LocalDate;
 
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.objects.DynamicObject;
 import org.mgnl.nicki.vaadin.base.editor.ValidationException;
 

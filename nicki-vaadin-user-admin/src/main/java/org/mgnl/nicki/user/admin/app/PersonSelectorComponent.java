@@ -24,7 +24,7 @@ package org.mgnl.nicki.user.admin.app;
 
 import java.util.Collection;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.config.Config;
 import org.mgnl.nicki.core.context.NickiContext;
 import org.mgnl.nicki.core.data.ValuePair;

@@ -24,7 +24,7 @@ package org.mgnl.nicki.vaadin.base.search;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.core.objects.DynamicAttribute;
 

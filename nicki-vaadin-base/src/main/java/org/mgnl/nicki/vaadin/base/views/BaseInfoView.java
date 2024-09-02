@@ -22,7 +22,7 @@ package org.mgnl.nicki.vaadin.base.views;
 
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.util.Classes;
 import org.mgnl.nicki.dynamic.objects.objects.Person;
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;

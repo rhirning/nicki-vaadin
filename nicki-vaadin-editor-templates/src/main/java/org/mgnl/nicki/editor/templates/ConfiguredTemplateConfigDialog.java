@@ -27,7 +27,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.dynamic.objects.objects.Template;
 import org.mgnl.nicki.template.engine.TemplateHelper;
 import org.mgnl.nicki.template.engine.TemplateParameter;

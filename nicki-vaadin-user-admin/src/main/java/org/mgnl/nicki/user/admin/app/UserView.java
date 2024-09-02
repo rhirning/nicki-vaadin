@@ -22,7 +22,7 @@ package org.mgnl.nicki.user.admin.app;
  */
 
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 
 import org.mgnl.nicki.vaadin.base.application.NickiApplication;
 import org.mgnl.nicki.vaadin.base.menu.application.View;

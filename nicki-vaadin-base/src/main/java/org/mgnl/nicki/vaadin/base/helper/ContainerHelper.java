@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.data.ValuePair;
 import org.mgnl.nicki.core.i18n.I18n;
 

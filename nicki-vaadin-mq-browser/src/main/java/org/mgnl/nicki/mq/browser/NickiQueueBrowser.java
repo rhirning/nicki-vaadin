@@ -42,7 +42,7 @@ import javax.jms.QueueBrowser;
 import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.config.Config;
 import org.mgnl.nicki.core.data.ValuePair;
 import org.mgnl.nicki.core.helper.JsonHelper;

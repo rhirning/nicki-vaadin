@@ -25,7 +25,7 @@ package org.mgnl.nicki.vaadin.base.components;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.thread.NickiProgress;
 import org.mgnl.nicki.core.thread.ProgressRunner;
 import org.mgnl.nicki.vaadin.base.notification.Notification;

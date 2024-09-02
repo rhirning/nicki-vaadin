@@ -24,6 +24,7 @@ package org.mgnl.nicki.editor.log4j;
 
 import java.io.File;
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -159,7 +160,7 @@ public class TailViewer extends VerticalLayout implements Serializable, View {
 	protected void reload() {
 		container.clear();
 		if (tailer != null) {
-			tailer.stop();
+			tailer.close();
 			tailer = null;
 			log.debug("Stop Tailer for File '" + activePath + "'");
 		}
@@ -168,7 +169,13 @@ public class TailViewer extends VerticalLayout implements Serializable, View {
 		File file = new File(activePath); 
 		
 		long delayMillis = 1000;
-		tailer = Tailer.create(file, listener, delayMillis , end);
+		tailer = Tailer.builder()
+                .setFile(file)
+                .setTailerListener(listener)
+                .setDelayDuration(Duration.ofMillis(delayMillis))
+                .setTailFromEnd(end)
+                .get();
+
 		log.debug("Tailer for File '" + activePath + "' started");
 	}
 
@@ -178,7 +185,7 @@ public class TailViewer extends VerticalLayout implements Serializable, View {
 		public void handle(String line) {
 			long now = new Date().getTime();
 			if (now - TIMEOUT > lastUse) {
-				tailer.stop();
+				tailer.close();
 				tailer = null;
 				log.debug("Timeout Tailer for File '" + activePath + "'");
 			}

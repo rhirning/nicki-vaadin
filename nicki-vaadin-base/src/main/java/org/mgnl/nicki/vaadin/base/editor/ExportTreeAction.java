@@ -22,7 +22,7 @@ package org.mgnl.nicki.vaadin.base.editor;
  */
 
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.context.NickiContext;
 import org.mgnl.nicki.core.data.TreeData;
 import org.mgnl.nicki.core.i18n.I18n;

@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 
 import javax.naming.NamingException;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.mgnl.nicki.core.data.TreeData;
 import org.mgnl.nicki.core.i18n.I18n;
 import org.mgnl.nicki.core.objects.DynamicObjectException;
