@@ -12,8 +12,7 @@
 	</organization>
 	<properties>
 		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
-		<idm.version>4.7</idm.version>
-		<nicki.version>11.28</nicki.version>
+		<nicki.version>11.29</nicki.version>
 		<vaadin.version>23.3.30</vaadin.version>
 		<log4j.version>2.23.1</log4j.version>
 		<project.scm.id>github</project.scm.id>
