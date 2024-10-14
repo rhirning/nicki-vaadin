@@ -12,7 +12,7 @@
 	</organization>
 	<properties>
 		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
-		<nicki.version>8.108</nicki.version>
+		<nicki.version>11.32</nicki.version>
 		<vaadin.version>23.3.30</vaadin.version>
 		<log4j.version>2.24.0</log4j.version>
 		<project.scm.id>github</project.scm.id>
@@ -23,6 +23,7 @@
 		<module>nicki-vaadin-base</module>
 		<module>nicki-vaadin-db</module>
 		<module>nicki-vaadin-editor-log4j</module>
+		<module>nicki-vaadin-editor-log4j2</module>
 		<module>nicki-vaadin-editor-scripts</module>
 		<module>nicki-vaadin-editor-templates</module>
 		<module>nicki-vaadin-mq-browser</module>
