@@ -12,8 +12,10 @@
 	</organization>
 	<properties>
 		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
-		<nicki.version>11.35</nicki.version>
-		<vaadin.version>23.3.30</vaadin.version>
+		<nicki.version>11.36</nicki.version>
+		<vaadin.version>24.4.13</vaadin.version>
+		<jdk.version>17</jdk.version>
+		<servlet-api.version>6.0.0</servlet-api.version>
 		<log4j.version>2.24.0</log4j.version>
 		<project.scm.id>github</project.scm.id>
         <jaxb.version>4.0.4</jaxb.version>
@@ -43,9 +45,9 @@
                 <version>${vaadin.version}</version>
             </dependency>
 			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>3.1.0</version>
+				<groupId>jakarta.servlet</groupId>
+				<artifactId>jakarta.servlet-api</artifactId>
+				<version>${servlet-api.version}</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
@@ -105,7 +107,7 @@
 			    <artifactId>maven-compiler-plugin</artifactId>
 			    <version>3.13.0</version>
 			    <configuration>
-			        <release>11</release>
+			        <release>${jdk.version}</release>
 			    </configuration>
 			</plugin>
 			<plugin>
