@@ -13,7 +13,7 @@
 	<properties>
 		<project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
 		<nicki.version>11.36</nicki.version>
-		<vaadin.version>24.4.13</vaadin.version>
+		<vaadin.version>24.6.2</vaadin.version>
 		<jdk.version>17</jdk.version>
 		<servlet-api.version>6.0.0</servlet-api.version>
 		<log4j.version>2.24.0</log4j.version>
